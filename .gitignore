@@ -30,3 +30,5 @@
 *.exe
 *.out
 *.app
+/BetFriend.Domain/obj
+/.vs
