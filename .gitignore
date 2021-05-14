@@ -32,3 +32,4 @@
 *.app
 /BetFriend.Domain/obj
 /.vs
+/BetFriend.UnitTests/obj
