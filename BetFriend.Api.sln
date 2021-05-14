@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31229.75
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetFriend.Domain", "BetFriend.Domain\BetFriend.Domain.csproj", "{CA03533F-4044-410B-AE46-8030F5BCC89D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BetFriend.Domain", "BetFriend.Domain\BetFriend.Domain.csproj", "{CA03533F-4044-410B-AE46-8030F5BCC89D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{091A192A-3464-4E1D-BAA1-25AA4F791F11}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{61856E5F-0FDF-43B2-9DCE-6B2DB6AE19BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetFriend.UnitTests", "BetFriend.UnitTests\BetFriend.UnitTests.csproj", "{2354B584-7F68-4198-A258-05AC1B209F74}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +21,17 @@ Global
 		{CA03533F-4044-410B-AE46-8030F5BCC89D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA03533F-4044-410B-AE46-8030F5BCC89D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA03533F-4044-410B-AE46-8030F5BCC89D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2354B584-7F68-4198-A258-05AC1B209F74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2354B584-7F68-4198-A258-05AC1B209F74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2354B584-7F68-4198-A258-05AC1B209F74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2354B584-7F68-4198-A258-05AC1B209F74}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CA03533F-4044-410B-AE46-8030F5BCC89D} = {61856E5F-0FDF-43B2-9DCE-6B2DB6AE19BD}
+		{2354B584-7F68-4198-A258-05AC1B209F74} = {091A192A-3464-4E1D-BAA1-25AA4F791F11}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {37AADF4B-9BA3-4CB6-9CFC-CADCD698A0C8}
