@@ -19,4 +19,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BetFriend.Application\BetFriend.Application.csproj" />
+    <ProjectReference Include="..\BetFriend.Domain\BetFriend.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -33,3 +33,8 @@
 /BetFriend.Domain/obj
 /.vs
 /BetFriend.UnitTests/obj
+/BetFriend.Application/bin/Debug/net5.0
+/BetFriend.Application/obj
+/BetFriend.Domain/bin/Debug/net5.0
+/BetFriend.UnitTests/bin/Debug/net5.0
+/BetFriend.Api.v3.ncrunchsolution.user

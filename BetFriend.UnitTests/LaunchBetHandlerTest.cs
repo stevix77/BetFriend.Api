@@ -1,6 +1,11 @@
 namespace BetFriend.UnitTests
 {
+    using BetFriend.Application.Usecases.LaunchBet;
+    using BetFriend.Domain.Bets;
+    using BetFriend.Domain.Exceptions;
+    using BetFriend.Domain.Members;
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Xunit;
 
@@ -10,93 +15,86 @@ namespace BetFriend.UnitTests
         public async Task ShouldInsertBetInDbIfValid()
         {
             //arrange
-            var bettorId = new BettorId(Guid.NewGuid());
-            var endDate = new DateTime(2021, 05, 05);
-            var participants = new[] { "0101020203" };
+            var memberId = new MemberId(Guid.NewGuid());
+            var endDate = DateTime.UtcNow.AddDays(1);
+            var participants = new[] { new MemberId(Guid.NewGuid()) };
             var betId = new BetId(Guid.NewGuid());
-            var command = new LaunchBetCommand(betId, bettorId, endDate, participants);
-            IUserRepository userRepository = null;
-            IBetRepository betRepository = null;
-            var handler = new LaunchBetCommandandler(userRepository, betRepository);
-            Bet expectedBet = null;
+            var command = new LaunchBetCommand(betId, memberId, endDate, participants);
+            IBetRepository betRepository = new InMemoryBetRepository();
+            IMemberRepository memberRepository = new InMemoryMemberRepository(new List<MemberId>(participants));
+            var handler = new LaunchBetCommandHandler(betRepository, memberRepository);
+            Bet expectedBet = Bet.Create(betId, memberId, endDate, participants);
 
             //act
             await handler.Handle(command, default);
 
             //assert
-            Bet actualBet = betRepository.GetByIdAsync(betId);
-            Assert.Equal(expectedBet, actualBet);
-
+            Bet actualBet = await betRepository.GetByIdAsync(betId);
+            Assert.Equal(expectedBet.GetId(), actualBet.GetId());
         }
-    }
 
-    internal class Bet
-    {
-    }
-
-    internal interface IBetRepository
-    {
-        Bet GetByIdAsync(BetId betId);
-    }
-
-    internal interface IUserRepository
-    {
-    }
-
-    internal struct BetId
-    {
-        private Guid guid;
-
-        public BetId(Guid guid)
+        [Fact]
+        public async Task ShouldThrowEndDateNotValidExceptionIfEndDateLessOrEqualDateNow()
         {
-            this.guid = guid;
+            //arrange
+            var memberId = new MemberId(Guid.NewGuid());
+            var endDate = new DateTime(2020, 05, 05);
+            var participants = new[] { new MemberId(Guid.NewGuid()) };
+            var betId = new BetId(Guid.NewGuid());
+            var command = new LaunchBetCommand(betId, memberId, endDate, participants);
+            IBetRepository betRepository = new InMemoryBetRepository();
+            IMemberRepository memberRepository = new InMemoryMemberRepository();
+            var handler = new LaunchBetCommandHandler(betRepository, memberRepository);
+
+            //act
+            var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
+
+            //assert
+            Assert.IsType<EndDateNotValidException>(record);
+            Assert.Equal("The end date is before the current date", record.Message);
+        }
+
+        [Fact]
+        public async Task ShouldThrowMemberUnknownIfSomeMemberIsNotFound()
+        {
+            //arrange
+            var memberId = new MemberId(Guid.NewGuid());
+            var endDate = DateTime.UtcNow.AddDays(1);
+            var participants = new[] { new MemberId(Guid.NewGuid()) };
+            var betId = new BetId(Guid.NewGuid());
+            var command = new LaunchBetCommand(betId, memberId, endDate, participants);
+            IBetRepository betRepository = new InMemoryBetRepository();
+            IMemberRepository memberRepository = new InMemoryMemberRepository();
+            var handler = new LaunchBetCommandHandler(betRepository, memberRepository);
+
+            //act
+            var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
+
+            //assert
+            Assert.IsType<MemberUnknownException>(record);
+            Assert.Equal($"Some member are unknown", record.Message);
         }
     }
 
-    internal struct BettorId
+
+
+    internal class InMemoryBetRepository : IBetRepository
     {
-        private Guid guid;
-
-        public BettorId(Guid guid)
+        private Bet _bet;
+        public Task AddAsync(Bet bet)
         {
-            this.guid = guid;
+            _bet = bet;
+            return Task.CompletedTask;
+        }
+
+        public Task<Bet> GetByIdAsync(BetId betId)
+        {
+            if (betId.Equals(_bet.GetId()))
+                return Task.FromResult(_bet);
+            return Task.FromResult<Bet>(null);
+
         }
     }
 
-    internal class LaunchBetCommand
-    {
-        public LaunchBetCommand()
-        {
-        }
 
-        public LaunchBetCommand(BetId betId, BettorId bettorId, DateTime endDate, string[] participants)
-        {
-            BetId = betId;
-            BettorId = bettorId;
-            EndDate = endDate;
-            Participants = participants;
-        }
-
-        public BetId BetId { get; }
-        public BettorId BettorId { get; }
-        public DateTime EndDate { get; }
-        public string[] Participants { get; }
-    }
-
-    internal class LaunchBetCommandandler
-    {
-        private IUserRepository userRepository;
-        private IBetRepository betRepository;
-
-        public LaunchBetCommandandler(IUserRepository userRepository, IBetRepository betRepository)
-        {
-            this.userRepository = userRepository;
-            this.betRepository = betRepository;
-        }
-
-        internal Task Handle(LaunchBetCommand command, object p)
-        {
-            throw new NotImplementedException();
-        }
-    }
 }
