@@ -2,28 +2,57 @@
 {
     using BetFriend.Domain.Members;
     using System;
-    using System.Collections.Generic;
 
     public class Bet
     {
-        private BetId _betId;
-        private DateTime _endDate;
-        private MemberId[] _participants;
-        private MemberId _creatorId;
+        private readonly BetId _betId;
+        private readonly DateTime _endDate;
+        private readonly MemberId[] _participants;
+        private readonly MemberId _creatorId;
+        private readonly string _description;
 
-        public Bet(BetId betId, DateTime endDate, MemberId[] participants, MemberId creatorId)
+        private Bet(BetId betId, DateTime endDate, MemberId[] participants, MemberId creatorId, string description)
         {
             _betId = betId;
             _endDate = endDate;
             _participants = participants;
             _creatorId = creatorId;
+            _description = description;
         }
 
-        public static Bet Create(BetId betId, MemberId creatorId, DateTime endDate, MemberId[] participants)
+        public static Bet FromState(BetState bet)
         {
-            return new Bet(betId, endDate, participants, creatorId);
+            return new Bet(bet.BetId, bet.EndDate, bet.Participants, bet.MemberId, bet.Description);
         }
 
-        public BetId GetId() => _betId;
+        public BetState State { get => new (_betId, _creatorId, _endDate, _description, _participants); }
+
+        public static Bet Create(BetId betId, MemberId creatorId, DateTime endDate, string description, MemberId[] participants)
+        {
+            return new Bet(betId, endDate, participants, creatorId, description);
+        }
+
+        public class BetState
+        {
+            public BetState(BetId betId, MemberId memberId, DateTime endDate, string description, MemberId[] participants)
+            {
+                BetId = betId;
+                MemberId = memberId;
+                EndDate = endDate;
+                Description = description;
+                Participants = participants;
+            }
+
+            public BetId BetId { get; }
+            public MemberId MemberId { get; }
+            public DateTime EndDate { get; }
+            public string Description { get; }
+            public MemberId[] Participants { get; }
+
+            public override bool Equals(object obj)
+            {
+                return ((BetState)obj).BetId == BetId;
+            }
+        }
     }
 }

@@ -7,17 +7,19 @@
 
     public class LaunchBetCommand
     {
-        public LaunchBetCommand(BetId betId, MemberId memberId, DateTime endDate, MemberId[] participants)
+        public LaunchBetCommand(BetId betId, MemberId memberId, DateTime endDate, MemberId[] participants, string description)
         {
             BetId = betId;
-            MemberId = memberId;
+            CreatorId = memberId;
             EndDate = endDate;
             Participants = participants;
+            Description = description;
         }
 
         public BetId BetId { get; }
-        public MemberId MemberId { get; }
+        public MemberId CreatorId { get; }
         public DateTime EndDate { get; }
         public MemberId[] Participants { get; }
+        public string Description { get; }
     }
 }
