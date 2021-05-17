@@ -5,8 +5,6 @@
     using BetFriend.Domain.Members;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Runtime.Serialization;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -17,36 +15,29 @@
 
         public LaunchBetCommandHandler(IBetRepository betRepository, IMemberRepository memberRepository)
         {
-            _betRepository = betRepository;
-            _memberRepository = memberRepository;
+            _betRepository = betRepository ?? throw new ArgumentNullException(nameof(betRepository), $"{nameof(betRepository)} cannot be null");
+            _memberRepository = memberRepository ?? throw new ArgumentNullException(nameof(memberRepository), $"{nameof(memberRepository)} cannot be null");
         }
 
         public async Task Handle(LaunchBetCommand request, CancellationToken cancellationToken)
         {
+            ValidateRequest(request);
+
             if (request.EndDate <= DateTime.UtcNow)
                 throw new EndDateNotValidException("The end date is before the current date");
 
-            
-            if (!await _memberRepository.ExistsAllAsync(request.Participants))
+            if (!await _memberRepository.ExistsAllAsync(new List<MemberId>(request.Participants) { request.CreatorId }.ToArray()))
                 throw new MemberUnknownException("Some member are unknown");
 
-            await _betRepository.AddAsync(Bet.Create(request.BetId, request.MemberId, request.EndDate, request.Participants));
+            await _betRepository.AddAsync(Bet.Create(request.BetId, request.CreatorId, request.EndDate, request.Description, request.Participants));
+        }
+
+        private static void ValidateRequest(LaunchBetCommand request)
+        {
+            if (request is null)
+                throw new ArgumentNullException(nameof(request), $"{nameof(request)} cannot be null");
         }
     }
 
-    public class InMemoryMemberRepository : IMemberRepository
-    {
-        private readonly List<MemberId> _memberIds;
-        public InMemoryMemberRepository(List<MemberId> memberIds = null)
-        {
-            _memberIds = memberIds ?? new List<MemberId>();
-        }
 
-        public Task<bool> ExistsAllAsync(MemberId[] participants)
-        {
-            return Task.FromResult(_memberIds.Exists(x => participants.Contains(x)));
-        }
-    }
-
-    
 }
