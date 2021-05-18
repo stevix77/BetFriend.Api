@@ -51,7 +51,7 @@ namespace BetFriend.UnitTests
             var participants = new[] { new MemberId(Guid.NewGuid()) };
             var command = new LaunchBetCommand(_betId, _creatorId, endDate, participants, description);
             IBetRepository betRepository = new InMemoryBetRepository();
-            IMemberRepository memberRepository = new InMemoryMemberRepository();
+            IMemberRepository memberRepository = new InMemoryMemberRepository(new List<MemberId>(participants) { _creatorId });
             var handler = new LaunchBetCommandHandler(betRepository, memberRepository);
 
             //act

@@ -23,13 +23,14 @@
         {
             ValidateRequest(request);
 
-            if (request.EndDate <= DateTime.UtcNow)
-                throw new EndDateNotValidException("The end date is before the current date");
-
             if (!await _memberRepository.ExistsAllAsync(new List<MemberId>(request.Participants) { request.CreatorId }.ToArray()))
                 throw new MemberUnknownException("Some member are unknown");
 
-            await _betRepository.AddAsync(Bet.Create(request.BetId, request.CreatorId, request.EndDate, request.Description, request.Participants));
+            await _betRepository.AddAsync(Bet.Create(request.BetId,
+                                 request.CreatorId,
+                                 request.EndDate,
+                                 request.Description,
+                                 request.Participants));
         }
 
         private static void ValidateRequest(LaunchBetCommand request)

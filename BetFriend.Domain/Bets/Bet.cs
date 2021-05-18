@@ -1,5 +1,6 @@
 ﻿namespace BetFriend.Domain.Bets
 {
+    using BetFriend.Domain.Exceptions;
     using BetFriend.Domain.Members;
     using System;
 
@@ -13,6 +14,9 @@
 
         private Bet(BetId betId, DateTime endDate, MemberId[] participants, MemberId creatorId, string description)
         {
+            if (endDate <= DateTime.UtcNow)
+                throw new EndDateNotValidException("The end date is before the current date");
+
             _betId = betId;
             _endDate = endDate;
             _participants = participants;
