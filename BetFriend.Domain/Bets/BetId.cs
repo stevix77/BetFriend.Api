@@ -11,5 +11,7 @@
         {
             _value = value;
         }
+
+        public Guid Value { get => _value; }
     }
 }

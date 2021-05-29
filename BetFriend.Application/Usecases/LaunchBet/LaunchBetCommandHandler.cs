@@ -5,6 +5,7 @@
     using BetFriend.Domain.Members;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -23,14 +24,16 @@
         {
             ValidateRequest(request);
 
-            if (!await _memberRepository.ExistsAllAsync(new List<MemberId>(request.Participants) { request.CreatorId }.ToArray()))
-                throw new MemberUnknownException("Some member are unknown");
+            if (!await _memberRepository.ExistsAllAsync(new List<Guid>(request.Participants) { request.CreatorId }.ToArray()))
+                throw new MemberUnknownException("Some members are unknown");
 
-            await _betRepository.AddAsync(Bet.Create(request.BetId,
-                                 request.CreatorId,
-                                 request.EndDate,
+            await _betRepository.AddAsync(Bet.Create(new BetId(request.BetId),
+                                 new MemberId(request.CreatorId),
+                                 new EndDate(request.EndDate, DateTime.UtcNow),
                                  request.Description,
-                                 request.Participants));
+                                 request.Participants
+                                        .Select(x => new MemberId(x))
+                                        .ToArray()));
         }
 
         private static void ValidateRequest(LaunchBetCommand request)

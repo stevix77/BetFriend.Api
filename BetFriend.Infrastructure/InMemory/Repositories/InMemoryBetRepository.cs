@@ -14,10 +14,10 @@
             return Task.CompletedTask;
         }
 
-        public Task<Bet> GetByIdAsync(BetId betId)
+        public Task<Bet> GetByIdAsync(Guid betId)
         {
             if (betId.Equals(_bet.BetId))
-                return Task.FromResult(Bet.FromState(_bet));
+                return Task.FromResult(FromState(_bet));
 
             return Task.FromResult<Bet>(null);
 
