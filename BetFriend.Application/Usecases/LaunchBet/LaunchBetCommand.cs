@@ -1,13 +1,10 @@
 ﻿namespace BetFriend.Application.Usecases.LaunchBet
 {
-    using BetFriend.Domain.Bets;
-    using BetFriend.Domain.Members;
     using System;
-
 
     public class LaunchBetCommand
     {
-        public LaunchBetCommand(BetId betId, MemberId memberId, DateTime endDate, MemberId[] participants, string description)
+        public LaunchBetCommand(Guid betId, Guid memberId, DateTime endDate, Guid[] participants, string description)
         {
             BetId = betId;
             CreatorId = memberId;
@@ -16,10 +13,10 @@
             Description = description;
         }
 
-        public BetId BetId { get; }
-        public MemberId CreatorId { get; }
+        public Guid BetId { get; }
+        public Guid CreatorId { get; }
         public DateTime EndDate { get; }
-        public MemberId[] Participants { get; }
+        public Guid[] Participants { get; }
         public string Description { get; }
     }
 }

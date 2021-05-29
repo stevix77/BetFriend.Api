@@ -2,11 +2,13 @@ namespace BetFriend.UnitTests
 {
     using BetFriend.Application.Usecases.LaunchBet;
     using BetFriend.Domain.Bets;
+    using BetFriend.Domain.Bets.Events;
     using BetFriend.Domain.Exceptions;
     using BetFriend.Domain.Members;
     using BetFriend.Infrastructure.InMemory.Repositories;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Xunit;
     using static BetFriend.Domain.Bets.Bet;
@@ -14,44 +16,45 @@ namespace BetFriend.UnitTests
     public class LaunchBetHandlerTest
     {
         private const string description = "description";
-        private readonly BetId _betId;
-        private readonly MemberId _creatorId;
+        private readonly Guid _betId;
+        private readonly Guid _creatorId;
 
         public LaunchBetHandlerTest()
         {
-            _betId = new BetId(Guid.NewGuid());
-            _creatorId = new MemberId(Guid.NewGuid());
+            _betId = Guid.NewGuid();
+            _creatorId = Guid.NewGuid();
         }
 
         [Fact]
-        public async Task ShouldInsertBetInDbIfValid()
+        public async Task ShouldCreateBet()
         {
             //arrange
-            var endDate = DateTime.UtcNow.AddDays(1);
-            var participants = new[] { new MemberId(Guid.NewGuid()) };
+            var endDate = DateTime.UtcNow.AddDays(5);
+            var participants = new[] { Guid.NewGuid() };
             var command = new LaunchBetCommand(_betId, _creatorId, endDate, participants, description);
             IBetRepository betRepository = new InMemoryBetRepository();
-            IMemberRepository memberRepository = new InMemoryMemberRepository(new List<MemberId>(participants) { _creatorId });
+            IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Guid>(participants) { _creatorId });
             var handler = new LaunchBetCommandHandler(betRepository, memberRepository);
             BetState expectedBet = new(_betId, _creatorId, endDate, description, participants);
-
             //act
             await handler.Handle(command, default);
 
             //assert
             Bet actualBet = await betRepository.GetByIdAsync(_betId);
+            var domainEvent = actualBet.DomainEvents.FirstOrDefault(x => x.GetType() == typeof(BetCreated));
             Assert.Equal(expectedBet, actualBet.State);
+            Assert.NotNull(domainEvent);
         }
 
         [Fact]
         public async Task ShouldThrowEndDateNotValidExceptionIfEndDateLessOrEqualDateNow()
         {
             //arrange
-            var endDate = new DateTime(2020, 05, 05);
-            var participants = new[] { new MemberId(Guid.NewGuid()) };
+            var endDate = DateTime.UtcNow.AddDays(-1);
+            var participants = new[] { Guid.NewGuid() };
             var command = new LaunchBetCommand(_betId, _creatorId, endDate, participants, description);
             IBetRepository betRepository = new InMemoryBetRepository();
-            IMemberRepository memberRepository = new InMemoryMemberRepository(new List<MemberId>(participants) { _creatorId });
+            IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Guid>(participants) { _creatorId });
             var handler = new LaunchBetCommandHandler(betRepository, memberRepository);
 
             //act
@@ -67,7 +70,7 @@ namespace BetFriend.UnitTests
         {
             //arrange
             var endDate = DateTime.UtcNow.AddDays(1);
-            var participants = new[] { new MemberId(Guid.NewGuid()) };
+            var participants = new[] { Guid.NewGuid() };
             var command = new LaunchBetCommand(_betId, _creatorId, endDate, participants, description);
             IBetRepository betRepository = new InMemoryBetRepository();
             IMemberRepository memberRepository = new InMemoryMemberRepository();
@@ -78,7 +81,7 @@ namespace BetFriend.UnitTests
 
             //assert
             Assert.IsType<MemberUnknownException>(record);
-            Assert.Equal($"Some member are unknown", record.Message);
+            Assert.Equal($"Some members are unknown", record.Message);
         }
 
         [Fact]
@@ -114,4 +117,6 @@ namespace BetFriend.UnitTests
             Assert.Equal("memberRepository cannot be null (Parameter 'memberRepository')", record2.Message);
         }
     }
+
+    
 }
