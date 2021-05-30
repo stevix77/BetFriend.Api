@@ -9,6 +9,9 @@
 
         public BetId(Guid value)
         {
+            if (value == Guid.Empty)
+                throw new ArgumentException("BetId should be initialized");
+
             _value = value;
         }
 

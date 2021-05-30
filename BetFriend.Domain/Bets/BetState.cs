@@ -4,24 +4,21 @@ namespace BetFriend.Domain.Bets
 {
     public class BetState
     {
-        public BetState(Guid betId, Guid memberId, DateTime endDate, string description, Guid[] participants)
+        public BetState(Guid betId, Guid creatorId, DateTime endDate, string description, Guid[] participants, DateTime creationDate)
         {
             BetId = betId;
-            MemberId = memberId;
+            CreatorId = creatorId;
             EndDate = endDate;
             Description = description;
             Participants = participants;
+            CreationDate = creationDate;
         }
 
         public Guid BetId { get; }
-        public Guid MemberId { get; }
+        public Guid CreatorId { get; }
         public DateTime EndDate { get; }
         public string Description { get; }
         public Guid[] Participants { get; }
-
-        public override bool Equals(object obj)
-        {
-            return ((BetState)obj).BetId == BetId;
-        }
+        public DateTime CreationDate { get; }
     }
 }

@@ -8,12 +8,12 @@
         public BetCreated(BetId betId, MemberId creatorId, IEnumerable<MemberId> participants)
         {
             BetId = betId;
-            MemberId = creatorId;
+            CreatorId = creatorId;
             Participants = participants;
         }
 
         public BetId BetId { get; }
-        public MemberId MemberId { get; }
+        public MemberId CreatorId { get; }
         public IEnumerable<MemberId> Participants { get; }
     }
 }

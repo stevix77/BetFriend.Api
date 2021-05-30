@@ -2,36 +2,38 @@
 {
     using BetFriend.Domain.Bets.Events;
     using BetFriend.Domain.Members;
-    using System.Collections.Generic;
+    using System;
     using System.Linq;
 
-    public class Bet
+    public class Bet : Entity, IAggregateRoot
     {
         private readonly BetId _betId;
         private readonly EndDate _endDate;
+        private readonly DateTime _creationDate;
         private readonly MemberId[] _participants;
         private readonly MemberId _creatorId;
         private readonly string _description;
 
-        private Bet(BetId betId, EndDate endDate, MemberId[] participants, MemberId creatorId, string description)
+        private Bet(BetId betId, DateTime endDate, MemberId[] participants, MemberId creatorId, string description)
         {
+            _creationDate = DateTime.UtcNow;
             _betId = betId;
-            _endDate = endDate;
+            _endDate = new EndDate(endDate, _creationDate);
             _participants = participants;
             _creatorId = creatorId;
             _description = description;
 
-            DomainEvents = new List<object>();
-            DomainEvents.Add(new BetCreated(betId, _creatorId, _participants));
+            AddDomainEvent(new BetCreated(betId, _creatorId, _participants));
+
         }
 
         public static Bet FromState(BetState state)
         {
             return new Bet(new BetId(state.BetId),
-                            new EndDate(state.EndDate),
+                            state.EndDate,
                             state.Participants.Select(x => new MemberId(x))
                                                .ToArray(),
-                            new MemberId(state.MemberId),
+                            new MemberId(state.CreatorId),
                             state.Description);
         }
 
@@ -42,11 +44,12 @@
                         _endDate.Value,
                         _description,
                         _participants.Select(x => x.Value)
-                                     .ToArray());
+                                     .ToArray(),
+                        _creationDate);
         }
-        public List<object> DomainEvents { get; set; }
 
-        public static Bet Create(BetId betId, MemberId creatorId, EndDate endDate, string description, MemberId[] participants)
+
+        public static Bet Create(BetId betId, MemberId creatorId, DateTime endDate, string description, MemberId[] participants)
         {
             return new Bet(betId, endDate, participants, creatorId, description);
         }
