@@ -35,14 +35,20 @@ namespace BetFriend.UnitTests
             IBetRepository betRepository = new InMemoryBetRepository();
             IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Guid>(participants) { _creatorId });
             var handler = new LaunchBetCommandHandler(betRepository, memberRepository);
-            BetState expectedBet = new(_betId, _creatorId, endDate, description, participants);
+            BetState expectedBet = new(_betId, _creatorId, endDate, description, participants, DateTime.UtcNow);
             //act
             await handler.Handle(command, default);
 
             //assert
             Bet actualBet = await betRepository.GetByIdAsync(_betId);
             var domainEvent = actualBet.DomainEvents.FirstOrDefault(x => x.GetType() == typeof(BetCreated));
-            Assert.Equal(expectedBet, actualBet.State);
+            Assert.Equal(expectedBet.BetId, actualBet.State.BetId);
+            Assert.Equal(expectedBet.Description, actualBet.State.Description);
+            Assert.Equal(expectedBet.EndDate, actualBet.State.EndDate);
+            Assert.Equal(expectedBet.CreatorId, actualBet.State.CreatorId);
+            Assert.Equal(expectedBet.Participants, actualBet.State.Participants);
+            Assert.True(actualBet.State.CreationDate != DateTime.MinValue);
+            Assert.True(expectedBet.EndDate>actualBet.State.CreationDate);
             Assert.NotNull(domainEvent);
         }
 
@@ -63,6 +69,25 @@ namespace BetFriend.UnitTests
             //assert
             Assert.IsType<EndDateNotValidException>(record);
             Assert.Equal("The end date is before the current date", record.Message);
+        }
+
+        [Fact]
+        public async Task ShouldThrowArgumentExceptionIfBetIdDefault()
+        {
+            //arrange
+            var endDate = DateTime.UtcNow.AddDays(-1);
+            var participants = new[] { Guid.NewGuid() };
+            var command = new LaunchBetCommand(Guid.Empty, _creatorId, endDate, participants, description);
+            IBetRepository betRepository = new InMemoryBetRepository();
+            IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Guid>(participants) { _creatorId });
+            var handler = new LaunchBetCommandHandler(betRepository, memberRepository);
+
+            //act
+            var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
+
+            //assert
+            Assert.IsType<ArgumentException>(record);
+            Assert.Equal("BetId should be initialized", record.Message);
         }
 
         [Fact]

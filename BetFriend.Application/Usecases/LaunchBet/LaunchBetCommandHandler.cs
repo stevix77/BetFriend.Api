@@ -27,13 +27,15 @@
             if (!await _memberRepository.ExistsAllAsync(new List<Guid>(request.Participants) { request.CreatorId }.ToArray()))
                 throw new MemberUnknownException("Some members are unknown");
 
-            await _betRepository.AddAsync(Bet.Create(new BetId(request.BetId),
+            var bet = Bet.Create(new BetId(request.BetId),
                                  new MemberId(request.CreatorId),
-                                 new EndDate(request.EndDate, DateTime.UtcNow),
+                                 request.EndDate,
                                  request.Description,
                                  request.Participants
                                         .Select(x => new MemberId(x))
-                                        .ToArray()));
+                                        .ToArray());
+
+            await _betRepository.AddAsync(bet);
         }
 
         private static void ValidateRequest(LaunchBetCommand request)
