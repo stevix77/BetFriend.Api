@@ -1,7 +1,4 @@
-﻿using BetFriend.Infrastructure.DataAccess.Entities;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace BetFriend.WebApi.Controllers.LaunchBet
 {
