@@ -1,4 +1,4 @@
-﻿namespace BetFriend.Infrastructure.InMemory.Repositories
+﻿namespace BetFriend.Infrastructure.Repositories.InMemory
 {
     using BetFriend.Domain.Members;
     using System;
@@ -15,9 +15,9 @@
             _memberIds = memberIds ?? new List<Guid>();
         }
 
-        public Task<bool> ExistsAllAsync(Guid[] participants)
+        public Task<bool> ExistsAsync(Guid memberId)
         {
-            return Task.FromResult(_memberIds.Count(x => participants.Contains(x)) == participants.Count());
+            return Task.FromResult(_memberIds.Contains(memberId));
         }
     }
 }

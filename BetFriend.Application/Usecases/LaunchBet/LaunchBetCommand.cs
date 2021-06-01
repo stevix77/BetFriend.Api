@@ -4,19 +4,19 @@
 
     public class LaunchBetCommand
     {
-        public LaunchBetCommand(Guid betId, Guid memberId, DateTime endDate, Guid[] participants, string description)
+        public LaunchBetCommand(Guid betId, Guid memberId, DateTime endDate, int tokens, string description)
         {
             BetId = betId;
             CreatorId = memberId;
             EndDate = endDate;
-            Participants = participants;
+            Tokens = tokens;
             Description = description;
         }
 
         public Guid BetId { get; }
         public Guid CreatorId { get; }
         public DateTime EndDate { get; }
-        public Guid[] Participants { get; }
+        public int Tokens { get; }
         public string Description { get; }
     }
 }

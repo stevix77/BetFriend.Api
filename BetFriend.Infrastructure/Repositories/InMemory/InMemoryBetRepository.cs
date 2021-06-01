@@ -1,4 +1,4 @@
-﻿namespace BetFriend.Infrastructure.InMemory.Repositories
+﻿namespace BetFriend.Infrastructure.Repositories.InMemory
 {
     using BetFriend.Domain.Bets;
     using System;

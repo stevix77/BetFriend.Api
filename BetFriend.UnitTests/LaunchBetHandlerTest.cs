@@ -5,17 +5,17 @@ namespace BetFriend.UnitTests
     using BetFriend.Domain.Bets.Events;
     using BetFriend.Domain.Exceptions;
     using BetFriend.Domain.Members;
-    using BetFriend.Infrastructure.InMemory.Repositories;
+    using BetFriend.Infrastructure.Repositories.InMemory;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Xunit;
-    using static BetFriend.Domain.Bets.Bet;
 
     public class LaunchBetHandlerTest
     {
         private const string description = "description";
+        private const int tokens = 2;
         private readonly Guid _betId;
         private readonly Guid _creatorId;
 
@@ -30,12 +30,11 @@ namespace BetFriend.UnitTests
         {
             //arrange
             var endDate = DateTime.UtcNow.AddDays(5);
-            var participants = new[] { Guid.NewGuid() };
-            var command = new LaunchBetCommand(_betId, _creatorId, endDate, participants, description);
+            var command = new LaunchBetCommand(_betId, _creatorId, endDate, tokens, description);
             IBetRepository betRepository = new InMemoryBetRepository();
-            IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Guid>(participants) { _creatorId });
+            IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Guid>() { _creatorId });
             var handler = new LaunchBetCommandHandler(betRepository, memberRepository);
-            BetState expectedBet = new(_betId, _creatorId, endDate, description, participants, DateTime.UtcNow);
+            BetState expectedBet = new(_betId, _creatorId, endDate, description, tokens, DateTime.UtcNow);
             //act
             await handler.Handle(command, default);
 
@@ -46,7 +45,7 @@ namespace BetFriend.UnitTests
             Assert.Equal(expectedBet.Description, actualBet.State.Description);
             Assert.Equal(expectedBet.EndDate, actualBet.State.EndDate);
             Assert.Equal(expectedBet.CreatorId, actualBet.State.CreatorId);
-            Assert.Equal(expectedBet.Participants, actualBet.State.Participants);
+            Assert.Equal(expectedBet.Tokens, actualBet.State.Tokens);
             Assert.True(actualBet.State.CreationDate != DateTime.MinValue);
             Assert.True(expectedBet.EndDate>actualBet.State.CreationDate);
             Assert.NotNull(domainEvent);
@@ -57,10 +56,9 @@ namespace BetFriend.UnitTests
         {
             //arrange
             var endDate = DateTime.UtcNow.AddDays(-1);
-            var participants = new[] { Guid.NewGuid() };
-            var command = new LaunchBetCommand(_betId, _creatorId, endDate, participants, description);
+            var command = new LaunchBetCommand(_betId, _creatorId, endDate, tokens, description);
             IBetRepository betRepository = new InMemoryBetRepository();
-            IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Guid>(participants) { _creatorId });
+            IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Guid>() { _creatorId });
             var handler = new LaunchBetCommandHandler(betRepository, memberRepository);
 
             //act
@@ -76,10 +74,9 @@ namespace BetFriend.UnitTests
         {
             //arrange
             var endDate = DateTime.UtcNow.AddDays(-1);
-            var participants = new[] { Guid.NewGuid() };
-            var command = new LaunchBetCommand(Guid.Empty, _creatorId, endDate, participants, description);
+            var command = new LaunchBetCommand(Guid.Empty, _creatorId, endDate, tokens, description);
             IBetRepository betRepository = new InMemoryBetRepository();
-            IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Guid>(participants) { _creatorId });
+            IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Guid>() { _creatorId });
             var handler = new LaunchBetCommandHandler(betRepository, memberRepository);
 
             //act
@@ -91,12 +88,11 @@ namespace BetFriend.UnitTests
         }
 
         [Fact]
-        public async Task ShouldThrowMemberUnknownIfSomeMemberIsNotFound()
+        public async Task ShouldThrowMemberUnknownIfCreatorIsNotFound()
         {
             //arrange
             var endDate = DateTime.UtcNow.AddDays(1);
-            var participants = new[] { Guid.NewGuid() };
-            var command = new LaunchBetCommand(_betId, _creatorId, endDate, participants, description);
+            var command = new LaunchBetCommand(_betId, _creatorId, endDate, tokens, description);
             IBetRepository betRepository = new InMemoryBetRepository();
             IMemberRepository memberRepository = new InMemoryMemberRepository();
             var handler = new LaunchBetCommandHandler(betRepository, memberRepository);
@@ -106,7 +102,7 @@ namespace BetFriend.UnitTests
 
             //assert
             Assert.IsType<MemberUnknownException>(record);
-            Assert.Equal($"Some members are unknown", record.Message);
+            Assert.Equal($"Creator is unknown", record.Message);
         }
 
         [Fact]
