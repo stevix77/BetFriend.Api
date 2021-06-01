@@ -40,3 +40,4 @@
 /BetFriend.Api.v3.ncrunchsolution.user
 /BetFriend.Infrastructure/bin/Debug/net5.0
 /BetFriend.Infrastructure/obj
+/BetFriend.WebApi/obj/Debug/net5.0

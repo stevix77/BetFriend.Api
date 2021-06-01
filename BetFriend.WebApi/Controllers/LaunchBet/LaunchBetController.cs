@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BetFriend.Infrastructure.DataAccess.Entities;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace BetFriend.WebApi.Controllers.LaunchBet
 {
@@ -7,9 +10,9 @@ namespace BetFriend.WebApi.Controllers.LaunchBet
     {
         public LaunchBetController()
         {
-
         }
 
+        [HttpPost]
         public IActionResult LaunchBet([FromBody] LaunchBetInput input)
         {
             return View();
