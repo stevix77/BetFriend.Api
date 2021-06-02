@@ -24,11 +24,11 @@
         {
             ValidateRequest(request);
 
-            if (!await _memberRepository.ExistsAsync(request.CreatorId))
-                throw new MemberUnknownException("Creator is unknown");
+            var member = await _memberRepository.GetByIdAsync(request.CreatorId).ConfigureAwait(false)
+                            ?? throw new MemberUnknownException("Creator is unknown");
 
             var bet = Bet.Create(new BetId(request.BetId),
-                                 new MemberId(request.CreatorId),
+                                 member,
                                  request.EndDate,
                                  request.Description,
                                  request.Tokens);

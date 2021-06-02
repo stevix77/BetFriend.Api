@@ -32,7 +32,8 @@ namespace BetFriend.UnitTests
             var endDate = DateTime.UtcNow.AddDays(5);
             var command = new LaunchBetCommand(_betId, _creatorId, endDate, tokens, description);
             IBetRepository betRepository = new InMemoryBetRepository();
-            IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Guid>() { _creatorId });
+            var member = new Member(new MemberId(_creatorId), 25);
+            IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Member>() { member });
             var handler = new LaunchBetCommandHandler(betRepository, memberRepository);
             BetState expectedBet = new(_betId, _creatorId, endDate, description, tokens, DateTime.UtcNow);
             //act
@@ -52,13 +53,32 @@ namespace BetFriend.UnitTests
         }
 
         [Fact]
+        public async Task ShouldThrowMemberDoesNotEnoughTokensExceptionIfWalletContainsLessThanTokens()
+        {
+            //arrange
+            var endDate = DateTime.UtcNow.AddDays(5);
+            var command = new LaunchBetCommand(_betId, _creatorId, endDate, tokens, description);
+            var member = new Member(new MemberId(_creatorId), 1);
+            IBetRepository betRepository = new InMemoryBetRepository();
+            IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Member>() { member });
+            var handler = new LaunchBetCommandHandler(betRepository, memberRepository);
+
+            //act
+            var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
+
+            //assert
+            Assert.IsType<MemberDoesNotEnoughTokensException>(record);
+        }
+
+        [Fact]
         public async Task ShouldThrowEndDateNotValidExceptionIfEndDateLessOrEqualDateNow()
         {
             //arrange
             var endDate = DateTime.UtcNow.AddDays(-1);
             var command = new LaunchBetCommand(_betId, _creatorId, endDate, tokens, description);
+            var member = new Member(new MemberId(_creatorId), 1000);
             IBetRepository betRepository = new InMemoryBetRepository();
-            IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Guid>() { _creatorId });
+            IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Member>() { member });
             var handler = new LaunchBetCommandHandler(betRepository, memberRepository);
 
             //act
@@ -75,8 +95,9 @@ namespace BetFriend.UnitTests
             //arrange
             var endDate = DateTime.UtcNow.AddDays(-1);
             var command = new LaunchBetCommand(Guid.Empty, _creatorId, endDate, tokens, description);
+            var member = new Member(new MemberId(_creatorId), 1);
             IBetRepository betRepository = new InMemoryBetRepository();
-            IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Guid>() { _creatorId });
+            IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Member>() { member });
             var handler = new LaunchBetCommandHandler(betRepository, memberRepository);
 
             //act
@@ -94,7 +115,7 @@ namespace BetFriend.UnitTests
             var endDate = DateTime.UtcNow.AddDays(1);
             var command = new LaunchBetCommand(_betId, _creatorId, endDate, tokens, description);
             IBetRepository betRepository = new InMemoryBetRepository();
-            IMemberRepository memberRepository = new InMemoryMemberRepository();
+            IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Member>() {  });
             var handler = new LaunchBetCommandHandler(betRepository, memberRepository);
 
             //act
@@ -138,6 +159,4 @@ namespace BetFriend.UnitTests
             Assert.Equal("memberRepository cannot be null (Parameter 'memberRepository')", record2.Message);
         }
     }
-
-    
 }
