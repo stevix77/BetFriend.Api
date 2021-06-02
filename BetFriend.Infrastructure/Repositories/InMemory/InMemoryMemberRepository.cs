@@ -10,14 +10,21 @@
     public sealed class InMemoryMemberRepository : IMemberRepository
     {
         private readonly List<Guid> _memberIds;
+        private List<Member> _members;
+
         public InMemoryMemberRepository(List<Guid> memberIds = null)
         {
             _memberIds = memberIds ?? new List<Guid>();
         }
 
-        public Task<bool> ExistsAsync(Guid memberId)
+        public InMemoryMemberRepository(List<Member> members)
         {
-            return Task.FromResult(_memberIds.Contains(memberId));
+            _members = members;
+        }
+
+        public Task<Member> GetByIdAsync(Guid memberId)
+        {
+            return Task.FromResult(_members.Find(x => x.CreatorId == memberId));
         }
     }
 }

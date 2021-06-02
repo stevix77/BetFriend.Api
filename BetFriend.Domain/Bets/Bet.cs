@@ -1,6 +1,7 @@
 ﻿namespace BetFriend.Domain.Bets
 {
     using BetFriend.Domain.Bets.Events;
+    using BetFriend.Domain.Exceptions;
     using BetFriend.Domain.Members;
     using System;
     using System.Linq;
@@ -47,9 +48,12 @@
         }
 
 
-        public static Bet Create(BetId betId, MemberId creatorId, DateTime endDate, string description, int tokens)
+        public static Bet Create(BetId betId, Member creator, DateTime endDate, string description, int tokens)
         {
-            return new Bet(betId, endDate, tokens, creatorId, description);
+            if (!creator.CanBet(tokens))
+                throw new MemberDoesNotEnoughTokensException();
+
+            return new Bet(betId, endDate, tokens, new MemberId(creator.CreatorId), description);
         }
     }
 }

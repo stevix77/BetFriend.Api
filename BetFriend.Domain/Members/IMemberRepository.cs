@@ -5,6 +5,6 @@
 
     public interface IMemberRepository
     {
-        Task<bool> ExistsAsync(Guid memberId);
+        Task<Member> GetByIdAsync(Guid memberId);
     }
 }
