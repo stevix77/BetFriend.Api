@@ -1,10 +1,8 @@
 ﻿namespace BetFriend.Domain.Bets
 {
     using BetFriend.Domain.Bets.Events;
-    using BetFriend.Domain.Exceptions;
     using BetFriend.Domain.Members;
     using System;
-    using System.Linq;
 
     public class Bet : Entity, IAggregateRoot
     {
@@ -24,7 +22,7 @@
             _creatorId = creatorId;
             _description = description;
 
-            AddDomainEvent(new BetCreated(betId, _creatorId, null));
+            AddDomainEvent(new BetCreated(betId, _creatorId));
 
         }
 
@@ -48,12 +46,9 @@
         }
 
 
-        public static Bet Create(BetId betId, Member creator, DateTime endDate, string description, int tokens)
+        public static Bet Create(BetId betId, DateTime endDate, string description, int tokens, MemberId creatorId)
         {
-            if (!creator.CanBet(tokens))
-                throw new MemberDoesNotEnoughTokensException();
-
-            return new Bet(betId, endDate, tokens, new MemberId(creator.CreatorId), description);
+            return new Bet(betId, endDate, tokens, creatorId, description);
         }
     }
 }

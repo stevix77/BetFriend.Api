@@ -1,15 +1,17 @@
 ﻿namespace BetFriend.Application.Usecases.LaunchBet
 {
+    using BetFriend.Application.Abstractions.Command;
     using BetFriend.Domain.Bets;
     using BetFriend.Domain.Exceptions;
     using BetFriend.Domain.Members;
+    using MediatR;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
-    public sealed class LaunchBetCommandHandler
+    public sealed class LaunchBetCommandHandler : ICommandHandler<LaunchBetCommand>
     {
         private readonly IBetRepository _betRepository;
         private readonly IMemberRepository _memberRepository;
@@ -20,20 +22,20 @@
             _memberRepository = memberRepository ?? throw new ArgumentNullException(nameof(memberRepository), $"{nameof(memberRepository)} cannot be null");
         }
 
-        public async Task Handle(LaunchBetCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(LaunchBetCommand request, CancellationToken cancellationToken)
         {
             ValidateRequest(request);
 
             var member = await _memberRepository.GetByIdAsync(request.CreatorId).ConfigureAwait(false)
                             ?? throw new MemberUnknownException("Creator is unknown");
 
-            var bet = Bet.Create(new BetId(request.BetId),
-                                 member,
-                                 request.EndDate,
-                                 request.Description,
-                                 request.Tokens);
+            var bet = member.CreateBet(new BetId(request.BetId),
+                                        request.EndDate,
+                                        request.Description,
+                                        request.Tokens);
 
             await _betRepository.AddAsync(bet);
+            return Unit.Value;
         }
 
         private static void ValidateRequest(LaunchBetCommand request)

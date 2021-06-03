@@ -1,8 +1,9 @@
 ﻿namespace BetFriend.Application.Usecases.LaunchBet
 {
+    using BetFriend.Application.Abstractions.Command;
     using System;
 
-    public class LaunchBetCommand
+    public class LaunchBetCommand : ICommand
     {
         public LaunchBetCommand(Guid betId, Guid memberId, DateTime endDate, int tokens, string description)
         {
