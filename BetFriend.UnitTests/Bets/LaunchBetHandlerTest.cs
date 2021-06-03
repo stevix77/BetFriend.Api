@@ -1,4 +1,4 @@
-namespace BetFriend.UnitTests
+namespace BetFriend.UnitTests.Bets
 {
     using BetFriend.Application.Usecases.LaunchBet;
     using BetFriend.Domain.Bets;

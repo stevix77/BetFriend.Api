@@ -1,19 +1,16 @@
 ﻿namespace BetFriend.Domain.Bets.Events
 {
     using BetFriend.Domain.Members;
-    using System.Collections.Generic;
 
     public class BetCreated : IDomainEvent
     {
-        public BetCreated(BetId betId, MemberId creatorId, IEnumerable<MemberId> participants)
+        public BetCreated(BetId betId, MemberId creatorId)
         {
             BetId = betId;
             CreatorId = creatorId;
-            Participants = participants;
         }
 
         public BetId BetId { get; }
         public MemberId CreatorId { get; }
-        public IEnumerable<MemberId> Participants { get; }
     }
 }

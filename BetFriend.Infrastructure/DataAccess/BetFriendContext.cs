@@ -12,6 +12,7 @@ namespace BetFriend.Infrastructure.DataAccess
         }
 
         public DbSet<BetEntity> Bets { get; set; }
+        public DbSet<MemberEntity> Members { get; set; }
 
     }
 }
