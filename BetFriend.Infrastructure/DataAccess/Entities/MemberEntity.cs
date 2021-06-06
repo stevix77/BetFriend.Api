@@ -11,8 +11,7 @@ namespace BetFriend.Infrastructure.DataAccess.Entities
         [Column("id")]
         public int Id { get; set; }
 
-        [Required]
-        [Column("member_id")]
+        [Key, Required, Column("member_id")]
         public Guid MemberId { get; set; }
         [Required]
         [Column("wallet")]

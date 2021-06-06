@@ -9,16 +9,16 @@
         private readonly BetId _betId;
         private readonly EndDate _endDate;
         private readonly DateTime _creationDate;
-        private readonly int _tokens;
+        private readonly int _coins;
         private readonly MemberId _creatorId;
         private readonly string _description;
 
-        private Bet(BetId betId, DateTime endDate, int tokens, MemberId creatorId, string description)
+        private Bet(BetId betId, DateTime endDate, int coins, MemberId creatorId, string description)
         {
             _creationDate = DateTime.UtcNow;
             _betId = betId;
             _endDate = new EndDate(endDate, _creationDate);
-            _tokens = tokens;
+            _coins = coins;
             _creatorId = creatorId;
             _description = description;
 
@@ -26,13 +26,19 @@
 
         }
 
+        private Bet(BetState state)
+        {
+            _betId = new BetId(state.BetId);
+            _endDate = new EndDate(state.EndDate);
+            _coins = state.Coins;
+            _creatorId = new MemberId(state.CreatorId);
+            _description = state.Description;
+            _creationDate = state.CreationDate;
+        }
+
         public static Bet FromState(BetState state)
         {
-            return new Bet(new BetId(state.BetId),
-                            state.EndDate,
-                            state.Tokens,
-                            new MemberId(state.CreatorId),
-                            state.Description);
+            return new Bet(state);
         }
 
         public BetState State
@@ -41,14 +47,14 @@
                         _creatorId.Value,
                         _endDate.Value,
                         _description,
-                        _tokens,
+                        _coins,
                         _creationDate);
         }
 
 
-        public static Bet Create(BetId betId, DateTime endDate, string description, int tokens, MemberId creatorId)
+        public static Bet Create(BetId betId, DateTime endDate, string description, int coins, MemberId creatorId)
         {
-            return new Bet(betId, endDate, tokens, creatorId, description);
+            return new Bet(betId, endDate, coins, creatorId, description);
         }
     }
 }

@@ -10,14 +10,14 @@
             BetId = betId;
             CreatorId = memberId;
             EndDate = endDate;
-            Tokens = tokens;
+            Coins = tokens;
             Description = description;
         }
 
         public Guid BetId { get; }
         public Guid CreatorId { get; }
         public DateTime EndDate { get; }
-        public int Tokens { get; }
+        public int Coins { get; }
         public string Description { get; }
     }
 }
