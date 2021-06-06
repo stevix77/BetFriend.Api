@@ -15,7 +15,7 @@ namespace BetFriend.UnitTests.Bets
     public class LaunchBetHandlerTest
     {
         private const string description = "description";
-        private const int tokens = 2;
+        private const int coins = 2;
         private readonly Guid _betId;
         private readonly Guid _creatorId;
 
@@ -30,34 +30,34 @@ namespace BetFriend.UnitTests.Bets
         {
             //arrange
             var endDate = DateTime.UtcNow.AddDays(5);
-            var command = new LaunchBetCommand(_betId, _creatorId, endDate, tokens, description);
-            IBetRepository betRepository = new InMemoryBetRepository();
+            var command = new LaunchBetCommand(_betId, _creatorId, endDate, coins, description);
+            var betRepository = new InMemoryBetRepository();
             var member = new Member(new MemberId(_creatorId), 25);
-            IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Member>() { member });
+            var memberRepository = new InMemoryMemberRepository(new List<Member>() { member });
             var handler = new LaunchBetCommandHandler(betRepository, memberRepository);
-            BetState expectedBet = new(_betId, _creatorId, endDate, description, tokens, DateTime.UtcNow);
+            BetState expectedBet = new(_betId, _creatorId, endDate, description, coins, DateTime.UtcNow);
             //act
             await handler.Handle(command, default);
 
             //assert
             Bet actualBet = await betRepository.GetByIdAsync(_betId);
-            var domainEvent = actualBet.DomainEvents.FirstOrDefault(x => x.GetType() == typeof(BetCreated));
+            var domainEvent = betRepository.DomainEvents.FirstOrDefault(x => x.GetType() == typeof(BetCreated));
             Assert.Equal(expectedBet.BetId, actualBet.State.BetId);
             Assert.Equal(expectedBet.Description, actualBet.State.Description);
             Assert.Equal(expectedBet.EndDate, actualBet.State.EndDate);
             Assert.Equal(expectedBet.CreatorId, actualBet.State.CreatorId);
-            Assert.Equal(expectedBet.Tokens, actualBet.State.Tokens);
+            Assert.Equal(expectedBet.Coins, actualBet.State.Coins);
             Assert.True(actualBet.State.CreationDate != DateTime.MinValue);
             Assert.True(expectedBet.EndDate>actualBet.State.CreationDate);
             Assert.NotNull(domainEvent);
         }
 
         [Fact]
-        public async Task ShouldThrowMemberDoesNotEnoughTokensExceptionIfWalletContainsLessThanTokens()
+        public async Task ShouldThrowMemberDoesNotEnoughCoinsExceptionIfWalletContainsLessThanTokens()
         {
             //arrange
             var endDate = DateTime.UtcNow.AddDays(5);
-            var command = new LaunchBetCommand(_betId, _creatorId, endDate, tokens, description);
+            var command = new LaunchBetCommand(_betId, _creatorId, endDate, coins, description);
             var member = new Member(new MemberId(_creatorId), 1);
             IBetRepository betRepository = new InMemoryBetRepository();
             IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Member>() { member });
@@ -67,7 +67,7 @@ namespace BetFriend.UnitTests.Bets
             var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
 
             //assert
-            Assert.IsType<MemberDoesNotEnoughTokensException>(record);
+            Assert.IsType<MemberDoesNotEnoughCoinsException>(record);
         }
 
         [Fact]
@@ -75,7 +75,7 @@ namespace BetFriend.UnitTests.Bets
         {
             //arrange
             var endDate = DateTime.UtcNow.AddDays(-1);
-            var command = new LaunchBetCommand(_betId, _creatorId, endDate, tokens, description);
+            var command = new LaunchBetCommand(_betId, _creatorId, endDate, coins, description);
             var member = new Member(new MemberId(_creatorId), 1000);
             IBetRepository betRepository = new InMemoryBetRepository();
             IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Member>() { member });
@@ -94,7 +94,7 @@ namespace BetFriend.UnitTests.Bets
         {
             //arrange
             var endDate = DateTime.UtcNow.AddDays(-1);
-            var command = new LaunchBetCommand(Guid.Empty, _creatorId, endDate, tokens, description);
+            var command = new LaunchBetCommand(Guid.Empty, _creatorId, endDate, coins, description);
             var member = new Member(new MemberId(_creatorId), 1);
             IBetRepository betRepository = new InMemoryBetRepository();
             IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Member>() { member });
@@ -113,7 +113,7 @@ namespace BetFriend.UnitTests.Bets
         {
             //arrange
             var endDate = DateTime.UtcNow.AddDays(1);
-            var command = new LaunchBetCommand(_betId, _creatorId, endDate, tokens, description);
+            var command = new LaunchBetCommand(_betId, _creatorId, endDate, coins, description);
             IBetRepository betRepository = new InMemoryBetRepository();
             IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Member>() {  });
             var handler = new LaunchBetCommandHandler(betRepository, memberRepository);

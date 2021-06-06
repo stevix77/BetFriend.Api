@@ -32,9 +32,9 @@
             var bet = member.CreateBet(new BetId(request.BetId),
                                         request.EndDate,
                                         request.Description,
-                                        request.Tokens);
+                                        request.Coins);
 
-            await _betRepository.AddAsync(bet);
+            await _betRepository.SaveAsync(bet);
             return Unit.Value;
         }
 

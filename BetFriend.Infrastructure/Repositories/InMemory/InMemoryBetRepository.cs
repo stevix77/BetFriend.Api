@@ -1,16 +1,28 @@
 ﻿namespace BetFriend.Infrastructure.Repositories.InMemory
 {
+    using BetFriend.Domain;
     using BetFriend.Domain.Bets;
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using static BetFriend.Domain.Bets.Bet;
 
     public sealed class InMemoryBetRepository : IBetRepository
     {
         private BetState _bet;
-        public Task AddAsync(Bet bet)
+        private List<IDomainEvent> _domainEvents;
+
+        public InMemoryBetRepository()
         {
-            _bet = bet?.State ?? throw new ArgumentNullException(nameof(bet));
+            _domainEvents = new List<IDomainEvent>();
+        }
+
+        public IReadOnlyCollection<IDomainEvent> DomainEvents { get => _domainEvents.AsReadOnly(); }
+
+        public Task SaveAsync(Bet bet)
+        {
+            _domainEvents.AddRange(bet.DomainEvents);
+            _bet = bet.State;
             return Task.CompletedTask;
         }
 

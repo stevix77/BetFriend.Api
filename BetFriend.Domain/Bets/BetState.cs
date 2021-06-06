@@ -10,7 +10,7 @@ namespace BetFriend.Domain.Bets
             CreatorId = creatorId;
             EndDate = endDate;
             Description = description;
-            Tokens = tokens;
+            Coins = tokens;
             CreationDate = creationDate;
         }
 
@@ -18,7 +18,7 @@ namespace BetFriend.Domain.Bets
         public Guid CreatorId { get; }
         public DateTime EndDate { get; }
         public string Description { get; }
-        public int Tokens { get; }
+        public int Coins { get; }
         public DateTime CreationDate { get; }
     }
 }

@@ -17,17 +17,17 @@ namespace BetFriend.Domain.Members
 
         public Guid MemberId { get => _memberId.Value; }
 
-        private bool CanBet(int tokens)
+        private bool CanBet(int coins)
         {
-            return _wallet >= tokens;
+            return _wallet >= coins;
         }
 
-        public Bet CreateBet(BetId betId, DateTime endDate, string description, int tokens)
+        public Bet CreateBet(BetId betId, DateTime endDate, string description, int coins)
         {
-            if(!CanBet(tokens))
-                throw new MemberDoesNotEnoughTokensException();
+            if(!CanBet(coins))
+                throw new MemberDoesNotEnoughCoinsException();
 
-            return Bet.Create(betId, endDate, description, tokens, _memberId);
+            return Bet.Create(betId, endDate, description, coins, _memberId);
         }
     }
 }
