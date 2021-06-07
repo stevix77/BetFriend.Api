@@ -17,6 +17,9 @@ using BetFriend.Domain.Members;
 using System.Collections.Generic;
 using System;
 using BetFriend.Infrastructure.Configuration.Behaviors;
+using BetFriend.Application;
+using BetFriend.Domain;
+using BetFriend.Infrastructure.AzureStorage;
 
 namespace BetFriend.WebApi
 {
@@ -51,6 +54,9 @@ namespace BetFriend.WebApi
             services.AddLogging();
             services.AddScoped<IProcessor, Processor>();
             services.AddScoped<IBetRepository, InMemoryBetRepository>();
+            services.AddScoped<IDomainEventsDispatcher, DomainEventsDispatcher>();
+            services.AddScoped<IDomainEventsListener, DomainEventsListener>();
+            services.AddScoped<IStorageDomainEventsRepository, AzureStorageDomainEventsRepository>();
             services.AddScoped<IMemberRepository>(x => new InMemoryMemberRepository(new List<Member>() { new Member(new MemberId(Guid.Parse("01c1da98-b4b7-45dc-8352-c98ece06dab1")), 100) }));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));

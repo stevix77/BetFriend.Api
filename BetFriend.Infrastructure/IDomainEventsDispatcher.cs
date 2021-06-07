@@ -1,11 +1,9 @@
-﻿using BetFriend.Domain;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace BetFriend.Infrastructure
+﻿namespace BetFriend.Infrastructure
 {
+    using System.Threading.Tasks;
+
     public interface IDomainEventsDispatcher
     {
-        Task DispatchEventsAsync(IReadOnlyCollection<IDomainEvent> events);
+        Task DispatchEventsAsync();
     }
 }
