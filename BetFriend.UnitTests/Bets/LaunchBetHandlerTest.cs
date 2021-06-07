@@ -1,6 +1,9 @@
 namespace BetFriend.UnitTests.Bets
 {
+    using BetFriend.Application;
+    using BetFriend.Application.Abstractions;
     using BetFriend.Application.Usecases.LaunchBet;
+    using BetFriend.Domain;
     using BetFriend.Domain.Bets;
     using BetFriend.Domain.Bets.Events;
     using BetFriend.Domain.Exceptions;
@@ -34,14 +37,16 @@ namespace BetFriend.UnitTests.Bets
             var betRepository = new InMemoryBetRepository();
             var member = new Member(new MemberId(_creatorId), 25);
             var memberRepository = new InMemoryMemberRepository(new List<Member>() { member });
-            var handler = new LaunchBetCommandHandler(betRepository, memberRepository);
+            var domainEventsListener = new DomainEventsListener();
+            var handler = new LaunchBetCommandHandler(betRepository, memberRepository, domainEventsListener);
             BetState expectedBet = new(_betId, _creatorId, endDate, description, coins, DateTime.UtcNow);
             //act
             await handler.Handle(command, default);
 
             //assert
             Bet actualBet = await betRepository.GetByIdAsync(_betId);
-            var domainEvent = betRepository.DomainEvents.FirstOrDefault(x => x.GetType() == typeof(BetCreated));
+            IDomainEvent domainEvent = domainEventsListener.GetDomainEvents()
+                                                           .SingleOrDefault(x => x.GetType() == typeof(BetCreated));
             Assert.Equal(expectedBet.BetId, actualBet.State.BetId);
             Assert.Equal(expectedBet.Description, actualBet.State.Description);
             Assert.Equal(expectedBet.EndDate, actualBet.State.EndDate);
@@ -61,7 +66,8 @@ namespace BetFriend.UnitTests.Bets
             var member = new Member(new MemberId(_creatorId), 1);
             IBetRepository betRepository = new InMemoryBetRepository();
             IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Member>() { member });
-            var handler = new LaunchBetCommandHandler(betRepository, memberRepository);
+            var domainEventsListener = new DomainEventsListener();
+            var handler = new LaunchBetCommandHandler(betRepository, memberRepository, domainEventsListener);
 
             //act
             var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
@@ -79,7 +85,8 @@ namespace BetFriend.UnitTests.Bets
             var member = new Member(new MemberId(_creatorId), 1000);
             IBetRepository betRepository = new InMemoryBetRepository();
             IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Member>() { member });
-            var handler = new LaunchBetCommandHandler(betRepository, memberRepository);
+            var domainEventsListener = new DomainEventsListener();
+            var handler = new LaunchBetCommandHandler(betRepository, memberRepository, domainEventsListener);
 
             //act
             var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
@@ -98,7 +105,8 @@ namespace BetFriend.UnitTests.Bets
             var member = new Member(new MemberId(_creatorId), 1);
             IBetRepository betRepository = new InMemoryBetRepository();
             IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Member>() { member });
-            var handler = new LaunchBetCommandHandler(betRepository, memberRepository);
+            var domainEventsListener = new DomainEventsListener();
+            var handler = new LaunchBetCommandHandler(betRepository, memberRepository, domainEventsListener);
 
             //act
             var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
@@ -116,7 +124,8 @@ namespace BetFriend.UnitTests.Bets
             var command = new LaunchBetCommand(_betId, _creatorId, endDate, coins, description);
             IBetRepository betRepository = new InMemoryBetRepository();
             IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Member>() {  });
-            var handler = new LaunchBetCommandHandler(betRepository, memberRepository);
+            var domainEventsListener = new DomainEventsListener();
+            var handler = new LaunchBetCommandHandler(betRepository, memberRepository, domainEventsListener);
 
             //act
             var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
@@ -132,7 +141,8 @@ namespace BetFriend.UnitTests.Bets
             //arrange
             IBetRepository betRepository = new InMemoryBetRepository();
             IMemberRepository memberRepository = new InMemoryMemberRepository();
-            var handler = new LaunchBetCommandHandler(betRepository, memberRepository);
+            var domainEventsListener = new DomainEventsListener();
+            var handler = new LaunchBetCommandHandler(betRepository, memberRepository, domainEventsListener);
 
             //act
             var record = await Record.ExceptionAsync(() => handler.Handle(default, default));
@@ -149,14 +159,17 @@ namespace BetFriend.UnitTests.Bets
             LaunchBetCommandHandler handler;
 
             //act
-            var record1 = Record.Exception(() => handler = new LaunchBetCommandHandler(default, new InMemoryMemberRepository()));
-            var record2 = Record.Exception(() => handler = new LaunchBetCommandHandler(new InMemoryBetRepository(), default));
+            var record1 = Record.Exception(() => handler = new LaunchBetCommandHandler(default, new InMemoryMemberRepository(), new DomainEventsListener()));
+            var record2 = Record.Exception(() => handler = new LaunchBetCommandHandler(new InMemoryBetRepository(), default, new DomainEventsListener()));
+            var record3 = Record.Exception(() => handler = new LaunchBetCommandHandler(new InMemoryBetRepository(), new InMemoryMemberRepository(), default));
 
             //assert
             Assert.IsType<ArgumentNullException>(record1);
             Assert.IsType<ArgumentNullException>(record2);
+            Assert.IsType<ArgumentNullException>(record3);
             Assert.Equal("betRepository cannot be null (Parameter 'betRepository')", record1.Message);
             Assert.Equal("memberRepository cannot be null (Parameter 'memberRepository')", record2.Message);
+            Assert.Equal("domainEventsListener cannot be null (Parameter 'domainEventsListener')", record3.Message);
         }
     }
 }

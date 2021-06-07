@@ -14,19 +14,15 @@
             _domainEventsDispatcher = domainEventsDispatcher ?? throw new System.ArgumentNullException(nameof(domainEventsDispatcher));
         }
 
-        public async Task BeginTransaction()
-        {
-            await _dbContext.Database.BeginTransactionAsync().ConfigureAwait(false);
-        }
-
         public async Task Commit()
         {
-            await _dbContext.Database.CommitTransactionAsync().ConfigureAwait(false);
+            await _domainEventsDispatcher.DispatchEventsAsync();
+            await _dbContext.SaveChangesAsync().ConfigureAwait(false);
         }
 
         public async Task Rollback()
         {
-            await _dbContext.Database.RollbackTransactionAsync();
+            await _dbContext.DisposeAsync();
         }
     }
 }

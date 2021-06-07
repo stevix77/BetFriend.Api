@@ -19,7 +19,6 @@
         {
             try
             {
-                await _unitOfWork.BeginTransaction().ConfigureAwait(false);
                 var result = await next().ConfigureAwait(false);
                 await _unitOfWork.Commit().ConfigureAwait(false);
                 return result;
