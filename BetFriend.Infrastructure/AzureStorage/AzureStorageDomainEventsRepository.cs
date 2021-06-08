@@ -13,6 +13,7 @@
 
         public Task SaveAsync(IDomainEvent item)
         {
+            var r = new TableServiceClient()
             throw new System.NotImplementedException();
         }
     }

@@ -9,17 +9,5 @@ namespace BetFriend.Domain.Exceptions
         public MemberDoesNotEnoughCoinsException()
         {
         }
-
-        public MemberDoesNotEnoughCoinsException(string message) : base(message)
-        {
-        }
-
-        public MemberDoesNotEnoughCoinsException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        protected MemberDoesNotEnoughCoinsException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 }
