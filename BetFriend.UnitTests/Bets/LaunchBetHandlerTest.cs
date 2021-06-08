@@ -55,6 +55,8 @@ namespace BetFriend.UnitTests.Bets
             Assert.True(actualBet.State.CreationDate != DateTime.MinValue);
             Assert.True(expectedBet.EndDate>actualBet.State.CreationDate);
             Assert.NotNull(domainEvent);
+            Assert.Equal(_betId, ((BetCreated)domainEvent).BetId.Value);
+            Assert.Equal(_creatorId, ((BetCreated)domainEvent).CreatorId.Value);
         }
 
         [Fact]
