@@ -13,9 +13,9 @@
         private readonly MemberId _creatorId;
         private readonly string _description;
 
-        private Bet(BetId betId, DateTime endDate, int coins, MemberId creatorId, string description)
+        private Bet(BetId betId, DateTime endDate, int coins, MemberId creatorId, string description, DateTime creationDate)
         {
-            _creationDate = DateTime.UtcNow;
+            _creationDate = creationDate;
             _betId = betId;
             _endDate = new EndDate(endDate, _creationDate);
             _coins = coins;
@@ -52,9 +52,14 @@
         }
 
 
-        public static Bet Create(BetId betId, DateTime endDate, string description, int coins, MemberId creatorId)
+        public static Bet Create(BetId betId, DateTime endDate, string description, int coins, MemberId creatorId, DateTime creationDate)
         {
-            return new Bet(betId, endDate, coins, creatorId, description);
+            return new Bet(betId, endDate, coins, creatorId, description, creationDate);
+        }
+
+        public DateTime GetEndDateToAnswer()
+        {
+            return _creationDate.AddSeconds(_endDate.Value.Subtract(_creationDate).TotalSeconds / 4);
         }
     }
 }
