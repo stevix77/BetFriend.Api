@@ -35,7 +35,8 @@
             var bet = member.CreateBet(new BetId(request.BetId),
                                         request.EndDate,
                                         request.Description,
-                                        request.Coins);
+                                        request.Coins,
+                                        request.CreationDate.GetDateTime());
 
             _domainEventsListener.AddDomainEvents(bet.DomainEvents);
             await _betRepository.SaveAsync(bet);

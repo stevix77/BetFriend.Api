@@ -22,12 +22,12 @@ namespace BetFriend.Domain.Members
             return _wallet >= coins;
         }
 
-        public Bet CreateBet(BetId betId, DateTime endDate, string description, int coins)
+        public Bet CreateBet(BetId betId, DateTime endDate, string description, int coins, DateTime creationDate)
         {
             if(!CanBet(coins))
                 throw new MemberDoesNotEnoughCoinsException();
 
-            return Bet.Create(betId, endDate, description, coins, _memberId);
+            return Bet.Create(betId, endDate, description, coins, _memberId, creationDate);
         }
     }
 }
