@@ -12,9 +12,10 @@
         private BetState _bet;
         private List<IDomainEvent> _domainEvents;
 
-        public InMemoryBetRepository()
+        public InMemoryBetRepository(BetState betState = null)
         {
             _domainEvents = new List<IDomainEvent>();
+            _bet = betState;
         }
 
         public IReadOnlyCollection<IDomainEvent> DomainEvents { get => _domainEvents.AsReadOnly(); }

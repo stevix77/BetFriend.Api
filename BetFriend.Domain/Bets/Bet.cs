@@ -3,6 +3,8 @@
     using BetFriend.Domain.Bets.Events;
     using BetFriend.Domain.Members;
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class Bet : Entity, IAggregateRoot
     {
@@ -12,6 +14,7 @@
         private readonly int _coins;
         private readonly MemberId _creatorId;
         private readonly string _description;
+        private readonly Dictionary<MemberId, Answer> _answers;
 
         private Bet(BetId betId, DateTime endDate, int coins, MemberId creatorId, string description, DateTime creationDate)
         {
@@ -21,6 +24,7 @@
             _coins = coins;
             _creatorId = creatorId;
             _description = description;
+            _answers = new Dictionary<MemberId, Answer>();
 
             AddDomainEvent(new BetCreated(betId, _creatorId));
 
@@ -34,6 +38,19 @@
             _creatorId = new MemberId(state.CreatorId);
             _description = state.Description;
             _creationDate = state.CreationDate;
+            _answers = new Dictionary<MemberId, Answer>(
+                        state.Answers.Select(x => 
+                            new KeyValuePair<MemberId, Answer>(
+                                new MemberId(x.MemberId), 
+                                new Answer(x.IsAccepted, x.DateAnswer)
+                            )
+                        ));
+        }
+
+        internal void AddAnswer(MemberId memberId, bool isAccepted, IDateTimeProvider dateAnswer)
+        {
+            _answers.Add(memberId, new Answer(isAccepted, dateAnswer.GetDateTime()));
+            AddDomainEvent(new BetAnswered(_betId.Value, memberId.Value, isAccepted));
         }
 
         public static Bet FromState(BetState state)
@@ -48,7 +65,9 @@
                         _endDate.Value,
                         _description,
                         _coins,
-                        _creationDate);
+                        _creationDate,
+                        _answers.Select(x => new AnswerState(x.Key.Value, x.Value.Accepted, x.Value.DateAnswer))
+                                .ToList().AsReadOnly());
         }
 
 
@@ -60,6 +79,11 @@
         public DateTime GetEndDateToAnswer()
         {
             return _creationDate.AddSeconds(_endDate.Value.Subtract(_creationDate).TotalSeconds / 4);
+        }
+
+        public Answer GetAnswerForMember(MemberId memberId)
+        {
+            return _answers.FirstOrDefault(x => x.Key.Value == memberId.Value).Value;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -30,5 +31,8 @@ namespace BetFriend.Infrastructure.DataAccess.Entities
         [Required]
         [Column("creation_date")]
         public DateTime CreationDate { get; set; }
+
+        
+        public virtual ICollection<AnswerEntity> Answers { get; set; }
     }
 }

@@ -29,5 +29,17 @@ namespace BetFriend.Domain.Members
 
             return Bet.Create(betId, endDate, description, coins, _memberId, creationDate);
         }
+
+        public void Answer(Bet bet, bool isAccepted, IDateTimeProvider dateAnswer)
+        {
+            if (!CanAnswer(dateAnswer.GetDateTime(), bet.GetEndDateToAnswer()))
+                throw new AnswerTooLateException($"The date limit to answer was at : {bet.GetEndDateToAnswer().ToLongDateString()}");
+            bet.AddAnswer(_memberId, isAccepted, dateAnswer);
+        }
+
+        private static bool CanAnswer(DateTime dateAnswer, DateTime endDateToAnswer)
+        {
+            return dateAnswer.CompareTo(endDateToAnswer) < 0;
+        }
     }
 }

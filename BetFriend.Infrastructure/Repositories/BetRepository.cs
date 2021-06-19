@@ -5,6 +5,7 @@
     using BetFriend.Infrastructure.DataAccess.Entities;
     using Microsoft.EntityFrameworkCore;
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
 
     public class BetRepository : IBetRepository
@@ -40,7 +41,12 @@
                                                     entity.EndDate, 
                                                     entity.Description, 
                                                     entity.Coins, 
-                                                    entity.CreationDate));
+                                                    entity.CreationDate,
+                                                    entity.Answers.Select(x => 
+                                                        new AnswerState(x.Member.MemberId,
+                                                                        x.IsAccepted,
+                                                                        x.DateAnswer))
+                                                                   .ToList()));
         }
     }
 }
