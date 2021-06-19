@@ -40,7 +40,7 @@ namespace BetFriend.UnitTests.Bets
             var memberRepository = new InMemoryMemberRepository(new List<Member>() { member });
             var domainEventsListener = new DomainEventsListener();
             var handler = new LaunchBetCommandHandler(betRepository, memberRepository, domainEventsListener);
-            BetState expectedBet = new(_betId, _creatorId, endDate, description, coins, dtNow.GetDateTime());
+            BetState expectedBet = new(_betId, _creatorId, endDate, description, coins, dtNow.GetDateTime(), new List<AnswerState>());
             //act
             await handler.Handle(command, default);
 
