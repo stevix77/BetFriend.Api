@@ -1,5 +1,6 @@
 ﻿namespace BetFriend.Infrastructure.Repositories.InMemory
 {
+    using BetFriend.Application.Abstractions;
     using BetFriend.Domain;
     using BetFriend.Domain.Bets;
     using System;
@@ -9,20 +10,18 @@
 
     public sealed class InMemoryBetRepository : IBetRepository
     {
+        private readonly IDomainEventsListener _domainEventsListener;
         private BetState _bet;
-        private List<IDomainEvent> _domainEvents;
 
-        public InMemoryBetRepository(BetState betState = null)
+        public InMemoryBetRepository(IDomainEventsListener domainEventsListener = null, BetState betState = null)
         {
-            _domainEvents = new List<IDomainEvent>();
+            _domainEventsListener = domainEventsListener;
             _bet = betState;
         }
 
-        public IReadOnlyCollection<IDomainEvent> DomainEvents { get => _domainEvents.AsReadOnly(); }
-
         public Task SaveAsync(Bet bet)
         {
-            _domainEvents.AddRange(bet.DomainEvents);
+            _domainEventsListener.AddDomainEvents(bet.DomainEvents);
             _bet = bet.State;
             return Task.CompletedTask;
         }
