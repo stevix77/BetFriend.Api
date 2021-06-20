@@ -135,5 +135,29 @@ namespace BetFriend.UnitTests.Bets
             Assert.Equal($"The date limit to answer was at : {Bet.FromState(betState).GetEndDateToAnswer().ToLongDateString()}", 
                         record.Message);
         }
+
+        [Fact]
+        public async Task HandleShouldThrowMemberNotEnoughCoinsExceptionIfWalletContainsLessCoinsThatBet()
+        {
+            //arrange
+            var memberId = new MemberId(Guid.NewGuid());
+            var betId = new BetId(Guid.NewGuid());
+            var dateTimeAnswerBet = new DateTime(2021, 3, 1);
+            var member = new Member(memberId, 200);
+            var memberRepository = new InMemoryMemberRepository(new() { member });
+            var betState = new BetState(betId.Value, memberId.Value, new DateTime(2022, 3, 3), "descr", 300, new DateTime(2021, 2, 3),
+                                new ReadOnlyCollection<AnswerState>(new List<AnswerState>()));
+            var betRepository = new InMemoryBetRepository(betState);
+            var command = new AnswerBetCommand(memberId.Value, betId.Value, true, new FakeDateTimeProvider(dateTimeAnswerBet));
+            var handler = new AnswerBetCommandHandler(memberRepository, betRepository, new DomainEventsListener());
+
+            //act
+            var record = await Record.ExceptionAsync(() => handler.Handle(command));
+
+            //assert
+            Assert.IsType<MemberHasNotEnoughCoinsException>(record);
+            Assert.Equal($"Member has not enough coins to bet. Wallet: {member.Wallet}, Required: {betState.Coins}",
+                        record.Message);
+        }
     }
 }

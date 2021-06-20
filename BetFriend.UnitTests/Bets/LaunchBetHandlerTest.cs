@@ -62,7 +62,7 @@ namespace BetFriend.UnitTests.Bets
         }
 
         [Fact]
-        public async Task ShouldThrowMemberDoesNotEnoughCoinsExceptionIfWalletContainsLessThanTokens()
+        public async Task ShouldThrowMemberHasNotEnoughCoinsExceptionIfWalletContainsLessThanTokens()
         {
             //arrange
             var dtNow = new FakeDateTimeProvider(new DateTime(2021, 5, 6));
@@ -78,7 +78,7 @@ namespace BetFriend.UnitTests.Bets
             var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
 
             //assert
-            Assert.IsType<MemberDoesNotEnoughCoinsException>(record);
+            Assert.IsType<MemberHasNotEnoughCoinsException>(record);
         }
 
         [Fact]
