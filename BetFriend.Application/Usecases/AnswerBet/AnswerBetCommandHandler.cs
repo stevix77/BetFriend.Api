@@ -11,13 +11,11 @@ namespace BetFriend.Application.Usecases.AnswerBet
     {
         private readonly IMemberRepository _memberRepository;
         private readonly IBetRepository _betRepository;
-        private readonly IDomainEventsListener _domainEventsListener;
 
-        public AnswerBetCommandHandler(IMemberRepository memberRepository, IBetRepository betRepository, IDomainEventsListener domainEventsListener)
+        public AnswerBetCommandHandler(IMemberRepository memberRepository, IBetRepository betRepository)
         {
             _memberRepository = memberRepository;
             _betRepository = betRepository;
-            _domainEventsListener = domainEventsListener;
         }
 
         public async Task<Unit> Handle(AnswerBetCommand request)
@@ -30,7 +28,6 @@ namespace BetFriend.Application.Usecases.AnswerBet
                 throw new BetUnknownException($"Bet {request.BetId} is unknown");
 
             member.Answer(bet, request.IsAccepted, request.DateAnswer);
-            _domainEventsListener.AddDomainEvents(bet.DomainEvents);
             await _betRepository.SaveAsync(bet).ConfigureAwait(false);
 
             return Unit.Value;

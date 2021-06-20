@@ -16,13 +16,11 @@
     {
         private readonly IBetRepository _betRepository;
         private readonly IMemberRepository _memberRepository;
-        private readonly IDomainEventsListener _domainEventsListener;
 
-        public LaunchBetCommandHandler(IBetRepository betRepository, IMemberRepository memberRepository, IDomainEventsListener domainEventsListener)
+        public LaunchBetCommandHandler(IBetRepository betRepository, IMemberRepository memberRepository)
         {
             _betRepository = betRepository ?? throw new ArgumentNullException(nameof(betRepository), $"{nameof(betRepository)} cannot be null");
             _memberRepository = memberRepository ?? throw new ArgumentNullException(nameof(memberRepository), $"{nameof(memberRepository)} cannot be null");
-            _domainEventsListener = domainEventsListener ?? throw new ArgumentNullException(nameof(domainEventsListener), $"{nameof(domainEventsListener)} cannot be null");
         }
 
         public async Task<Unit> Handle(LaunchBetCommand request, CancellationToken cancellationToken)
@@ -38,7 +36,6 @@
                                         request.Coins,
                                         request.CreationDate.GetDateTime());
 
-            _domainEventsListener.AddDomainEvents(bet.DomainEvents);
             await _betRepository.SaveAsync(bet);
             
             return Unit.Value;

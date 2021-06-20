@@ -35,12 +35,13 @@ namespace BetFriend.UnitTests.Bets
             IDateTimeProvider dtNow = new FakeDateTimeProvider(new DateTime(2021, 5, 6, 0, 0, 0));
             var endDate = new DateTime(2021, 5, 7, 0, 0, 0);
             var command = new LaunchBetCommand(_betId, _creatorId, endDate, coins, description, dtNow);
-            var betRepository = new InMemoryBetRepository();
+            var domainEventsListener = new DomainEventsListener();
+            var betRepository = new InMemoryBetRepository(domainEventsListener);
             var member = new Member(new MemberId(_creatorId), 25);
             var memberRepository = new InMemoryMemberRepository(new List<Member>() { member });
-            var domainEventsListener = new DomainEventsListener();
-            var handler = new LaunchBetCommandHandler(betRepository, memberRepository, domainEventsListener);
+            var handler = new LaunchBetCommandHandler(betRepository, memberRepository);
             BetState expectedBet = new(_betId, _creatorId, endDate, description, coins, dtNow.GetDateTime(), new List<AnswerState>());
+
             //act
             await handler.Handle(command, default);
 
@@ -71,8 +72,7 @@ namespace BetFriend.UnitTests.Bets
             var member = new Member(new MemberId(_creatorId), 1);
             IBetRepository betRepository = new InMemoryBetRepository();
             IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Member>() { member });
-            var domainEventsListener = new DomainEventsListener();
-            var handler = new LaunchBetCommandHandler(betRepository, memberRepository, domainEventsListener);
+            var handler = new LaunchBetCommandHandler(betRepository, memberRepository);
 
             //act
             var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
@@ -91,8 +91,7 @@ namespace BetFriend.UnitTests.Bets
             var member = new Member(new MemberId(_creatorId), 1000);
             IBetRepository betRepository = new InMemoryBetRepository();
             IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Member>() { member });
-            var domainEventsListener = new DomainEventsListener();
-            var handler = new LaunchBetCommandHandler(betRepository, memberRepository, domainEventsListener);
+            var handler = new LaunchBetCommandHandler(betRepository, memberRepository);
 
             //act
             var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
@@ -112,8 +111,7 @@ namespace BetFriend.UnitTests.Bets
             var member = new Member(new MemberId(_creatorId), 1);
             IBetRepository betRepository = new InMemoryBetRepository();
             IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Member>() { member });
-            var domainEventsListener = new DomainEventsListener();
-            var handler = new LaunchBetCommandHandler(betRepository, memberRepository, domainEventsListener);
+            var handler = new LaunchBetCommandHandler(betRepository, memberRepository);
 
             //act
             var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
@@ -132,8 +130,7 @@ namespace BetFriend.UnitTests.Bets
             var command = new LaunchBetCommand(_betId, _creatorId, endDate, coins, description, dtNow);
             IBetRepository betRepository = new InMemoryBetRepository();
             IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Member>() { });
-            var domainEventsListener = new DomainEventsListener();
-            var handler = new LaunchBetCommandHandler(betRepository, memberRepository, domainEventsListener);
+            var handler = new LaunchBetCommandHandler(betRepository, memberRepository);
 
             //act
             var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
@@ -149,8 +146,7 @@ namespace BetFriend.UnitTests.Bets
             //arrange
             IBetRepository betRepository = new InMemoryBetRepository();
             IMemberRepository memberRepository = new InMemoryMemberRepository();
-            var domainEventsListener = new DomainEventsListener();
-            var handler = new LaunchBetCommandHandler(betRepository, memberRepository, domainEventsListener);
+            var handler = new LaunchBetCommandHandler(betRepository, memberRepository);
 
             //act
             var record = await Record.ExceptionAsync(() => handler.Handle(default, default));
@@ -167,17 +163,14 @@ namespace BetFriend.UnitTests.Bets
             LaunchBetCommandHandler handler;
 
             //act
-            var record1 = Record.Exception(() => handler = new LaunchBetCommandHandler(default, new InMemoryMemberRepository(), new DomainEventsListener()));
-            var record2 = Record.Exception(() => handler = new LaunchBetCommandHandler(new InMemoryBetRepository(), default, new DomainEventsListener()));
-            var record3 = Record.Exception(() => handler = new LaunchBetCommandHandler(new InMemoryBetRepository(), new InMemoryMemberRepository(), default));
+            var record1 = Record.Exception(() => handler = new LaunchBetCommandHandler(default, new InMemoryMemberRepository()));
+            var record2 = Record.Exception(() => handler = new LaunchBetCommandHandler(new InMemoryBetRepository(), default));
 
             //assert
             Assert.IsType<ArgumentNullException>(record1);
             Assert.IsType<ArgumentNullException>(record2);
-            Assert.IsType<ArgumentNullException>(record3);
             Assert.Equal("betRepository cannot be null (Parameter 'betRepository')", record1.Message);
             Assert.Equal("memberRepository cannot be null (Parameter 'memberRepository')", record2.Message);
-            Assert.Equal("domainEventsListener cannot be null (Parameter 'domainEventsListener')", record3.Message);
         }
     }
 }
