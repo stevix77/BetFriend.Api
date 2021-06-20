@@ -47,6 +47,8 @@
                         ));
         }
 
+        internal int GetCoins() => _coins;
+
         internal void AddAnswer(MemberId memberId, bool isAccepted, IDateTimeProvider dateAnswer)
         {
             _answers.Add(memberId, new Answer(isAccepted, dateAnswer.GetDateTime()));

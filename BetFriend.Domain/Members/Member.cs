@@ -16,6 +16,7 @@ namespace BetFriend.Domain.Members
         }
 
         public Guid MemberId { get => _memberId.Value; }
+        public int Wallet { get => _wallet; }
 
         private bool CanBet(int coins)
         {
@@ -25,21 +26,25 @@ namespace BetFriend.Domain.Members
         public Bet CreateBet(BetId betId, DateTime endDate, string description, int coins, DateTime creationDate)
         {
             if(!CanBet(coins))
-                throw new MemberDoesNotEnoughCoinsException();
+                throw new MemberHasNotEnoughCoinsException(_wallet, coins);
 
             return Bet.Create(betId, endDate, description, coins, _memberId, creationDate);
         }
 
         public void Answer(Bet bet, bool isAccepted, IDateTimeProvider dateAnswer)
         {
-            if (!CanAnswer(dateAnswer.GetDateTime(), bet.GetEndDateToAnswer()))
-                throw new AnswerTooLateException($"The date limit to answer was at : {bet.GetEndDateToAnswer().ToLongDateString()}");
+            CheckAnswer(bet, dateAnswer.GetDateTime());
+
             bet.AddAnswer(_memberId, isAccepted, dateAnswer);
         }
 
-        private static bool CanAnswer(DateTime dateAnswer, DateTime endDateToAnswer)
+        private void CheckAnswer(Bet bet, DateTime dateAnswer)
         {
-            return dateAnswer.CompareTo(endDateToAnswer) < 0;
+            if (_wallet < bet.GetCoins())
+                throw new MemberHasNotEnoughCoinsException(_wallet, bet.GetCoins());
+
+            if(dateAnswer.CompareTo(bet.GetEndDateToAnswer()) > 0)
+                throw new AnswerTooLateException($"The date limit to answer was at : {bet.GetEndDateToAnswer().ToLongDateString()}");
         }
     }
 }
