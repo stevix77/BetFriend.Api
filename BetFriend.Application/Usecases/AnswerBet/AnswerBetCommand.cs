@@ -1,9 +1,10 @@
 ﻿namespace BetFriend.Application.Usecases.AnswerBet
 {
+    using BetFriend.Application.Abstractions.Command;
     using BetFriend.Domain;
     using System;
 
-    public class AnswerBetCommand
+    public class AnswerBetCommand : ICommand
     {
         public AnswerBetCommand(Guid memberId, Guid betId, bool answer, IDateTimeProvider dateAnswer)
         {
