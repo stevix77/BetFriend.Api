@@ -1,13 +1,15 @@
 ﻿using BetFriend.Application.Abstractions;
+using BetFriend.Application.Abstractions.Command;
 using BetFriend.Domain.Bets;
 using BetFriend.Domain.Exceptions;
 using BetFriend.Domain.Members;
 using MediatR;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BetFriend.Application.Usecases.AnswerBet
 {
-    public sealed class AnswerBetCommandHandler
+    public sealed class AnswerBetCommandHandler : ICommandHandler<AnswerBetCommand>
     {
         private readonly IMemberRepository _memberRepository;
         private readonly IBetRepository _betRepository;
@@ -18,7 +20,7 @@ namespace BetFriend.Application.Usecases.AnswerBet
             _betRepository = betRepository;
         }
 
-        public async Task<Unit> Handle(AnswerBetCommand request)
+        public async Task<Unit> Handle(AnswerBetCommand request, CancellationToken cancellationToken)
         {
             ValidateRequest(request);
 

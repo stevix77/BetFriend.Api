@@ -29,7 +29,7 @@ namespace BetFriend.UnitTests.Bets
             var handler = new AnswerBetCommandHandler(memberRepository, new InMemoryBetRepository());
 
             //act
-            var record = await Record.ExceptionAsync(() => handler.Handle(command));
+            var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
 
             //assert 
             Assert.IsType<MemberUnknownException>(record);
@@ -56,7 +56,7 @@ namespace BetFriend.UnitTests.Bets
             var handler = new AnswerBetCommandHandler(memberRepository, betRepository);
 
             //act
-            var record = await Record.ExceptionAsync(() => handler.Handle(command));
+            var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
 
             //assert 
             Assert.IsType<BetUnknownException>(record);
@@ -72,7 +72,7 @@ namespace BetFriend.UnitTests.Bets
             var handler = new AnswerBetCommandHandler(memberRepository, betRepository);
 
             //act
-            var record = await Record.ExceptionAsync(() => handler.Handle(null));
+            var record = await Record.ExceptionAsync(() => handler.Handle(null, default));
 
             //assert
             Assert.IsType<ArgumentNullException>(record);
@@ -96,7 +96,7 @@ namespace BetFriend.UnitTests.Bets
             var handler = new AnswerBetCommandHandler(memberRepository, betRepository);
 
             //act
-            await handler.Handle(command);
+            await handler.Handle(command, default);
 
             //assert
             var actualBet = await betRepository.GetByIdAsync(betId.Value);
@@ -127,7 +127,7 @@ namespace BetFriend.UnitTests.Bets
             var handler = new AnswerBetCommandHandler(memberRepository, betRepository);
 
             //act
-            var record = await Record.ExceptionAsync(() => handler.Handle(command));
+            var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
 
             //assert
             Assert.IsType<AnswerTooLateException>(record);
@@ -151,7 +151,7 @@ namespace BetFriend.UnitTests.Bets
             var handler = new AnswerBetCommandHandler(memberRepository, betRepository);
 
             //act
-            var record = await Record.ExceptionAsync(() => handler.Handle(command));
+            var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
 
             //assert
             Assert.IsType<MemberHasNotEnoughCoinsException>(record);
