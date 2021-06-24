@@ -17,7 +17,7 @@ namespace BetFriend.Application.Usecases.CheckBets
 
         public CheckBetsQueryHandler(IBetQueryRepository betRepository)
         {
-            _betRepository = betRepository;
+            _betRepository = betRepository ?? throw new ArgumentNullException(nameof(betRepository));
         }
 
         public async Task<IReadOnlyCollection<BetViewModel>> Handle(CheckBetsQuery request, CancellationToken cancellationToken)

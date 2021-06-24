@@ -125,5 +125,15 @@
             Assert.IsType<ArgumentNullException>(record);
             Assert.Equal("request cannot be null (Parameter 'request')", record.Message);
         }
+
+        [Fact]
+        public void CtorShouldThrowArgumentNullExceptionIfInputNull()
+        {
+            //act
+            var record = Record.Exception(() => new CheckBetsQueryHandler(default));
+
+            //assert
+            Assert.IsType<ArgumentNullException>(record);
+        }
     }
 }
