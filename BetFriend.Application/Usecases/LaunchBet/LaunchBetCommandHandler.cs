@@ -34,7 +34,7 @@
                                         request.EndDate,
                                         request.Description,
                                         request.Coins,
-                                        request.CreationDate.GetDateTime());
+                                        request.CreationDate.Now);
 
             await _betRepository.SaveAsync(bet);
             

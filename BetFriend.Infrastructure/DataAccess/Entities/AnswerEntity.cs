@@ -8,21 +8,17 @@ namespace BetFriend.Infrastructure.DataAccess.Entities
     public partial class AnswerEntity
     {
         [Column("bet_id")]
-        [InverseProperty(nameof(BetEntity.Id))]
-        [ForeignKey(nameof(BetEntity.Id))]
+        [ForeignKey(nameof(BetEntity.BetId))]
         [Key]
-        public int BetId { get; set; }
+        public Guid BetId { get; set; }
 
         [Column("member_id")]
-        [InverseProperty(nameof(MemberEntity.Id))]
-        [ForeignKey(nameof(MemberEntity.Id))]
+        [ForeignKey(nameof(MemberEntity.MemberId))]
         [Key]
-        public int MemberId { get; set; }
+        public Guid MemberId { get; set; }
 
-        [InverseProperty(nameof(MemberEntity.Id))]
         public MemberEntity Member { get; set; }
 
-        [InverseProperty(nameof(BetEntity.Id))]
         public BetEntity Bet { get; set; }
 
         [Column("is_accepted")]

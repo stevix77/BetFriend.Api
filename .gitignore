@@ -43,3 +43,8 @@
 /BetFriend.WebApi/obj/Debug/net5.0
 /BetFriend.WebApi/bin/Debug/net5.0
 /BetFriend.WebApi/obj
+/BetFriend.Database/bin/Debug
+/BetFriend.Database/obj/Debug
+/BetFriend.Database/BetFriend.Database.sqlproj.user
+/BetFriend.Database/BetFriend.Database.dbmdl
+/BetFriend.Database/BetFriend.Database.jfm

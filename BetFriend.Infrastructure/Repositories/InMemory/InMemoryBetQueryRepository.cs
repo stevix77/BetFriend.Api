@@ -7,11 +7,11 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class BetQueryRepository : IBetQueryRepository
+    public class InMemoryBetQueryRepository : IBetQueryRepository
     {
         private readonly IList<BetViewModel> _bets;
 
-        public BetQueryRepository(List<BetViewModel> bets)
+        public InMemoryBetQueryRepository(List<BetViewModel> bets)
         {
             _bets = bets;
         }

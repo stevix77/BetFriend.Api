@@ -18,7 +18,7 @@
             //arrange
             var memberId = Guid.NewGuid();
             var query = new CheckBetsQuery(memberId);
-            var handler = new CheckBetsQueryHandler(new BetQueryRepository(new List<BetViewModel>()));
+            var handler = new CheckBetsQueryHandler(new InMemoryBetQueryRepository(new List<BetViewModel>()));
 
             //act
             var result = await handler.Handle(query, default);
@@ -54,7 +54,7 @@
                     Creator = memberId
                 }
             };
-            IBetQueryRepository betRepository = new BetQueryRepository(new(bets));
+            IBetQueryRepository betRepository = new InMemoryBetQueryRepository(new(bets));
             var handler = new CheckBetsQueryHandler(betRepository);
 
             //act
@@ -101,7 +101,7 @@
                     }
                 }
             };
-            var betRepository = new BetQueryRepository(new(bets));
+            var betRepository = new InMemoryBetQueryRepository(new(bets));
             var handler = new CheckBetsQueryHandler(betRepository);
 
             //act
@@ -115,7 +115,7 @@
         public async Task ShouldThrowArgumentNullExceptionIfRequestNull()
         {
             //arrange
-            var betRepository = new BetQueryRepository(default);
+            var betRepository = new InMemoryBetQueryRepository(default);
             var handler = new CheckBetsQueryHandler(betRepository);
 
             //act

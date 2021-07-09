@@ -5,13 +5,10 @@
 
     public class DateTimeProvider : IDateTimeProvider
     {
-        private readonly DateTime _dateTime;
-
         public DateTimeProvider()
         {
-            _dateTime = DateTime.UtcNow;
         }
 
-        public DateTime GetDateTime() => _dateTime;
+        public DateTime Now { get => DateTime.UtcNow; }
     }
 }

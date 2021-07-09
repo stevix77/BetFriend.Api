@@ -10,9 +10,9 @@
 
         public FakeDateTimeProvider(DateTime dateTime)
         {
-            this._dateTime = dateTime;
+            _dateTime = dateTime;
         }
 
-        public DateTime GetDateTime() => _dateTime;
+        public DateTime Now { get => _dateTime; }
     }
 }
