@@ -51,7 +51,7 @@
 
         internal void AddAnswer(MemberId memberId, bool isAccepted, IDateTimeProvider dateAnswer)
         {
-            _answers.Add(memberId, new Answer(isAccepted, dateAnswer.GetDateTime()));
+            _answers.Add(memberId, new Answer(isAccepted, dateAnswer.Now));
             AddDomainEvent(new BetAnswered(_betId.Value, memberId.Value, isAccepted));
         }
 

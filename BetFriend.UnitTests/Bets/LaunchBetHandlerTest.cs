@@ -40,7 +40,7 @@ namespace BetFriend.UnitTests.Bets
             var member = new Member(new MemberId(_creatorId), 25);
             var memberRepository = new InMemoryMemberRepository(new List<Member>() { member });
             var handler = new LaunchBetCommandHandler(betRepository, memberRepository);
-            BetState expectedBet = new(_betId, _creatorId, endDate, description, coins, dtNow.GetDateTime(), new List<AnswerState>());
+            BetState expectedBet = new(_betId, _creatorId, endDate, description, coins, dtNow.Now, new List<AnswerState>());
 
             //act
             await handler.Handle(command, default);
@@ -86,7 +86,7 @@ namespace BetFriend.UnitTests.Bets
         {
             //arrange
             var dtNow = new FakeDateTimeProvider(new DateTime(2021, 5, 6));
-            var endDate = dtNow.GetDateTime().AddDays(-1);
+            var endDate = dtNow.Now.AddDays(-1);
             var command = new LaunchBetCommand(_betId, _creatorId, endDate, coins, description, dtNow);
             var member = new Member(new MemberId(_creatorId), 1000);
             IBetRepository betRepository = new InMemoryBetRepository();

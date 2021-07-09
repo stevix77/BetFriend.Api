@@ -11,6 +11,17 @@ namespace BetFriend.Infrastructure.DataAccess
             
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<AnswerEntity>()
+                .HasKey(x => new
+                {
+                    x.BetId,
+                    x.MemberId,
+                    x.IsAccepted
+                });
+        }
+
         public DbSet<BetEntity> Bets { get; set; }
         public DbSet<MemberEntity> Members { get; set; }
 

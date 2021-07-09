@@ -33,7 +33,7 @@ namespace BetFriend.Domain.Members
 
         public void Answer(Bet bet, bool isAccepted, IDateTimeProvider dateAnswer)
         {
-            CheckAnswer(bet, dateAnswer.GetDateTime());
+            CheckAnswer(bet, dateAnswer.Now);
 
             bet.AddAnswer(_memberId, isAccepted, dateAnswer);
         }

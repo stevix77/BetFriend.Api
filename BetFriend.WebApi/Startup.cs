@@ -20,6 +20,10 @@ using BetFriend.Infrastructure.Configuration.Behaviors;
 using BetFriend.Application;
 using BetFriend.Domain;
 using BetFriend.Infrastructure.AzureStorage;
+using BetFriend.Infrastructure.Repositories;
+using BetFriend.Infrastructure.DateTimeProvider;
+using BetFriend.Infrastructure.Configuration;
+using BetFriend.Application.Abstractions.Repository;
 
 namespace BetFriend.WebApi
 {
@@ -52,8 +56,11 @@ namespace BetFriend.WebApi
 
             services.AddDbContext<DbContext, BetFriendContext>(options => options.UseSqlServer(Configuration.GetConnectionString("BetFriendDbContext")));
             services.AddLogging();
+            services.AddSingleton<AzureStorageConfiguration>();
+            services.AddTransient<IDateTimeProvider, DateTimeProvider>();
             services.AddScoped<IProcessor, Processor>();
-            services.AddScoped<IBetRepository, InMemoryBetRepository>();
+            services.AddScoped<IBetRepository, BetRepository>();
+            services.AddScoped<IBetQueryRepository>(x => new InMemoryBetQueryRepository(null));
             services.AddScoped<IDomainEventsDispatcher, DomainEventsDispatcher>();
             services.AddScoped<IDomainEventsListener, DomainEventsListener>();
             services.AddScoped<IStorageDomainEventsRepository, AzureStorageDomainEventsRepository>();

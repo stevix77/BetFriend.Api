@@ -4,6 +4,6 @@ namespace BetFriend.Domain
 {
     public interface IDateTimeProvider
     {
-        DateTime GetDateTime();
+        DateTime Now { get; }
     }
 }
