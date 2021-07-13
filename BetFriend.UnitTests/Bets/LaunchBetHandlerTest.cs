@@ -37,7 +37,7 @@ namespace BetFriend.UnitTests.Bets
             var command = new LaunchBetCommand(_betId, _creatorId, endDate, coins, description, dtNow);
             var domainEventsListener = new DomainEventsListener();
             var betRepository = new InMemoryBetRepository(domainEventsListener);
-            var member = new Member(new MemberId(_creatorId), 25);
+            var member = new Member(new MemberId(_creatorId), "name", 25);
             var memberRepository = new InMemoryMemberRepository(new List<Member>() { member });
             var handler = new LaunchBetCommandHandler(betRepository, memberRepository);
             BetState expectedBet = new(_betId, _creatorId, endDate, description, coins, dtNow.Now, new List<AnswerState>());
@@ -69,7 +69,7 @@ namespace BetFriend.UnitTests.Bets
             var dtNow = new FakeDateTimeProvider(new DateTime(2021, 5, 6));
             var endDate = DateTime.UtcNow.AddDays(5);
             var command = new LaunchBetCommand(_betId, _creatorId, endDate, coins, description, dtNow);
-            var member = new Member(new MemberId(_creatorId), 1);
+            var member = new Member(new MemberId(_creatorId), "name", 1);
             IBetRepository betRepository = new InMemoryBetRepository();
             IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Member>() { member });
             var handler = new LaunchBetCommandHandler(betRepository, memberRepository);
@@ -88,7 +88,7 @@ namespace BetFriend.UnitTests.Bets
             var dtNow = new FakeDateTimeProvider(new DateTime(2021, 5, 6));
             var endDate = dtNow.Now.AddDays(-1);
             var command = new LaunchBetCommand(_betId, _creatorId, endDate, coins, description, dtNow);
-            var member = new Member(new MemberId(_creatorId), 1000);
+            var member = new Member(new MemberId(_creatorId), "name", 1000);
             IBetRepository betRepository = new InMemoryBetRepository();
             IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Member>() { member });
             var handler = new LaunchBetCommandHandler(betRepository, memberRepository);
@@ -108,7 +108,7 @@ namespace BetFriend.UnitTests.Bets
             var dtNow = new FakeDateTimeProvider(new DateTime(2021, 5, 6));
             var endDate = DateTime.UtcNow.AddDays(-1);
             var command = new LaunchBetCommand(Guid.Empty, _creatorId, endDate, coins, description, dtNow);
-            var member = new Member(new MemberId(_creatorId), 1);
+            var member = new Member(new MemberId(_creatorId), "name", 1);
             IBetRepository betRepository = new InMemoryBetRepository();
             IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Member>() { member });
             var handler = new LaunchBetCommandHandler(betRepository, memberRepository);

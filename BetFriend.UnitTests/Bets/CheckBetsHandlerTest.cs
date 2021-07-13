@@ -39,19 +39,19 @@
                 {
                     Id = Guid.NewGuid(),
                     Description = "Desc 1",
-                    Creator = memberId
+                    CreatorId = memberId
                 },
                 new BetViewModel
                 {
                     Id = Guid.NewGuid(),
                     Description = "Desc 2",
-                    Creator = Guid.NewGuid()
+                    CreatorId = Guid.NewGuid()
                 },
                 new BetViewModel
                 {
                     Id = Guid.NewGuid(),
                     Description = "Desc 3",
-                    Creator = memberId
+                    CreatorId = memberId
                 }
             };
             IBetQueryRepository betRepository = new InMemoryBetQueryRepository(new(bets));
@@ -76,7 +76,7 @@
                 {
                     Id = Guid.NewGuid(),
                     Description = "Desc 1",
-                    Creator = Guid.NewGuid(),
+                    CreatorId = Guid.NewGuid(),
                     Participants = new List<MemberViewModel>
                     {
                         new MemberViewModel
@@ -90,7 +90,7 @@
                 {
                     Id = Guid.NewGuid(),
                     Description = "Desc 2",
-                    Creator = Guid.NewGuid(),
+                    CreatorId = Guid.NewGuid(),
                     Participants = new List<MemberViewModel>
                     {
                         new MemberViewModel

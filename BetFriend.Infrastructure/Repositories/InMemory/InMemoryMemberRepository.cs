@@ -12,7 +12,7 @@
 
         public InMemoryMemberRepository(List<Member> members = null)
         {
-            _members = members;
+            _members = members ?? (_members = new List<Member>());
         }
 
         public Task<Member> GetByIdAsync(Guid memberId)

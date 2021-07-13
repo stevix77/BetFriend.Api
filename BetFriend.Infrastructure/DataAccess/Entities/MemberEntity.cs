@@ -16,5 +16,8 @@ namespace BetFriend.Infrastructure.DataAccess.Entities
         [Required]
         [Column("wallet")]
         public int Wallet { get; set; }
+
+        [Required, Column("member_username")]
+        public string MemberName { get; set; }
     }
 }
