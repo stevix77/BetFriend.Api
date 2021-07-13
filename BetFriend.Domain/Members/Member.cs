@@ -7,16 +7,19 @@ namespace BetFriend.Domain.Members
     public class Member
     {
         private MemberId _memberId;
+        private string _memberName;
         private int _wallet;
 
-        public Member(MemberId creatorId, int wallet)
+        public Member(MemberId creatorId, string memberName, int wallet)
         {
             _memberId = creatorId;
+            _memberName = memberName;
             _wallet = wallet;
         }
 
         public Guid MemberId { get => _memberId.Value; }
         public int Wallet { get => _wallet; }
+        public string MemberName { get => _memberName; }
 
         private bool CanBet(int coins)
         {

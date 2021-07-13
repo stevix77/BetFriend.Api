@@ -21,7 +21,7 @@
         {
             var entity = await _dbContext.FindAsync<MemberEntity>(memberId).ConfigureAwait(false);
             return entity == null ? null :
-                                    new Member(new MemberId(entity.MemberId), entity.Wallet);
+                                    new Member(new MemberId(entity.MemberId), entity.MemberName, entity.Wallet);
         }
     }
 }

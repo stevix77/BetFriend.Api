@@ -64,7 +64,11 @@ namespace BetFriend.WebApi
             services.AddScoped<IDomainEventsDispatcher, DomainEventsDispatcher>();
             services.AddScoped<IDomainEventsListener, DomainEventsListener>();
             services.AddScoped<IStorageDomainEventsRepository, AzureStorageDomainEventsRepository>();
-            services.AddScoped<IMemberRepository>(x => new InMemoryMemberRepository(new List<Member>() { new Member(new MemberId(Guid.Parse("01c1da98-b4b7-45dc-8352-c98ece06dab1")), 100) }));
+            services.AddScoped<IMemberRepository>(x => new InMemoryMemberRepository(new List<Member>() 
+            { 
+                new Member(new MemberId(Guid.Parse("01c1da98-b4b7-45dc-8352-c98ece06dab1")),
+                            "memberName",
+                            100) }));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnitOfWorkBehavior<,>));
