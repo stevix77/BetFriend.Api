@@ -3,6 +3,7 @@
     using BetFriend.Application.Abstractions.Repository;
     using BetFriend.Application.ViewModels;
     using BetFriend.Domain.Bets;
+    using BetFriend.Domain.Members;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -27,6 +28,21 @@
         public Task SaveAsync(BetViewModel betViewModel)
         {
             _bets.Add(betViewModel);
+            return Task.CompletedTask;
+        }
+
+        public Task SaveAsync(BetState state, Member member)
+        {
+            var betVM = new BetViewModel
+            {
+                Coins = state.Coins,
+                CreatorId = member.MemberId,
+                CreatorUsername = member.MemberName,
+                Description = state.Description,
+                EndDate = state.EndDate,
+                Id = state.BetId
+            };
+            _bets.Add(betVM);
             return Task.CompletedTask;
         }
     }

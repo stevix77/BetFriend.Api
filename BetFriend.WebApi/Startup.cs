@@ -47,7 +47,7 @@ namespace BetFriend.WebApi
             }).AddJsonOptions(o =>
             {
                 o.JsonSerializerOptions.IgnoreNullValues = true;
-                o.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                o.JsonSerializerOptions.PropertyNameCaseInsensitive = false;
             });
 
             services.AddSwaggerGen(c =>
@@ -60,7 +60,7 @@ namespace BetFriend.WebApi
             services.AddScoped(x =>
             {
                 var mongoClient = new MongoClient();
-                return mongoClient.GetDatabase("");
+                return mongoClient.GetDatabase(Configuration[""]);
             });
             services.AddSingleton<AzureStorageConfiguration>();
             services.AddTransient<IDateTimeProvider, DateTimeProvider>();
