@@ -2,6 +2,8 @@
 {
     using BetFriend.Application.Abstractions.Repository;
     using BetFriend.Application.ViewModels;
+    using BetFriend.Domain.Bets;
+    using BetFriend.Domain.Members;
     using MongoDB.Driver;
     using System;
     using System.Collections.Generic;
@@ -29,9 +31,18 @@
             
         }
 
-        public async Task SaveAsync(BetViewModel betViewModel)
+        public async Task SaveAsync(BetState state, Member member)
         {
-            await _collection.InsertOneAsync(betViewModel);
+            var betVM = new BetViewModel
+            {
+                Coins = state.Coins,
+                CreatorId = member.MemberId,
+                CreatorUsername = member.MemberName,
+                Description = state.Description,
+                EndDate = state.EndDate,
+                Id = state.BetId
+            };
+            await _collection.InsertOneAsync(betVM).ConfigureAwait(false);
         }
     }
 }

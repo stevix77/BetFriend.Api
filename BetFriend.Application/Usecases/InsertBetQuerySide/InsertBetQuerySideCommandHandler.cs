@@ -32,15 +32,7 @@
                         ?? throw new MemberUnknownException($"MemberId: {request.MemberId} is unknown");
             var bet = await _betRepository.GetByIdAsync(request.BetId).ConfigureAwait(false)
                     ?? throw new BetUnknownException($"BetId: {request.BetId} is unknwon");
-            await _queryBetRepository.SaveAsync(new BetViewModel
-            {
-                Coins = bet.State.Coins,
-                CreatorId = member.MemberId,
-                CreatorUsername = member.MemberName,
-                Description = bet.State.Description,
-                EndDate = bet.State.EndDate,
-                Id = bet.State.BetId
-            });
+            await _queryBetRepository.SaveAsync(bet.State, member);
             return Unit.Value;
         }
 
