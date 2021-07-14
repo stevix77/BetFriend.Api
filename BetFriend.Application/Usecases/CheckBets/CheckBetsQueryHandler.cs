@@ -1,16 +1,15 @@
-﻿using BetFriend.Application.Abstractions.Command;
-using BetFriend.Application.Abstractions.Query;
-using BetFriend.Application.Abstractions.Repository;
-using BetFriend.Application.ViewModels;
-using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace BetFriend.Application.Usecases.CheckBets
+﻿namespace BetFriend.Application.Usecases.CheckBets
 {
-    public sealed class CheckBetsQueryHandler 
+    using BetFriend.Application.Abstractions.Query;
+    using BetFriend.Application.Abstractions.Repository;
+    using BetFriend.Application.ViewModels;
+    using System;
+    using System.Collections.Generic;
+    using System.Threading;
+    using System.Threading.Tasks;
+
+
+    public sealed class CheckBetsQueryHandler
         : IQueryHandler<CheckBetsQuery, IReadOnlyCollection<BetViewModel>>
     {
         private IBetQueryRepository _betRepository;

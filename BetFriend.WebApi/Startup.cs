@@ -24,6 +24,7 @@ using BetFriend.Infrastructure.Repositories;
 using BetFriend.Infrastructure.DateTimeProvider;
 using BetFriend.Infrastructure.Configuration;
 using BetFriend.Application.Abstractions.Repository;
+using MongoDB.Driver;
 
 namespace BetFriend.WebApi
 {
@@ -56,6 +57,11 @@ namespace BetFriend.WebApi
 
             services.AddDbContext<DbContext, BetFriendContext>(options => options.UseSqlServer(Configuration.GetConnectionString("BetFriendDbContext")));
             services.AddLogging();
+            services.AddScoped(x =>
+            {
+                var mongoClient = new MongoClient();
+                return mongoClient.GetDatabase("");
+            });
             services.AddSingleton<AzureStorageConfiguration>();
             services.AddTransient<IDateTimeProvider, DateTimeProvider>();
             services.AddScoped<IProcessor, Processor>();
