@@ -1,24 +1,23 @@
 ﻿namespace BetFriend.UnitTests.Bets
 {
     using BetFriend.Application.Abstractions.Repository;
-    using BetFriend.Application.Usecases.CheckBets;
-    using BetFriend.Application.ViewModels;
+    using BetFriend.Application.Models;
+    using BetFriend.Application.Usecases.RetrieveBets;
     using BetFriend.Infrastructure.Repositories.InMemory;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
     using Xunit;
 
-    public class CheckBetsHandlerTest
+    public class RetrieveBetsHandlerTest
     {
         [Fact]
         public async Task HandleShouldReturn0BetsIfMemberHasNeverParticipateToBet()
         {
             //arrange
             var memberId = Guid.NewGuid();
-            var query = new CheckBetsQuery(memberId);
-            var handler = new CheckBetsQueryHandler(new InMemoryBetQueryRepository(new List<BetViewModel>()));
+            var query = new RetrieveBetsQuery(memberId);
+            var handler = new RetrieveBetsQueryHandler(new InMemoryBetQueryRepository(new List<BetDto>()));
 
             //act
             var result = await handler.Handle(query, default);
@@ -32,22 +31,22 @@
         {
             //arrange
             var memberId = Guid.NewGuid();
-            var query = new CheckBetsQuery(memberId);
-            var bets = new List<BetViewModel>
+            var query = new RetrieveBetsQuery(memberId);
+            var bets = new List<BetDto>
             {
-                new BetViewModel
+                new BetDto
                 {
                     Id = Guid.NewGuid(),
                     Description = "Desc 1",
                     CreatorId = memberId
                 },
-                new BetViewModel
+                new BetDto
                 {
                     Id = Guid.NewGuid(),
                     Description = "Desc 2",
                     CreatorId = Guid.NewGuid()
                 },
-                new BetViewModel
+                new BetDto
                 {
                     Id = Guid.NewGuid(),
                     Description = "Desc 3",
@@ -55,7 +54,7 @@
                 }
             };
             IBetQueryRepository betRepository = new InMemoryBetQueryRepository(new(bets));
-            var handler = new CheckBetsQueryHandler(betRepository);
+            var handler = new RetrieveBetsQueryHandler(betRepository);
 
             //act
             var betsResult = await handler.Handle(query, default);
@@ -69,31 +68,31 @@
         {
             //arrange
             var memberId = Guid.NewGuid();
-            var query = new CheckBetsQuery(memberId);
-            var bets = new List<BetViewModel>
+            var query = new RetrieveBetsQuery(memberId);
+            var bets = new List<BetDto>
             {
-                new BetViewModel
+                new BetDto
                 {
                     Id = Guid.NewGuid(),
                     Description = "Desc 1",
                     CreatorId = Guid.NewGuid(),
-                    Participants = new List<MemberViewModel>
+                    Participants = new List<MemberDto>
                     {
-                        new MemberViewModel
+                        new MemberDto
                         {
                             Id = memberId,
                             Username = "toto"
                         }
                     }
                 },
-                new BetViewModel
+                new BetDto
                 {
                     Id = Guid.NewGuid(),
                     Description = "Desc 2",
                     CreatorId = Guid.NewGuid(),
-                    Participants = new List<MemberViewModel>
+                    Participants = new List<MemberDto>
                     {
-                        new MemberViewModel
+                        new MemberDto
                         {
                             Id = Guid.NewGuid(),
                             Username = "toto"
@@ -102,7 +101,7 @@
                 }
             };
             var betRepository = new InMemoryBetQueryRepository(new(bets));
-            var handler = new CheckBetsQueryHandler(betRepository);
+            var handler = new RetrieveBetsQueryHandler(betRepository);
 
             //act
             var betsResult = await handler.Handle(query, default);
@@ -116,7 +115,7 @@
         {
             //arrange
             var betRepository = new InMemoryBetQueryRepository(default);
-            var handler = new CheckBetsQueryHandler(betRepository);
+            var handler = new RetrieveBetsQueryHandler(betRepository);
 
             //act
             var record = await Record.ExceptionAsync(() => handler.Handle(default, default));
@@ -130,7 +129,7 @@
         public void CtorShouldThrowArgumentNullExceptionIfInputNull()
         {
             //act
-            var record = Record.Exception(() => new CheckBetsQueryHandler(default));
+            var record = Record.Exception(() => new RetrieveBetsQueryHandler(default));
 
             //assert
             Assert.IsType<ArgumentNullException>(record);

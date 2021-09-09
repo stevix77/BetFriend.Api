@@ -1,7 +1,7 @@
 ﻿namespace BetFriend.Infrastructure.Repositories.InMemory
 {
     using BetFriend.Application.Abstractions.Repository;
-    using BetFriend.Application.ViewModels;
+    using BetFriend.Application.Models;
     using BetFriend.Domain.Bets;
     using BetFriend.Domain.Members;
     using System;
@@ -11,21 +11,21 @@
 
     public class InMemoryBetQueryRepository : IBetQueryRepository
     {
-        private readonly IList<BetViewModel> _bets;
+        private readonly IList<BetDto> _bets;
 
-        public InMemoryBetQueryRepository(List<BetViewModel> bets = null)
+        public InMemoryBetQueryRepository(List<BetDto> bets = null)
         {
-            _bets = bets ?? (_bets = new List<BetViewModel>());
+            _bets = bets ?? (_bets = new List<BetDto>());
         }
 
-        public async Task<IReadOnlyCollection<BetViewModel>> GetBetsForMemberAsync(Guid memberId)
+        public async Task<IReadOnlyCollection<BetDto>> GetBetsForMemberAsync(Guid memberId)
         {
             return await Task.FromResult(_bets.Where(x => x.CreatorId.Equals(memberId)
                                                           || x.Participants.Any(x => x.Id.Equals(memberId)))
                                               .ToList());
         }
 
-        public Task SaveAsync(BetViewModel betViewModel)
+        public Task SaveAsync(BetDto betViewModel)
         {
             _bets.Add(betViewModel);
             return Task.CompletedTask;
@@ -33,7 +33,7 @@
 
         public Task SaveAsync(BetState state, Member member)
         {
-            var betVM = new BetViewModel
+            var betVM = new BetDto
             {
                 Coins = state.Coins,
                 CreatorId = member.MemberId,

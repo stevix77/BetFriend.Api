@@ -1,6 +1,6 @@
 ﻿namespace BetFriend.Application.Abstractions.Repository
 {
-    using BetFriend.Application.ViewModels;
+    using BetFriend.Application.Models;
     using BetFriend.Domain.Bets;
     using BetFriend.Domain.Members;
     using System;
@@ -9,7 +9,7 @@
 
     public interface IBetQueryRepository
     {
-        Task<IReadOnlyCollection<BetViewModel>> GetBetsForMemberAsync(Guid memberId);
+        Task<IReadOnlyCollection<BetDto>> GetBetsForMemberAsync(Guid memberId);
         Task SaveAsync(BetState state, Member member);
     }
 }

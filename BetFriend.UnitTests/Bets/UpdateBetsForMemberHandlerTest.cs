@@ -1,5 +1,5 @@
 ﻿using BetFriend.Application.Usecases.InsertBetQuerySide;
-using BetFriend.Application.ViewModels;
+using BetFriend.Application.Models;
 using BetFriend.Domain.Bets;
 using BetFriend.Domain.Exceptions;
 using BetFriend.Domain.Members;
@@ -24,7 +24,7 @@ namespace BetFriend.UnitTests.Bets
                                 new DateTime(2022, 2, 3),
                                 "desc1", 10, new(memberId), new DateTime(2021, 3, 2));
             var betRepository = new InMemoryBetRepository(null, bet.State);
-            var queryBetRepository = new InMemoryBetQueryRepository(new List<BetViewModel>());
+            var queryBetRepository = new InMemoryBetQueryRepository(new List<BetDto>());
             var memberRepository = new InMemoryMemberRepository(new() { member });
             var command = new InsertBetQuerySideCommand(betId, memberId);
             var handler = new InsertBetQuerySideCommandHandler(betRepository, queryBetRepository, memberRepository);
@@ -56,7 +56,7 @@ namespace BetFriend.UnitTests.Bets
                                 "desc1", 10, new(memberId), new DateTime(2021, 3, 2));
             var member = new Member(new(memberId), "toto", 0);
             var betRepository = new InMemoryBetRepository(null, bet.State);
-            var queryBetRepository = new InMemoryBetQueryRepository(new List<BetViewModel>());
+            var queryBetRepository = new InMemoryBetQueryRepository(new List<BetDto>());
             var memberRepository = new InMemoryMemberRepository(new() { member });
             var command = new InsertBetQuerySideCommand(betId, memberId);
             var handler = new InsertBetQuerySideCommandHandler(betRepository, queryBetRepository, memberRepository);
@@ -73,7 +73,7 @@ namespace BetFriend.UnitTests.Bets
         {
             //arrange
             var betRepository = new InMemoryBetRepository(null, null);
-            var queryBetRepository = new InMemoryBetQueryRepository(new List<BetViewModel>());
+            var queryBetRepository = new InMemoryBetQueryRepository(new List<BetDto>());
             var memberRepository = new InMemoryMemberRepository();
             var command = new InsertBetQuerySideCommand(Guid.NewGuid(), Guid.NewGuid());
             var handler = new InsertBetQuerySideCommandHandler(betRepository, queryBetRepository, memberRepository);
