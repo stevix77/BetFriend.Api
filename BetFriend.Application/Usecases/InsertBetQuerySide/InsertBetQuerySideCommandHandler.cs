@@ -2,7 +2,6 @@
 {
     using BetFriend.Application.Abstractions.Command;
     using BetFriend.Application.Abstractions.Repository;
-    using BetFriend.Application.Models;
     using BetFriend.Domain.Bets;
     using BetFriend.Domain.Exceptions;
     using BetFriend.Domain.Members;
@@ -17,7 +16,9 @@
         private readonly IBetQueryRepository _queryBetRepository;
         private readonly IMemberRepository _memberRepository;
 
-        public InsertBetQuerySideCommandHandler(IBetRepository betRepository, IBetQueryRepository queryBetRepository, IMemberRepository memberRepository)
+        public InsertBetQuerySideCommandHandler(IBetRepository betRepository,
+                                                IBetQueryRepository queryBetRepository,
+                                                IMemberRepository memberRepository)
         {
             _betRepository = betRepository;
             _queryBetRepository = queryBetRepository;
@@ -39,7 +40,7 @@
         private static void ValidateRequest(InsertBetQuerySideCommand request)
         {
             if (request is null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(request));
         }
     }
 }

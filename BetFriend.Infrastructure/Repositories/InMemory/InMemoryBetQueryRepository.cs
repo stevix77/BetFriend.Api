@@ -36,7 +36,7 @@
             var betVM = new BetDto
             {
                 Coins = state.Coins,
-                CreatorId = member.MemberId,
+                CreatorId = member.MemberId.Value,
                 CreatorUsername = member.MemberName,
                 Description = state.Description,
                 EndDate = state.EndDate,

@@ -69,7 +69,8 @@
                         _coins,
                         _creationDate,
                         _answers.Select(x => new AnswerState(x.Key.Value, x.Value.Accepted, x.Value.DateAnswer))
-                                .ToList().AsReadOnly());
+                                .ToList()
+                                .AsReadOnly());
         }
 
 

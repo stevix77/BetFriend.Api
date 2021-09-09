@@ -1,19 +1,30 @@
 ﻿namespace BetFriend.Infrastructure.AzureStorage
 {
+    using Azure.Storage.Queues;
     using BetFriend.Domain;
     using BetFriend.Infrastructure.Configuration;
+    using Newtonsoft.Json;
     using System.Threading.Tasks;
 
     public class AzureStorageDomainEventsRepository : IStorageDomainEventsRepository
     {
+        private readonly AzureStorageConfiguration _azureStorageConfiguration;
+
         public AzureStorageDomainEventsRepository(AzureStorageConfiguration azureStorageConfiguration)
         {
-
+            _azureStorageConfiguration = azureStorageConfiguration;
         }
 
-        public Task SaveAsync(IDomainEvent item)
+        public async Task SaveAsync(IDomainEvent item)
         {
-            throw new System.NotImplementedException();
+            var queueClient = new QueueClient(_azureStorageConfiguration.ConnectionString,
+                                              item.GetType().Name.ToLower(),
+                                              new QueueClientOptions()
+                                              {
+                                                  MessageEncoding = QueueMessageEncoding.Base64
+                                              });
+            await queueClient.CreateIfNotExistsAsync();
+            await queueClient.SendMessageAsync(JsonConvert.SerializeObject(item));
         }
     }
 }
