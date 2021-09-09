@@ -11,12 +11,12 @@
             MemberId = memberId;
             BetId = betId;
             IsAccepted = answer;
-            DateAnswer = dateAnswer;
+            DateTimeProvider = dateAnswer;
         }
 
         public Guid MemberId { get; }
         public Guid BetId { get; }
         public bool IsAccepted { get; }
-        public IDateTimeProvider DateAnswer { get; }
+        public IDateTimeProvider DateTimeProvider { get; }
     }
 }

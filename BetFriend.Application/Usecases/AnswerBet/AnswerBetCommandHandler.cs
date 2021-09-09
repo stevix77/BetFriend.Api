@@ -29,7 +29,7 @@ namespace BetFriend.Application.Usecases.AnswerBet
             var bet = await _betRepository.GetByIdAsync(request.BetId).ConfigureAwait(false) ??
                 throw new BetUnknownException($"Bet {request.BetId} is unknown");
 
-            member.Answer(bet, request.IsAccepted, request.DateAnswer);
+            member.Answer(bet, request.IsAccepted, request.DateTimeProvider.GetDateTime());
             await _betRepository.SaveAsync(bet).ConfigureAwait(false);
 
             return Unit.Value;

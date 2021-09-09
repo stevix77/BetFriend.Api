@@ -34,9 +34,9 @@ namespace BetFriend.Domain.Members
             return Bet.Create(betId, endDate, description, coins, _memberId, creationDate);
         }
 
-        public void Answer(Bet bet, bool isAccepted, IDateTimeProvider dateAnswer)
+        public void Answer(Bet bet, bool isAccepted, DateTime dateAnswer)
         {
-            CheckAnswer(bet, dateAnswer.Now);
+            CheckAnswer(bet, dateAnswer);
 
             bet.AddAnswer(_memberId, isAccepted, dateAnswer);
         }
