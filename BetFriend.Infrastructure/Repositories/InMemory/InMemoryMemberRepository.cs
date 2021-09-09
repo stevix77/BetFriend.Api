@@ -8,7 +8,7 @@
 
     public sealed class InMemoryMemberRepository : IMemberRepository
     {
-        private List<Member> _members;
+        private readonly List<Member> _members;
 
         public InMemoryMemberRepository(List<Member> members = null)
         {
@@ -17,7 +17,7 @@
 
         public Task<Member> GetByIdAsync(Guid memberId)
         {
-            return Task.FromResult(_members.Find(x => x.MemberId == memberId));
+            return Task.FromResult(_members.Find(x => x.MemberId.Value == memberId));
         }
     }
 }
