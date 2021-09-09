@@ -104,7 +104,7 @@ namespace BetFriend.UnitTests.Bets
             IDomainEvent domainEvent = domainEventsListener.GetDomainEvents()
                                                            .SingleOrDefault(x => x.GetType() == typeof(BetAnswered));
             Assert.Equal(command.IsAccepted, answer.Accepted);
-            Assert.Equal(command.DateAnswer.Now, answer.DateAnswer);
+            Assert.Equal(command.DateTimeProvider.GetDateTime(), answer.DateAnswer);
             Assert.NotNull(domainEvent);
             Assert.Equal(betId.Value, (domainEvent as BetAnswered).BetId);
             Assert.Equal(memberId.Value, (domainEvent as BetAnswered).MemberId);

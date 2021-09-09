@@ -49,9 +49,9 @@
 
         internal int GetCoins() => _coins;
 
-        internal void AddAnswer(MemberId memberId, bool isAccepted, IDateTimeProvider dateAnswer)
+        internal void AddAnswer(MemberId memberId, bool isAccepted, DateTime dateAnswer)
         {
-            _answers.Add(memberId, new Answer(isAccepted, dateAnswer.Now));
+            _answers.Add(memberId, new Answer(isAccepted, dateAnswer));
             AddDomainEvent(new BetAnswered(_betId.Value, memberId.Value, isAccepted));
         }
 
