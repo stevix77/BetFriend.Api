@@ -2,7 +2,7 @@
 {
     using BetFriend.Application.Abstractions.Command;
     using BetFriend.Application.Abstractions.Repository;
-    using BetFriend.Application.ViewModels;
+    using BetFriend.Application.Models;
     using BetFriend.Domain.Bets;
     using BetFriend.Domain.Exceptions;
     using BetFriend.Domain.Members;

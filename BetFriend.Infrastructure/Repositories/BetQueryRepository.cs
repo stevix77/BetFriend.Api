@@ -1,7 +1,7 @@
 ﻿namespace BetFriend.Infrastructure.Repositories
 {
     using BetFriend.Application.Abstractions.Repository;
-    using BetFriend.Application.ViewModels;
+    using BetFriend.Application.Models;
     using BetFriend.Domain.Bets;
     using BetFriend.Domain.Members;
     using MongoDB.Driver;
@@ -13,13 +13,13 @@
 
     public class BetQueryRepository : IBetQueryRepository
     {
-        private readonly IMongoCollection<BetViewModel> _collection;
+        private readonly IMongoCollection<BetDto> _collection;
         public BetQueryRepository(IMongoDatabase mongoDatabase)
         {
-            _collection = mongoDatabase.GetCollection<BetViewModel>(nameof(BetViewModel));
+            _collection = mongoDatabase.GetCollection<BetDto>(nameof(BetDto));
         }
 
-        public async Task<IReadOnlyCollection<BetViewModel>> GetBetsForMemberAsync(Guid memberId)
+        public async Task<IReadOnlyCollection<BetDto>> GetBetsForMemberAsync(Guid memberId)
         {
             var bets = (await _collection.FindAsync(x => x.CreatorId == memberId
                                             || x.Participants.Any(y => y.Id == memberId))
@@ -33,7 +33,7 @@
 
         public async Task SaveAsync(BetState state, Member member)
         {
-            var betVM = new BetViewModel
+            var betDto = new BetDto
             {
                 Coins = state.Coins,
                 CreatorId = member.MemberId,
@@ -42,7 +42,7 @@
                 EndDate = state.EndDate,
                 Id = state.BetId
             };
-            await _collection.InsertOneAsync(betVM).ConfigureAwait(false);
+            await _collection.InsertOneAsync(betDto).ConfigureAwait(false);
         }
     }
 }
