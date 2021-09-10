@@ -10,13 +10,13 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    public class InsertBetQuerySideCommandHandler : ICommandHandler<InsertBetQuerySideCommand, Unit>
+    public class InsertBetQuerySideNotificationHandler : INotificationHandler<InsertBetQuerySideNotification>
     {
         private readonly IBetRepository _betRepository;
         private readonly IBetQueryRepository _queryBetRepository;
         private readonly IMemberRepository _memberRepository;
 
-        public InsertBetQuerySideCommandHandler(IBetRepository betRepository,
+        public InsertBetQuerySideNotificationHandler(IBetRepository betRepository,
                                                 IBetQueryRepository queryBetRepository,
                                                 IMemberRepository memberRepository)
         {
@@ -25,7 +25,7 @@
             _memberRepository = memberRepository;
         }
 
-        public async Task<Unit> Handle(InsertBetQuerySideCommand request, CancellationToken cancellationToken)
+        public async Task Handle(InsertBetQuerySideNotification request, CancellationToken cancellationToken)
         {
             ValidateRequest(request);
 
@@ -34,10 +34,9 @@
             var bet = await _betRepository.GetByIdAsync(request.BetId).ConfigureAwait(false)
                     ?? throw new BetUnknownException($"BetId: {request.BetId} is unknwon");
             await _queryBetRepository.SaveAsync(bet.State, member);
-            return Unit.Value;
         }
 
-        private static void ValidateRequest(InsertBetQuerySideCommand request)
+        private static void ValidateRequest(InsertBetQuerySideNotification request)
         {
             if (request is null)
                 throw new ArgumentNullException(nameof(request));

@@ -31,6 +31,13 @@
             
         }
 
+        public async Task<BetDto> GetByIdAsync(Guid betId)
+        {
+            var betDto = _collection.Find(x => x.Id == betId).FirstOrDefaultAsync();
+            return await betDto.ConfigureAwait(false);
+
+        }
+
         public async Task SaveAsync(BetState state, Member member)
         {
             var betDto = new BetDto

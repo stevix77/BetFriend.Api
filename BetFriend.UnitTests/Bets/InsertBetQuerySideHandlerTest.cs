@@ -11,7 +11,7 @@ using Xunit;
 
 namespace BetFriend.UnitTests.Bets
 {
-    public class UpdateBetsForMemberHandlerTest
+    public class InsertBetQuerySideHandlerTest
     {
         [Fact]
         public async Task ShouldAddBetIfBetExists()
@@ -26,23 +26,20 @@ namespace BetFriend.UnitTests.Bets
             var betRepository = new InMemoryBetRepository(null, bet.State);
             var queryBetRepository = new InMemoryBetQueryRepository(new List<BetDto>());
             var memberRepository = new InMemoryMemberRepository(new() { member });
-            var command = new InsertBetQuerySideCommand(betId, memberId);
-            var handler = new InsertBetQuerySideCommandHandler(betRepository, queryBetRepository, memberRepository);
+            var command = new InsertBetQuerySideNotification(betId, memberId);
+            var handler = new InsertBetQuerySideNotificationHandler(betRepository, queryBetRepository, memberRepository);
 
             //act
             await handler.Handle(command, default);
 
             //assert
-            var bets = await queryBetRepository.GetBetsForMemberAsync(memberId);
-            Assert.Collection(bets, (x) =>
-            {
-                Assert.Equal(memberId, x.CreatorId);
-                Assert.Equal(member.MemberName, x.CreatorUsername);
-                Assert.Equal(bet.State.Coins, x.Coins);
-                Assert.Equal(bet.State.Description, x.Description);
-                Assert.Equal(bet.State.EndDate, x.EndDate);
-                Assert.Equal(bet.State.BetId, x.Id);
-            });
+            BetDto betInserted = await queryBetRepository.GetByIdAsync(betId);
+            Assert.NotNull(betInserted);
+            Assert.Equal(bet.State.Coins, betInserted.Coins);
+            Assert.Equal(bet.State.Description, betInserted.Description);
+            Assert.Equal(bet.State.EndDate, betInserted.EndDate);
+            Assert.Equal(bet.State.BetId, betInserted.Id);
+            Assert.Equal(bet.State.CreatorId, betInserted.CreatorId);
         }
 
         [Fact]
@@ -58,8 +55,8 @@ namespace BetFriend.UnitTests.Bets
             var betRepository = new InMemoryBetRepository(null, bet.State);
             var queryBetRepository = new InMemoryBetQueryRepository(new List<BetDto>());
             var memberRepository = new InMemoryMemberRepository(new() { member });
-            var command = new InsertBetQuerySideCommand(betId, memberId);
-            var handler = new InsertBetQuerySideCommandHandler(betRepository, queryBetRepository, memberRepository);
+            var command = new InsertBetQuerySideNotification(betId, memberId);
+            var handler = new InsertBetQuerySideNotificationHandler(betRepository, queryBetRepository, memberRepository);
 
             //act
             var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
@@ -75,8 +72,8 @@ namespace BetFriend.UnitTests.Bets
             var betRepository = new InMemoryBetRepository(null, null);
             var queryBetRepository = new InMemoryBetQueryRepository(new List<BetDto>());
             var memberRepository = new InMemoryMemberRepository();
-            var command = new InsertBetQuerySideCommand(Guid.NewGuid(), Guid.NewGuid());
-            var handler = new InsertBetQuerySideCommandHandler(betRepository, queryBetRepository, memberRepository);
+            var command = new InsertBetQuerySideNotification(Guid.NewGuid(), Guid.NewGuid());
+            var handler = new InsertBetQuerySideNotificationHandler(betRepository, queryBetRepository, memberRepository);
 
             //act
             var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
@@ -89,7 +86,7 @@ namespace BetFriend.UnitTests.Bets
         public async Task ShouldThrowArgumentNullExceptionIfRequestNull()
         {
             //arrange
-            var handler = new InsertBetQuerySideCommandHandler(new InMemoryBetRepository(), new InMemoryBetQueryRepository(), new InMemoryMemberRepository());
+            var handler = new InsertBetQuerySideNotificationHandler(new InMemoryBetRepository(), new InMemoryBetQueryRepository(), new InMemoryMemberRepository());
 
             //act
             var record = await Record.ExceptionAsync(() => handler.Handle(default, default));

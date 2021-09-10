@@ -45,5 +45,10 @@
             _bets.Add(betVM);
             return Task.CompletedTask;
         }
+
+        public Task<BetDto> GetByIdAsync(Guid betId)
+        {
+            return Task.FromResult(_bets.FirstOrDefault(x => x.Id == betId));
+        }
     }
 }

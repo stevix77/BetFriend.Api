@@ -1,15 +1,15 @@
 ﻿namespace BetFriend.Application.Usecases.InsertBetQuerySide
 {
-    using BetFriend.Application.Abstractions.Command;
+    using MediatR;
     using System;
 
 
-    public class InsertBetQuerySideCommand : ICommand
+    public class InsertBetQuerySideNotification : INotification
     {
         public Guid BetId { get; }
         public Guid MemberId { get; }
 
-        public InsertBetQuerySideCommand(Guid betId, Guid memberId)
+        public InsertBetQuerySideNotification(Guid betId, Guid memberId)
         {
             BetId = betId;
             MemberId = memberId;
