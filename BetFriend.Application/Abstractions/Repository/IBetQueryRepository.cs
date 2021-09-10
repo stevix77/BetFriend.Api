@@ -11,5 +11,6 @@
     {
         Task<IReadOnlyCollection<BetDto>> GetBetsForMemberAsync(Guid memberId);
         Task SaveAsync(BetState state, Member member);
+        Task<BetDto> GetByIdAsync(Guid betId);
     }
 }
