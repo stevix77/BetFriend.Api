@@ -1,5 +1,4 @@
-﻿using BetFriend.Application.Abstractions;
-using BetFriend.Application.Abstractions.Command;
+﻿using BetFriend.Application.Abstractions.Command;
 using BetFriend.Domain.Bets;
 using BetFriend.Domain.Exceptions;
 using BetFriend.Domain.Members;

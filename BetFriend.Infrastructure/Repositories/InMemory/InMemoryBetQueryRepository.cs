@@ -25,24 +25,32 @@
                                               .ToList());
         }
 
-        public Task SaveAsync(BetDto betViewModel)
-        {
-            _bets.Add(betViewModel);
-            return Task.CompletedTask;
-        }
+        //public Task SaveAsync(BetDto betViewModel)
+        //{
+        //    _bets.Add(betViewModel);
+        //    return Task.CompletedTask;
+        //}
 
         public Task SaveAsync(BetState state, Member member)
         {
-            var betVM = new BetDto
+            var betDto = _bets.FirstOrDefault(x => x.Id == state.BetId);
+            if (betDto == null)
+                _bets.Add(new BetDto
+                {
+                    Coins = state.Coins,
+                    CreatorId = member.MemberId.Value,
+                    CreatorUsername = member.MemberName,
+                    Description = state.Description,
+                    EndDate = state.EndDate,
+                    Id = state.BetId
+                });
+            else
             {
-                Coins = state.Coins,
-                CreatorId = member.MemberId.Value,
-                CreatorUsername = member.MemberName,
-                Description = state.Description,
-                EndDate = state.EndDate,
-                Id = state.BetId
-            };
-            _bets.Add(betVM);
+                betDto.Participants = state.Answers.Select(x => new MemberDto() { Id = x.MemberId }).ToList();
+                betDto.Coins = state.Coins;
+                betDto.Description = state.Description;
+                betDto.EndDate = state.EndDate;
+            }
             return Task.CompletedTask;
         }
 
