@@ -28,7 +28,7 @@
 
         public Task<Bet> GetByIdAsync(Guid betId)
         {
-            if (betId.Equals(_bet.BetId))
+            if (betId.Equals(_bet?.BetId))
                 return Task.FromResult(FromState(_bet));
 
             return Task.FromResult<Bet>(null);

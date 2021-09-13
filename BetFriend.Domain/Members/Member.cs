@@ -1,22 +1,28 @@
 ﻿using BetFriend.Domain.Bets;
 using BetFriend.Domain.Exceptions;
+using BetFriend.Domain.Followers;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BetFriend.Domain.Members
 {
     public class Member
     {
+        private readonly ICollection<Follower> _followers;
 
         public Member(MemberId creatorId, string memberName, int wallet)
         {
             MemberId = creatorId;
             MemberName = memberName;
             Wallet = wallet;
+            _followers = new List<Follower>();
         }
 
         public MemberId MemberId { get; }
         public int Wallet { get; private set; }
         public string MemberName { get; }
+        public IReadOnlyCollection<Follower> Followers { get => _followers.ToList(); }
 
         private bool CanBet(int coins)
         {
@@ -29,6 +35,11 @@ namespace BetFriend.Domain.Members
                 throw new MemberHasNotEnoughCoinsException(Wallet, coins);
 
             return Bet.Create(betId, endDate, description, coins, MemberId, creationDate);
+        }
+
+        public void AddFollower(Follower follower)
+        {
+            _followers.Add(follower);
         }
 
         public void Answer(Bet bet, bool isAccepted, DateTime dateAnswer)
