@@ -15,10 +15,6 @@
 
     public class UpdateBetHandlerTest
     {
-        /// <summary>
-        /// tester les données d'un pari
-        /// tester qu'on lève une exception si le pari n'existe pas
-        /// </summary>
         [Fact]
         public async Task ShouldThrowBetUnknownExceptionIfBetDoesNotExist()
         {
@@ -50,11 +46,18 @@
             IBetRepository betRepository = new InMemoryBetRepository(default, betState);
             var betsDto = new List<BetDto>()
             {
-                new BetDto(new(betId, new(new(creatorId), "toto", 300), new DateTime(2021, 5, 2), "desc", 30, new DateTime(2021, 2, 1), new List<AnswerState>()
-                {
-                    new AnswerState(memberId, true, new DateTime(2021, 3, 3))
-                }),
-                            new Domain.Members.Member(new(creatorId), "toto", 100))
+                new BetDto(new(betId, 
+                            new(new(creatorId), "toto", 300), 
+                            new DateTime(2021, 5, 2), 
+                            "desc", 
+                            30, 
+                            new DateTime(2021, 2, 1), 
+                            new List<AnswerState>()
+                            {
+                                new AnswerState(memberId,
+                                                true,
+                                                new DateTime(2021, 3, 3))
+                            }))
             };
             IBetQueryRepository betQueryRepository = new InMemoryBetQueryRepository(betsDto);
             var handler = new UpdateBetCommandHandler(betRepository, betQueryRepository);

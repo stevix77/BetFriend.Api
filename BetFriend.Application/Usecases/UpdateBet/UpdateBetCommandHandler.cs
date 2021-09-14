@@ -26,7 +26,7 @@
             var bet = await _betRepository.GetByIdAsync(request.BetId)
                         ?? throw new BetUnknownException($"This bet with Id {request.BetId} does not exist");
 
-            var dto = new BetDto(bet.State, null);
+            var dto = new BetDto(bet.State);
             await _betQueryRepository.SaveAsync(dto);
             return Unit.Value;
         }
