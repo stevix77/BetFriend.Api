@@ -38,18 +38,11 @@
 
         }
 
-        public async Task SaveAsync(BetState state, Member member)
+        public async Task SaveAsync(BetDto betDto)
         {
-            var betDto = new BetDto
-            {
-                Coins = state.Coins,
-                CreatorId = member.MemberId.Value,
-                CreatorUsername = member.MemberName,
-                Description = state.Description,
-                EndDate = state.EndDate,
-                Id = state.BetId
-            };
-            await _collection.InsertOneAsync(betDto).ConfigureAwait(false);
+            var result = _collection.FindOneAndReplace(x => x.Id == betDto.Id, betDto);
+            if(result == null)
+                await _collection.InsertOneAsync(betDto).ConfigureAwait(false);
         }
     }
 }

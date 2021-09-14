@@ -2,8 +2,6 @@
 {
     using BetFriend.Application.Abstractions.Repository;
     using BetFriend.Application.Models;
-    using BetFriend.Domain.Bets;
-    using BetFriend.Domain.Members;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -31,25 +29,17 @@
         //    return Task.CompletedTask;
         //}
 
-        public Task SaveAsync(BetState state, Member member)
+        public Task SaveAsync(BetDto betDto)
         {
-            var betDto = _bets.FirstOrDefault(x => x.Id == state.BetId);
-            if (betDto == null)
-                _bets.Add(new BetDto
-                {
-                    Coins = state.Coins,
-                    CreatorId = member.MemberId.Value,
-                    CreatorUsername = member.MemberName,
-                    Description = state.Description,
-                    EndDate = state.EndDate,
-                    Id = state.BetId
-                });
+            var dto = _bets.FirstOrDefault(x => x.Id == betDto.Id);
+            if (dto == null)
+                _bets.Add(betDto);
             else
             {
-                betDto.Participants = state.Answers.Select(x => new MemberDto() { Id = x.MemberId }).ToList();
-                betDto.Coins = state.Coins;
-                betDto.Description = state.Description;
-                betDto.EndDate = state.EndDate;
+                dto.Coins = betDto.Coins;
+                dto.Description = betDto.Description;
+                dto.EndDate = betDto.EndDate;
+                dto.Participants = betDto.Participants;
             }
             return Task.CompletedTask;
         }

@@ -50,15 +50,11 @@
             IBetRepository betRepository = new InMemoryBetRepository(default, betState);
             var betsDto = new List<BetDto>()
             {
-                new BetDto()
+                new BetDto(new(betId, creatorId, new DateTime(2021, 5, 2), "desc", 30, new DateTime(2021, 2, 1), new List<AnswerState>()
                 {
-                    Id = betId,
-                    Coins = 30,
-                    CreatorId = creatorId,
-                    CreatorUsername = "toto",
-                    Description = "desc",
-                    EndDate = new DateTime(2021, 5, 2)
-                }
+                    new AnswerState(memberId, true, new DateTime(2021, 3, 3))
+                }),
+                            new Domain.Members.Member(new(creatorId), "toto", 100))
             };
             IBetQueryRepository betQueryRepository = new InMemoryBetQueryRepository(betsDto);
             var handler = new UpdateBetCommandHandler(betRepository, betQueryRepository);
