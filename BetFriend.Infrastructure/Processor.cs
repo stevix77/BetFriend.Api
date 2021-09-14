@@ -2,6 +2,7 @@
 {
     using BetFriend.Application.Abstractions;
     using BetFriend.Application.Abstractions.Command;
+    using BetFriend.Application.Abstractions.Query;
     using MediatR;
     using System.Threading.Tasks;
 
@@ -16,6 +17,11 @@
         public async Task ExecuteCommandAsync<TRequest>(ICommand<TRequest> command)
         {
             await _mediator.Send(command).ConfigureAwait(false);
+        }
+
+        public async Task<TResult> ExecuteQueryAsync<TResult>(IQuery<TResult> query)
+        {
+            return await _mediator.Send(query).ConfigureAwait(false);
         }
     }
 }
