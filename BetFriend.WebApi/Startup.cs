@@ -25,6 +25,7 @@ using BetFriend.Infrastructure.DateTimeProvider;
 using BetFriend.Infrastructure.Configuration;
 using BetFriend.Application.Abstractions.Repository;
 using MongoDB.Driver;
+using BetFriend.Domain.Feeds;
 
 namespace BetFriend.WebApi
 {
@@ -66,7 +67,8 @@ namespace BetFriend.WebApi
             services.AddTransient<IDateTimeProvider, DateTimeProvider>();
             services.AddScoped<IProcessor, Processor>();
             services.AddScoped<IBetRepository, BetRepository>();
-            services.AddScoped<IBetQueryRepository>(x => new InMemoryBetQueryRepository(null));
+            services.AddScoped<IBetQueryRepository>(x => new InMemoryBetQueryRepository());
+            services.AddScoped<IFeedRepository>(x => new InMemoryFeedRepository());
             services.AddScoped<IDomainEventsDispatcher, DomainEventsDispatcher>();
             services.AddScoped<IDomainEventsListener, DomainEventsListener>();
             services.AddScoped<IStorageDomainEventsRepository, AzureStorageDomainEventsRepository>();
