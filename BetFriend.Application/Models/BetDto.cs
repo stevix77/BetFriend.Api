@@ -8,7 +8,7 @@
 
     public class BetDto
     {
-        public BetDto(BetState state, Member member)
+        public BetDto(BetState state)
         {
             Id = state.BetId;
             Description = state.Description;
