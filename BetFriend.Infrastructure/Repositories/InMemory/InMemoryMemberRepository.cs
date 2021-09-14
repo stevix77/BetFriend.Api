@@ -17,7 +17,7 @@
 
         public Task<Member> GetByIdAsync(Guid memberId)
         {
-            return Task.FromResult(_members.Find(x => x.MemberId.Value == memberId));
+            return Task.FromResult(_members.Find(x => x.Id.Value == memberId));
         }
     }
 }

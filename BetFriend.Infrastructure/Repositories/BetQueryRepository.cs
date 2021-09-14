@@ -21,7 +21,7 @@
 
         public async Task<IReadOnlyCollection<BetDto>> GetBetsForMemberAsync(Guid memberId)
         {
-            var bets = (await _collection.FindAsync(x => x.CreatorId == memberId
+            var bets = (await _collection.FindAsync(x => x.Creator.Id == memberId
                                             || x.Participants.Any(y => y.Id == memberId))
                                         .ConfigureAwait(false))
                                         .ToListAsync();

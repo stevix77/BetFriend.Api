@@ -12,21 +12,21 @@
         private readonly EndDate _endDate;
         private readonly DateTime _creationDate;
         private readonly int _coins;
-        private readonly MemberId _creatorId;
+        private readonly Member _creator;
         private readonly string _description;
         private readonly Dictionary<MemberId, Answer> _answers;
 
-        private Bet(BetId betId, DateTime endDate, int coins, MemberId creatorId, string description, DateTime creationDate)
+        private Bet(BetId betId, DateTime endDate, int coins, Member creator, string description, DateTime creationDate)
         {
             _creationDate = creationDate;
             _betId = betId;
             _endDate = new EndDate(endDate, _creationDate);
             _coins = coins;
-            _creatorId = creatorId;
+            _creator = creator;
             _description = description;
             _answers = new Dictionary<MemberId, Answer>();
 
-            AddDomainEvent(new BetCreated(betId, _creatorId));
+            AddDomainEvent(new BetCreated(betId, _creator.Id));
 
         }
 
@@ -35,7 +35,9 @@
             _betId = new BetId(state.BetId);
             _endDate = new EndDate(state.EndDate);
             _coins = state.Coins;
-            _creatorId = new MemberId(state.CreatorId);
+            _creator = new Member(state.Creator.Id,
+                                  state.Creator.Name,
+                                  state.Creator.Wallet);
             _description = state.Description;
             _creationDate = state.CreationDate;
             _answers = new Dictionary<MemberId, Answer>(
@@ -63,7 +65,7 @@
         public BetState State
         {
             get => new(_betId.Value,
-                        _creatorId.Value,
+                        _creator,
                         _endDate.Value,
                         _description,
                         _coins,
@@ -74,9 +76,9 @@
         }
 
 
-        public static Bet Create(BetId betId, DateTime endDate, string description, int coins, MemberId creatorId, DateTime creationDate)
+        public static Bet Create(BetId betId, DateTime endDate, string description, int coins, Member creator, DateTime creationDate)
         {
-            return new Bet(betId, endDate, coins, creatorId, description, creationDate);
+            return new Bet(betId, endDate, coins, creator, description, creationDate);
         }
 
         public DateTime GetEndDateToAnswer()

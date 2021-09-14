@@ -12,19 +12,17 @@
         {
             Id = state.BetId;
             Description = state.Description;
-            CreatorId = state.CreatorId;
+            Creator = new MemberDto(state.Creator);
             Coins = state.Coins;
             EndDate = state.EndDate;
-            CreatorUsername = "";
             Participants = state.Answers?.Select(x => new MemberDto() { Id = x.MemberId }).ToList();
         }
 
         public Guid Id { get; private set; }
         public string Description { get; set; }
-        public Guid CreatorId { get; set; }
+        public MemberDto Creator { get; set; }
         public IReadOnlyCollection<MemberDto> Participants { get; set; }
         public int Coins { get; set; }
         public DateTime EndDate { get; set; }
-        public string CreatorUsername { get; private set; }
     }
 }

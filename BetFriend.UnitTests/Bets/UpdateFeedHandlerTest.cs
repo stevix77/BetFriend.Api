@@ -29,7 +29,7 @@
             member.AddFollower(new Follower(new(followerId2)));
             var bet = Bet.Create(new BetId(betId),
                                 new DateTime(2022, 2, 3),
-                                "desc1", 10, new(memberId), new DateTime(2021, 3, 2));
+                                "desc1", 10, new(new(memberId), "toto", 300), new DateTime(2021, 3, 2));
             Feed feed = Feed.Create(followerId);
             Feed feed2 = Feed.Create(followerId2);
             var betRepository = new InMemoryBetRepository(null, bet.State);
@@ -74,7 +74,7 @@
                 Assert.Equal(10, x.Coins);
                 Assert.Equal("desc1", x.Description);
                 Assert.Equal(bet.State.EndDate, x.EndDate);
-                Assert.Equal(bet.State.CreatorId, x.CreatorId);
+                Assert.Equal(bet.State.Creator.Id, x.Creator.Id);
                 Assert.Equal(bet.State.CreationDate, x.CreationDate);
             });
         }

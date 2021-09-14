@@ -13,15 +13,15 @@ namespace BetFriend.Domain.Members
 
         public Member(MemberId creatorId, string memberName, int wallet)
         {
-            MemberId = creatorId;
-            MemberName = memberName;
+            Id = creatorId;
+            Name = memberName;
             Wallet = wallet;
             _followers = new List<Follower>();
         }
 
-        public MemberId MemberId { get; }
+        public MemberId Id { get; }
         public int Wallet { get; private set; }
-        public string MemberName { get; }
+        public string Name { get; }
         public IReadOnlyCollection<Follower> Followers { get => _followers.ToList(); }
 
         private bool CanBet(int coins)
@@ -34,7 +34,7 @@ namespace BetFriend.Domain.Members
             if(!CanBet(coins))
                 throw new MemberHasNotEnoughCoinsException(Wallet, coins);
 
-            return Bet.Create(betId, endDate, description, coins, MemberId, creationDate);
+            return Bet.Create(betId, endDate, description, coins, this, creationDate);
         }
 
         public void AddFollower(Follower follower)
@@ -46,7 +46,7 @@ namespace BetFriend.Domain.Members
         {
             CheckAnswer(bet, dateAnswer);
 
-            bet.AddAnswer(MemberId, isAccepted, dateAnswer);
+            bet.AddAnswer(Id, isAccepted, dateAnswer);
         }
 
         private void CheckAnswer(Bet bet, DateTime dateAnswer)
