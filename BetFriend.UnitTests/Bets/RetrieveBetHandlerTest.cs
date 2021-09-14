@@ -1,4 +1,5 @@
-﻿using BetFriend.Application.Models;
+﻿using BetFriend.Application.Exceptions;
+using BetFriend.Application.Models;
 using BetFriend.Application.Usecases.RetrieveBet;
 using BetFriend.Domain.Exceptions;
 using BetFriend.Infrastructure.Repositories.InMemory;
@@ -19,8 +20,8 @@ namespace BetFriend.UnitTests.Bets
 
             var record = await Record.ExceptionAsync(() => handler.Handle(new RetrieveBetQuery(betId), default));
 
-            Assert.IsType<BetUnknownException>(record);
-            Assert.Equal($"This bet with id: {betId} does not exist", record.Message);
+            Assert.IsType<BetNotFoundException>(record);
+            Assert.Equal($"This bet with id: {betId} is not found", record.Message);
         }
 
         [Fact]

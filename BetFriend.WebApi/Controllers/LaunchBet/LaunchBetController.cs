@@ -1,7 +1,6 @@
 ﻿using BetFriend.Application.Abstractions;
 using BetFriend.Application.Usecases.LaunchBet;
 using BetFriend.Domain;
-using BetFriend.Infrastructure.DateTimeProvider;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;

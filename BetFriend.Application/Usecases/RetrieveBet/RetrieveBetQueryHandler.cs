@@ -2,6 +2,7 @@
 {
     using BetFriend.Application.Abstractions.Query;
     using BetFriend.Application.Abstractions.Repository;
+    using BetFriend.Application.Exceptions;
     using BetFriend.Application.Models;
     using BetFriend.Domain.Exceptions;
     using System.Threading;
@@ -19,7 +20,7 @@
         public async Task<BetDto> Handle(RetrieveBetQuery request, CancellationToken cancellationToken)
         {
             return await _betQueryRepository.GetByIdAsync(request.BetId).ConfigureAwait(false)
-                            ?? throw new BetUnknownException($"This bet with id: {request.BetId} does not exist");
+                            ?? throw new BetNotFoundException($"This bet with id: {request.BetId} is not found");
         }
     }
 }
