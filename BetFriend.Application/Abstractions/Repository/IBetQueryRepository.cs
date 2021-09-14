@@ -10,7 +10,7 @@
     public interface IBetQueryRepository
     {
         Task<IReadOnlyCollection<BetDto>> GetBetsForMemberAsync(Guid memberId);
-        Task SaveAsync(BetState state, Member member);
+        Task SaveAsync(BetDto betDto);
         Task<BetDto> GetByIdAsync(Guid betId);
     }
 }

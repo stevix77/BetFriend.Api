@@ -2,6 +2,7 @@
 {
     using BetFriend.Application.Abstractions.Command;
     using BetFriend.Application.Abstractions.Repository;
+    using BetFriend.Application.Models;
     using BetFriend.Domain.Bets;
     using BetFriend.Domain.Exceptions;
     using BetFriend.Domain.Members;
@@ -33,7 +34,8 @@
                         ?? throw new MemberUnknownException($"MemberId: {request.MemberId} is unknown");
             var bet = await _betRepository.GetByIdAsync(request.BetId).ConfigureAwait(false)
                     ?? throw new BetUnknownException($"BetId: {request.BetId} is unknwon");
-            await _queryBetRepository.SaveAsync(bet.State, member);
+            var betDto = new BetDto(bet.State, member);
+            await _queryBetRepository.SaveAsync(betDto);
         }
 
         private static void ValidateRequest(InsertBetQuerySideNotification request)

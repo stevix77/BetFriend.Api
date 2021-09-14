@@ -2,6 +2,7 @@
 {
     using BetFriend.Application.Abstractions.Command;
     using BetFriend.Application.Abstractions.Repository;
+    using BetFriend.Application.Models;
     using BetFriend.Domain.Bets;
     using BetFriend.Domain.Exceptions;
     using MediatR;
@@ -11,20 +12,22 @@
 
     public class UpdateBetCommandHandler : ICommandHandler<UpdateBetCommand>
     {
-        private IBetRepository betRepository;
-        private IBetQueryRepository betQueryRepository;
+        private IBetRepository _betRepository;
+        private IBetQueryRepository _betQueryRepository;
 
         public UpdateBetCommandHandler(IBetRepository betRepository, IBetQueryRepository betQueryRepository)
         {
-            this.betRepository = betRepository;
-            this.betQueryRepository = betQueryRepository;
+            _betRepository = betRepository;
+            _betQueryRepository = betQueryRepository;
         }
 
         public async Task<Unit> Handle(UpdateBetCommand request, CancellationToken cancellationToken)
         {
-            var bet = await betRepository.GetByIdAsync(request.BetId)
+            var bet = await _betRepository.GetByIdAsync(request.BetId)
                         ?? throw new BetUnknownException($"This bet with Id {request.BetId} does not exist");
-            await betQueryRepository.SaveAsync(bet.State, null);
+
+            var dto = new BetDto(bet.State, null);
+            await _betQueryRepository.SaveAsync(dto);
             return Unit.Value;
         }
     }
