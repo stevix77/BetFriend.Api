@@ -1,9 +1,11 @@
 ﻿namespace BetFriend.WebApi.Controllers.RetrieveBets
 {
     using BetFriend.Application.Abstractions;
+    using BetFriend.Application.Models;
     using BetFriend.Application.Usecases.RetrieveBets;
     using Microsoft.AspNetCore.Mvc;
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     [Route("api/bets")]
@@ -16,6 +18,7 @@
             _processor = processor;
         }
 
+        [ProducesResponseType(200, Type = typeof(List<BetDto>))]
         [HttpGet]
         public async Task<IActionResult> Retrieve()
         {
