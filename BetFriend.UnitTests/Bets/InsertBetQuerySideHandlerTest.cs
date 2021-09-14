@@ -22,7 +22,7 @@ namespace BetFriend.UnitTests.Bets
             var member = new Member(new(memberId), "toto", 0);
             var bet = Bet.Create(new BetId(betId),
                                 new DateTime(2022, 2, 3),
-                                "desc1", 10, new(memberId), new DateTime(2021, 3, 2));
+                                "desc1", 10, member, new DateTime(2021, 3, 2));
             var betRepository = new InMemoryBetRepository(null, bet.State);
             var queryBetRepository = new InMemoryBetQueryRepository(new List<BetDto>());
             var memberRepository = new InMemoryMemberRepository(new() { member });
@@ -39,7 +39,7 @@ namespace BetFriend.UnitTests.Bets
             Assert.Equal(bet.State.Description, betInserted.Description);
             Assert.Equal(bet.State.EndDate, betInserted.EndDate);
             Assert.Equal(bet.State.BetId, betInserted.Id);
-            Assert.Equal(bet.State.CreatorId, betInserted.CreatorId);
+            Assert.Equal(bet.State.Creator.Id.Value, betInserted.Creator.Id);
         }
 
         [Fact]
@@ -48,10 +48,10 @@ namespace BetFriend.UnitTests.Bets
             //arrange
             var betId = Guid.NewGuid();
             var memberId = Guid.NewGuid();
+            var member = new Member(new(memberId), "toto", 0);
             var bet = Bet.Create(new BetId(Guid.NewGuid()),
                                 new DateTime(2022, 2, 3),
-                                "desc1", 10, new(memberId), new DateTime(2021, 3, 2));
-            var member = new Member(new(memberId), "toto", 0);
+                                "desc1", 10, member, new DateTime(2021, 3, 2));
             var betRepository = new InMemoryBetRepository(null, bet.State);
             var queryBetRepository = new InMemoryBetQueryRepository(new List<BetDto>());
             var memberRepository = new InMemoryMemberRepository(new() { member });

@@ -30,8 +30,12 @@ namespace BetFriend.Infrastructure.DataAccess.Entities
         public DateTime EndDate { get; set; }
 
         [Required]
-        [Column("member_id"), ForeignKey(nameof(MemberId))]
-        public Guid MemberId { get; set; }
+        [Column("member_id"), ForeignKey(nameof(CreatorId))]
+        public Guid CreatorId { get; set; }
+
+        [Column("member_id"), ForeignKey(nameof(CreatorId))]
+        public MemberEntity Creator { get; set; }
+
 
         [Required]
         [Column("creation_date")]

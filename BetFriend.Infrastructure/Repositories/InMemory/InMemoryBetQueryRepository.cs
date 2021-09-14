@@ -18,16 +18,10 @@
 
         public async Task<IReadOnlyCollection<BetDto>> GetBetsForMemberAsync(Guid memberId)
         {
-            return await Task.FromResult(_bets.Where(x => x.CreatorId.Equals(memberId)
+            return await Task.FromResult(_bets.Where(x => x.Creator.Id.Equals(memberId)
                                                           || x.Participants.Any(x => x.Id.Equals(memberId)))
                                               .ToList());
         }
-
-        //public Task SaveAsync(BetDto betViewModel)
-        //{
-        //    _bets.Add(betViewModel);
-        //    return Task.CompletedTask;
-        //}
 
         public Task SaveAsync(BetDto betDto)
         {

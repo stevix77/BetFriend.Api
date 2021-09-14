@@ -26,7 +26,7 @@
                 Description = bet.State.Description,
                 EndDate = bet.State.EndDate,
                 Coins = bet.State.Coins,
-                MemberId = bet.State.CreatorId
+                CreatorId = bet.State.Creator.Id.Value
             };
             await _dbContext.Set<BetEntity>().AddAsync(entity);
         }
@@ -37,7 +37,9 @@
             return entity == null ? null :
                                     Bet.FromState(
                                         new BetState(betId, 
-                                                    entity.MemberId, 
+                                                    new Member(new(entity.Creator.MemberId),
+                                                                entity.Creator.MemberName,
+                                                                entity.Creator.Wallet),
                                                     entity.EndDate, 
                                                     entity.Description, 
                                                     entity.Coins, 

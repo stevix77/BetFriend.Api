@@ -36,13 +36,13 @@
             var bets = new List<BetDto>
             {
                 new BetDto(new BetState(Guid.NewGuid(),
-                                        memberId,
+                                        new(new(memberId), "toto", 300),
                                         new DateTime(2021, 4, 3), "desc1",
                                         30, new DateTime(2021, 2, 2),
                                         new List<AnswerState>()),
                            new Domain.Members.Member(new(memberId), "member1", 30)),
                 new BetDto(new BetState(Guid.NewGuid(),
-                                        memberId,
+                                        new(new(memberId), "toto", 300),
                                         new DateTime(2021, 6, 3), "desc2",
                                         30, new DateTime(2021, 3, 2),
                                         new List<AnswerState>()),
@@ -67,7 +67,7 @@
             var bets = new List<BetDto>
             {
                 new BetDto(new BetState(Guid.NewGuid(),
-                                        memberId,
+                                        new(new(memberId), "toto", 300),
                                         new DateTime(2021, 4, 3), "desc1",
                                         30, new DateTime(2021, 2, 2),
                                         new List<AnswerState>()

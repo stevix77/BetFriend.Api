@@ -38,7 +38,7 @@
             var creatorId = Guid.NewGuid();
             var memberId = Guid.NewGuid();
             var betState = new BetState(betId,
-                                        creatorId,
+                                        new(new(creatorId), "toto", 300),
                                         new DateTime(2021, 8, 4),
                                         "desc2",
                                         20,
@@ -50,7 +50,7 @@
             IBetRepository betRepository = new InMemoryBetRepository(default, betState);
             var betsDto = new List<BetDto>()
             {
-                new BetDto(new(betId, creatorId, new DateTime(2021, 5, 2), "desc", 30, new DateTime(2021, 2, 1), new List<AnswerState>()
+                new BetDto(new(betId, new(new(creatorId), "toto", 300), new DateTime(2021, 5, 2), "desc", 30, new DateTime(2021, 2, 1), new List<AnswerState>()
                 {
                     new AnswerState(memberId, true, new DateTime(2021, 3, 3))
                 }),

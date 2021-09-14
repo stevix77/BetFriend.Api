@@ -45,7 +45,7 @@ namespace BetFriend.UnitTests.Bets
             var memberRepository = new InMemoryMemberRepository(new() { member });
             var betRepository = new InMemoryBetRepository(null, 
                     new BetState(betId.Value, 
-                                memberId.Value, 
+                                member, 
                                 DateTime.UtcNow, 
                                 "descr", 
                                 30, 
@@ -88,7 +88,7 @@ namespace BetFriend.UnitTests.Bets
             var dateTimeAnswerBet = new DateTime(2021, 3, 18, 20, 30, 2);
             var member = new Member(memberId, "name", 200);
             var memberRepository = new InMemoryMemberRepository(new() { member });
-            var betState = new BetState(betId.Value, memberId.Value, new DateTime(2022, 3, 3), "descr", 30, new DateTime(2021, 2, 3),
+            var betState = new BetState(betId.Value, member, new DateTime(2022, 3, 3), "descr", 30, new DateTime(2021, 2, 3),
                                 new ReadOnlyCollection<AnswerState>(new List<AnswerState>()));
             var domainEventsListener = new DomainEventsListener();
             var betRepository = new InMemoryBetRepository(domainEventsListener, betState);
@@ -120,7 +120,7 @@ namespace BetFriend.UnitTests.Bets
             var dateTimeAnswerBet = new DateTime(2021, 3, 1);
             var member = new Member(memberId, "name", 200);
             var memberRepository = new InMemoryMemberRepository(new() { member });
-            var betState = new BetState(betId.Value, memberId.Value, new DateTime(2021, 3, 3), "descr", 30, new DateTime(2021, 2, 3),
+            var betState = new BetState(betId.Value, member, new DateTime(2021, 3, 3), "descr", 30, new DateTime(2021, 2, 3),
                                 new ReadOnlyCollection<AnswerState>(new List<AnswerState>()));
             var betRepository = new InMemoryBetRepository(null, betState);
             var command = new AnswerBetCommand(memberId.Value, betId.Value, true, new FakeDateTimeProvider(dateTimeAnswerBet));
@@ -144,7 +144,7 @@ namespace BetFriend.UnitTests.Bets
             var dateTimeAnswerBet = new DateTime(2021, 3, 1);
             var member = new Member(memberId, "name", 200);
             var memberRepository = new InMemoryMemberRepository(new() { member });
-            var betState = new BetState(betId.Value, memberId.Value, new DateTime(2022, 3, 3), "descr", 300, new DateTime(2021, 2, 3),
+            var betState = new BetState(betId.Value, member, new DateTime(2022, 3, 3), "descr", 300, new DateTime(2021, 2, 3),
                                 new ReadOnlyCollection<AnswerState>(new List<AnswerState>()));
             var betRepository = new InMemoryBetRepository(null, betState);
             var command = new AnswerBetCommand(memberId.Value, betId.Value, true, new FakeDateTimeProvider(dateTimeAnswerBet));

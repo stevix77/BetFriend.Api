@@ -40,7 +40,7 @@ namespace BetFriend.UnitTests.Bets
             var member = new Member(new MemberId(_creatorId), "name", 25);
             var memberRepository = new InMemoryMemberRepository(new List<Member>() { member });
             var handler = new LaunchBetCommandHandler(betRepository, memberRepository);
-            BetState expectedBet = new(_betId, _creatorId, endDate, description, coins, dtNow.Now, new List<AnswerState>());
+            BetState expectedBet = new(_betId, member, endDate, description, coins, dtNow.Now, new List<AnswerState>());
 
             //act
             await handler.Handle(command, default);
@@ -52,7 +52,9 @@ namespace BetFriend.UnitTests.Bets
             Assert.Equal(expectedBet.BetId, actualBet.State.BetId);
             Assert.Equal(expectedBet.Description, actualBet.State.Description);
             Assert.Equal(expectedBet.EndDate, actualBet.State.EndDate);
-            Assert.Equal(expectedBet.CreatorId, actualBet.State.CreatorId);
+            Assert.Equal(expectedBet.Creator.Id, actualBet.State.Creator.Id);
+            Assert.Equal(expectedBet.Creator.Name, actualBet.State.Creator.Name);
+            Assert.Equal(expectedBet.Creator.Wallet, actualBet.State.Creator.Wallet);
             Assert.Equal(expectedBet.Coins, actualBet.State.Coins);
             Assert.True(actualBet.State.CreationDate != DateTime.MinValue);
             Assert.True(expectedBet.EndDate > actualBet.State.CreationDate);

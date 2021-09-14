@@ -6,10 +6,16 @@ namespace BetFriend.Domain.Bets
 {
     public class BetState
     {
-        public BetState(Guid betId, Guid creatorId, DateTime endDate, string description, int tokens, DateTime creationDate, IReadOnlyCollection<AnswerState> answers)
+        public BetState(Guid betId,
+                        Member creator,
+                        DateTime endDate,
+                        string description,
+                        int tokens,
+                        DateTime creationDate,
+                        IReadOnlyCollection<AnswerState> answers)
         {
             BetId = betId;
-            CreatorId = creatorId;
+            Creator = creator;
             EndDate = endDate;
             Description = description;
             Coins = tokens;
@@ -18,7 +24,7 @@ namespace BetFriend.Domain.Bets
         }
 
         public Guid BetId { get; }
-        public Guid CreatorId { get; }
+        public Member Creator { get; }
         public DateTime EndDate { get; }
         public string Description { get; }
         public int Coins { get; }
