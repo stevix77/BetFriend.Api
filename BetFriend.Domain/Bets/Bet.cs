@@ -15,6 +15,7 @@
         private readonly Member _creator;
         private readonly string _description;
         private readonly Dictionary<MemberId, Answer> _answers;
+        private Status _status;
 
         private Bet(BetId betId, DateTime endDate, int coins, Member creator, string description, DateTime creationDate)
         {
@@ -28,6 +29,11 @@
 
             AddDomainEvent(new BetCreated(betId, _creator.Id));
 
+        }
+
+        public void Close(bool success, IDateTimeProvider dateTimeProvider)
+        {
+            _status = new Status(success, dateTimeProvider.Now);
         }
 
         private Bet(BetState state)
@@ -47,6 +53,7 @@
                                 new Answer(x.IsAccepted, x.DateAnswer)
                             )
                         ));
+            _status = state.Status;
         }
 
         internal int GetCoins() => _coins;
@@ -72,9 +79,9 @@
                         _creationDate,
                         _answers.Select(x => new AnswerState(x.Key.Value, x.Value.Accepted, x.Value.DateAnswer))
                                 .ToList()
-                                .AsReadOnly());
+                                .AsReadOnly(),
+                        _status);
         }
-
 
         public static Bet Create(BetId betId, DateTime endDate, string description, int coins, Member creator, DateTime creationDate)
         {

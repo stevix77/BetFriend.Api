@@ -12,7 +12,8 @@ namespace BetFriend.Domain.Bets
                         string description,
                         int tokens,
                         DateTime creationDate,
-                        IReadOnlyCollection<AnswerState> answers)
+                        IReadOnlyCollection<AnswerState> answers, 
+                        Status status = null)
         {
             BetId = betId;
             Creator = creator;
@@ -21,6 +22,7 @@ namespace BetFriend.Domain.Bets
             Coins = tokens;
             CreationDate = creationDate;
             Answers = answers;
+            Status = status;
         }
 
         public Guid BetId { get; }
@@ -28,6 +30,7 @@ namespace BetFriend.Domain.Bets
         public DateTime EndDate { get; }
         public string Description { get; }
         public int Coins { get; }
+        public Status Status { get; }
         public DateTime CreationDate { get; }
         public IReadOnlyCollection<AnswerState> Answers { get; }
     }
