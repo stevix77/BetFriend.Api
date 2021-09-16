@@ -25,9 +25,9 @@ namespace BetFriend.Application.Usecases.UpdateFeedMember
 
         public async Task Handle(InsertBetQuerySideNotification notification, CancellationToken cancellationToken)
         {
-            var bet = await _betRepository.GetByIdAsync(notification.BetId)
+            var bet = await _betRepository.GetByIdAsync(new(notification.BetId))
                         ?? throw new BetUnknownException($"Bet with Id {notification.BetId} does not exists");
-            var member = await _memberRepository.GetByIdAsync(notification.MemberId);
+            var member = await _memberRepository.GetByIdAsync(new(notification.MemberId));
             var feeds = await _feedRepository.GetByIdsAsync(member.Followers.Select(x => x.MemberId.Value));
             foreach(var feed in feeds)
                 feed.AddBet(bet.State);

@@ -23,7 +23,7 @@
 
         public async Task<Unit> Handle(UpdateBetCommand request, CancellationToken cancellationToken)
         {
-            var bet = await _betRepository.GetByIdAsync(request.BetId)
+            var bet = await _betRepository.GetByIdAsync(new(request.BetId))
                         ?? throw new BetUnknownException($"This bet with Id {request.BetId} does not exist");
 
             var dto = new BetDto(bet.State);

@@ -15,9 +15,9 @@
             _members = members ?? (_members = new List<Member>());
         }
 
-        public Task<Member> GetByIdAsync(Guid memberId)
+        public Task<Member> GetByIdAsync(MemberId memberId)
         {
-            return Task.FromResult(_members.Find(x => x.Id.Value == memberId));
+            return Task.FromResult(_members.Find(x => x.Id.Value == memberId.Value));
         }
     }
 }

@@ -42,9 +42,9 @@ namespace BetFriend.UnitTests.Members
 
             await handler.Handle(command, default);
 
-            var creatorUpdated = await memberRepository.GetByIdAsync(creator.Id.Value);
-            var participantUpdated = await memberRepository.GetByIdAsync(participant.Id.Value);
-            var participantUpdated2 = await memberRepository.GetByIdAsync(participant2.Id.Value);
+            var creatorUpdated = await memberRepository.GetByIdAsync(creator.Id);
+            var participantUpdated = await memberRepository.GetByIdAsync(participant.Id);
+            var participantUpdated2 = await memberRepository.GetByIdAsync(participant2.Id);
             Assert.Equal(250, creatorUpdated.Wallet);
             Assert.Equal(50, participantUpdated.Wallet);
             Assert.Equal(450, participantUpdated2.Wallet);

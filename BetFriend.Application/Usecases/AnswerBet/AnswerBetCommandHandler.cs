@@ -23,9 +23,9 @@ namespace BetFriend.Application.Usecases.AnswerBet
         {
             ValidateRequest(request);
 
-            var member = await _memberRepository.GetByIdAsync(request.MemberId).ConfigureAwait(false) ??
+            var member = await _memberRepository.GetByIdAsync(new(request.MemberId)).ConfigureAwait(false) ??
                 throw new MemberUnknownException("Member unknown");
-            var bet = await _betRepository.GetByIdAsync(request.BetId).ConfigureAwait(false) ??
+            var bet = await _betRepository.GetByIdAsync(new(request.BetId)).ConfigureAwait(false) ??
                 throw new BetUnknownException($"Bet {request.BetId} is unknown");
 
             member.Answer(bet, request.IsAccepted, request.DateTimeProvider.Now);

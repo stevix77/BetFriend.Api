@@ -22,14 +22,14 @@ namespace BetFriend.Application.Usecases.UpdateWallet
 
         public async Task<Unit> Handle(UpdateWalletMembersCommand request, CancellationToken cancellationToken)
         {
-            var bet = await _betRepository.GetByIdAsync(request.BetId)
+            var bet = await _betRepository.GetByIdAsync(new(request.BetId))
                     ?? throw new BetUnknownException($"This bet with id {request.BetId} is unknown");
-            var creator = await _memberRepository.GetByIdAsync(bet.State.Creator.Id.Value).ConfigureAwait(false);
+            var creator = await _memberRepository.GetByIdAsync(bet.State.Creator.Id).ConfigureAwait(false);
             creator.WonBet(bet);
 
             foreach(var answer in bet.State.Answers)
             {
-                var member = await _memberRepository.GetByIdAsync(answer.MemberId).ConfigureAwait(false);
+                var member = await _memberRepository.GetByIdAsync(new(answer.MemberId)).ConfigureAwait(false);
                 member.LostBet(bet);
             }
 

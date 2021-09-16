@@ -46,7 +46,7 @@ namespace BetFriend.UnitTests.Bets
             await handler.Handle(command, default);
 
             //assert
-            Bet actualBet = await betRepository.GetByIdAsync(_betId);
+            Bet actualBet = await betRepository.GetByIdAsync(new(_betId));
             IDomainEvent domainEvent = domainEventsListener.GetDomainEvents()
                                                            .SingleOrDefault(x => x.GetType() == typeof(BetCreated));
             Assert.Equal(expectedBet.BetId, actualBet.State.BetId);

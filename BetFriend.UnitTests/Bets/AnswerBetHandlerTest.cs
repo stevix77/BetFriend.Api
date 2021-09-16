@@ -44,7 +44,7 @@ namespace BetFriend.UnitTests.Bets
             var member = new Member(memberId, "name", 200);
             var memberRepository = new InMemoryMemberRepository(new() { member });
             var betRepository = new InMemoryBetRepository(null, 
-                    new BetState(betId.Value, 
+                    new BetState(Guid.NewGuid(), 
                                 member, 
                                 DateTime.UtcNow, 
                                 "descr", 
@@ -52,7 +52,7 @@ namespace BetFriend.UnitTests.Bets
                                 DateTime.UtcNow.AddSeconds(-1000), 
                                 new ReadOnlyCollection<AnswerState>(new List<AnswerState>()))
                     );
-            var command = new AnswerBetCommand(memberId.Value, Guid.Empty, true, new FakeDateTimeProvider(DateTime.Now));
+            var command = new AnswerBetCommand(memberId.Value, betId.Value, true, new FakeDateTimeProvider(DateTime.Now));
             var handler = new AnswerBetCommandHandler(memberRepository, betRepository);
 
             //act
@@ -60,7 +60,7 @@ namespace BetFriend.UnitTests.Bets
 
             //assert 
             Assert.IsType<BetUnknownException>(record);
-            Assert.Equal($"Bet {Guid.Empty} is unknown", record.Message);
+            Assert.Equal($"Bet {betId.Value} is unknown", record.Message);
         }
 
         [Fact]
@@ -99,7 +99,7 @@ namespace BetFriend.UnitTests.Bets
             await handler.Handle(command, default);
 
             //assert
-            var actualBet = await betRepository.GetByIdAsync(betId.Value);
+            var actualBet = await betRepository.GetByIdAsync(betId);
             var answer = actualBet.GetAnswerForMember(memberId);
             IDomainEvent domainEvent = domainEventsListener.GetDomainEvents()
                                                            .SingleOrDefault(x => x.GetType() == typeof(BetAnswered));
