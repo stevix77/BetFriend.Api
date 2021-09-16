@@ -57,5 +57,15 @@ namespace BetFriend.Domain.Members
             if(dateAnswer.CompareTo(bet.GetEndDateToAnswer()) > 0)
                 throw new AnswerTooLateException($"The date limit to answer was at : {bet.GetEndDateToAnswer().ToLongDateString()}");
         }
+
+        public void WonBet(Bet bet)
+        {
+            Wallet += bet.State.Coins;
+        }
+
+        public void LostBet(Bet bet)
+        {
+            Wallet -= bet.State.Coins;
+        }
     }
 }
