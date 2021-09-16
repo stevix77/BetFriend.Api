@@ -40,7 +40,7 @@
 
             var result = await handler.Handle(command, default);
 
-            var bet = await repository.GetByIdAsync(betId);
+            var bet = await repository.GetByIdAsync(new(betId));
             Assert.Equal(Unit.Value, result);
             Assert.Equal(expectedStatus, bet.State.Status);
             var domainEvent = domainEventsListener.GetDomainEvents()

@@ -31,12 +31,12 @@
             await _dbContext.Set<BetEntity>().AddAsync(entity);
         }
 
-        public async Task<Bet> GetByIdAsync(Guid betId)
+        public async Task<Bet> GetByIdAsync(BetId betId)
         {
-            var entity = await _dbContext.Set<BetEntity>().FirstOrDefaultAsync(x => x.BetId == betId);
+            var entity = await _dbContext.Set<BetEntity>().FirstOrDefaultAsync(x => x.BetId == betId.Value);
             return entity == null ? null :
                                     Bet.FromState(
-                                        new BetState(betId, 
+                                        new BetState(betId.Value, 
                                                     new Member(new(entity.Creator.MemberId),
                                                                 entity.Creator.MemberName,
                                                                 entity.Creator.Wallet),

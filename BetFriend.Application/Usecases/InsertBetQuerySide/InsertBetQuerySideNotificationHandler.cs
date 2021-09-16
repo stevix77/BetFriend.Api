@@ -30,9 +30,9 @@
         {
             ValidateRequest(request);
 
-            var member = await _memberRepository.GetByIdAsync(request.MemberId).ConfigureAwait(false)
+            var member = await _memberRepository.GetByIdAsync(new(request.MemberId)).ConfigureAwait(false)
                         ?? throw new MemberUnknownException($"MemberId: {request.MemberId} is unknown");
-            var bet = await _betRepository.GetByIdAsync(request.BetId).ConfigureAwait(false)
+            var bet = await _betRepository.GetByIdAsync(new(request.BetId)).ConfigureAwait(false)
                     ?? throw new BetUnknownException($"BetId: {request.BetId} is unknwon");
             var betDto = new BetDto(bet.State);
             await _queryBetRepository.SaveAsync(betDto);

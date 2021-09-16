@@ -6,7 +6,7 @@
 
     public interface IBetRepository
     {
-        Task<Bet> GetByIdAsync(Guid betId);
+        Task<Bet> GetByIdAsync(BetId betId);
         Task SaveAsync(Bet bet);
     }
 }
