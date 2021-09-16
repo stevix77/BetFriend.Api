@@ -28,16 +28,7 @@
             var betId = Guid.NewGuid();
             var memberId = new MemberId(Guid.Parse("1311e8c9-d993-4346-94c1-1907e3ce65d3"));
             var creator = new Member(memberId, "name", 300);
-            var betState = new BetState(betId,
-                                        creator,
-                                        new DateTime(2021, 4, 3),
-                                        "description",
-                                        45,
-                                        new DateTime(2021, 2, 4),
-                                        new List<AnswerState>()
-                                        {
-                                            new AnswerState(Guid.NewGuid(), true, new DateTime(2021, 3, 3))
-                                        });
+            BetState betState = GenerateBet(betId, creator);
             var domainEventsListener = new DomainEventsListener();
             var repository = new InMemoryBetRepository(domainEventsListener, betState);
             var command = new CloseBetCommand(betId, memberId.Value, true);
@@ -58,16 +49,7 @@
         {
             var betId = Guid.NewGuid();
             var memberId = new MemberId(Guid.NewGuid());
-            var betState = new BetState(betId,
-                                        new(new(Guid.NewGuid()), "username", 300),
-                                        new DateTime(2021, 4, 3),
-                                        "description",
-                                        45,
-                                        new DateTime(2021, 2, 4),
-                                        new List<AnswerState>()
-                                        {
-                                            new AnswerState(Guid.NewGuid(), true, new DateTime(2021, 3, 3))
-                                        });
+            var betState = GenerateBet(betId, new Member(new MemberId(Guid.NewGuid()), "name", 200));
             var command = new CloseBetCommand(betId, memberId.Value, true);
             var handler = new CloseBetCommandHandler(new InMemoryBetRepository(default, betState),
                                                     new FakeDateTimeProvider(default));
@@ -78,6 +60,34 @@
             Assert.Equal($"Member {memberId.Value} is not creator of this bet", record.Message);
         }
 
+        [Fact]
+        public async Task ShouldThrowBetUnknownExceptionIfBetNotFound()
+        {
+            var betId = Guid.NewGuid();
+            var memberId = Guid.NewGuid();
+            var command = new CloseBetCommand(betId, memberId, true);
+            var handler = new CloseBetCommandHandler(new InMemoryBetRepository(default, default),
+                                                    new FakeDateTimeProvider(default));
+
+            var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
+
+            Assert.IsType<BetUnknownException>(record);
+            Assert.Equal($"This bet with id {betId} is unknown", record.Message);
+        }
+
         //test si bet unknown
+        private static BetState GenerateBet(Guid betId, Member creator)
+        {
+            return new BetState(betId,
+                                        creator,
+                                        new DateTime(2021, 4, 3),
+                                        "description",
+                                        45,
+                                        new DateTime(2021, 2, 4),
+                                        new List<AnswerState>()
+                                        {
+                                            new AnswerState(Guid.NewGuid(), true, new DateTime(2021, 3, 3))
+                                        });
+        }
     }
 }

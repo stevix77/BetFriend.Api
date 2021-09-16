@@ -23,17 +23,23 @@
 
         public async Task<Unit> Handle(CloseBetCommand request, CancellationToken cancellationToken)
         {
-            var bet = await _betRepository.GetByIdAsync(request.BetId).ConfigureAwait(false);
-            if (!IsBetCreator(request.MemberId, bet.State.Creator))
+            Bet bet = await GetBet(request).ConfigureAwait(false);
+            if (!IsCreator(request.MemberId, bet.State.Creator))
                 throw new MemberAuthorizationException($"Member {request.MemberId} is not creator of this bet");
             bet.Close(request.Success, _dateTimeProvider);
             await _betRepository.SaveAsync(bet);
 
             return Unit.Value;
 
-            static bool IsBetCreator(Guid memberId, Member creator)
+            static bool IsCreator(Guid memberId, Member creator)
             {
                 return memberId == creator.Id.Value;
+            }
+
+            async Task<Bet> GetBet(CloseBetCommand request)
+            {
+                return await _betRepository.GetByIdAsync(request.BetId).ConfigureAwait(false)
+                            ?? throw new BetUnknownException($"This bet with id {request.BetId} is unknown");
             }
         }
     }
