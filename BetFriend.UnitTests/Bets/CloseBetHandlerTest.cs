@@ -11,6 +11,7 @@
     using MediatR;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Xunit;
 
@@ -42,6 +43,10 @@
             var bet = await repository.GetByIdAsync(betId);
             Assert.Equal(Unit.Value, result);
             Assert.Equal(expectedStatus, bet.State.Status);
+            var domainEvent = domainEventsListener.GetDomainEvents()
+                                                  .SingleOrDefault(x => x.GetType() == typeof(BetClosed)) as BetClosed;
+            Assert.NotNull(domainEvent);
+            Assert.Equal(betId, domainEvent.BetId);
         }
 
         [Fact]

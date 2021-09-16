@@ -34,6 +34,7 @@
         public void Close(bool success, IDateTimeProvider dateTimeProvider)
         {
             _status = new Status(success, dateTimeProvider.Now);
+            AddDomainEvent(new BetClosed(_betId.Value));
         }
 
         private Bet(BetState state)
@@ -97,5 +98,14 @@
         {
             return _answers.FirstOrDefault(x => x.Key.Value == memberId.Value).Value;
         }
+    }
+    public class BetClosed : IDomainEvent
+    {
+        public BetClosed(Guid betId)
+        {
+            BetId = betId;
+        }
+
+        public Guid BetId { get; }
     }
 }

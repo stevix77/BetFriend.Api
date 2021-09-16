@@ -12,7 +12,7 @@
 
     public class CloseBetCommandHandler : ICommandHandler<CloseBetCommand>
     {
-        private IBetRepository _betRepository;
+        private readonly IBetRepository _betRepository;
         private readonly IDateTimeProvider _dateTimeProvider;
 
         public CloseBetCommandHandler(IBetRepository repository, IDateTimeProvider dateTimeProvider)
