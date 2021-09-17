@@ -15,7 +15,7 @@
             Creator = new MemberDto(state.Creator);
             Coins = state.Coins;
             EndDate = state.EndDate;
-            Participants = state.Answers?.Select(x => new MemberDto() { Id = x.MemberId }).ToList();
+            Participants = state.Answers?.Select(x => new MemberDto() { Id = x.Member.Id.Value, Username = x.Member.Name }).ToList();
         }
 
         public Guid Id { get; private set; }

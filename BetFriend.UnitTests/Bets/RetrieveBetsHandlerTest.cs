@@ -70,7 +70,7 @@
                                         30, new DateTime(2021, 2, 2),
                                         new List<AnswerState>()
                                         {
-                                            new AnswerState(memberId, true, new DateTime(2021, 3, 5))
+                                            new AnswerState(new(new(memberId), "name", 300), true, new DateTime(2021, 3, 5))
                                         }))
             };
             var betRepository = new InMemoryBetQueryRepository(new(bets));

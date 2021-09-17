@@ -1,16 +1,17 @@
 ﻿namespace BetFriend.Domain.Bets
 {
+    using BetFriend.Domain.Members;
     using System;
 
     public class AnswerState
     {
-        public Guid MemberId { get; }
+        public Member Member { get; }
         public bool IsAccepted { get; }
         public DateTime DateAnswer { get; }
 
-        public AnswerState(Guid memberId, bool isAccepted, DateTime dateAnswer)
+        public AnswerState(Member member, bool isAccepted, DateTime dateAnswer)
         {
-            MemberId = memberId;
+            Member = member;
             IsAccepted = isAccepted;
             DateAnswer = dateAnswer;
         }

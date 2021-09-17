@@ -15,7 +15,10 @@
 
         public override bool Equals(object obj)
         {
-            return (obj as Status)._success == _success && (obj as Status)._dateTime.CompareTo(_dateTime) == 0;
+            return (obj as Status)._success == _success 
+                && (obj as Status)._dateTime.CompareTo(_dateTime) == 0;
         }
+
+        internal bool IsSuccess() => _success;
     }
 }

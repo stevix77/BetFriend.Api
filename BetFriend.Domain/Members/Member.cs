@@ -46,7 +46,25 @@ namespace BetFriend.Domain.Members
         {
             CheckAnswer(bet, dateAnswer);
 
-            bet.AddAnswer(Id, isAccepted, dateAnswer);
+            bet.AddAnswer(this, isAccepted, dateAnswer);
+        }
+
+        public void UpdateCreatorWallet(Bet bet)
+        {
+            var coins = bet.State.Coins;
+            if (bet.IsSuccess())
+                Wallet += coins;
+            else
+                Wallet -= coins;
+        }
+
+        public void UpdateParticipantWallet(Bet bet)
+        {
+            var coins = bet.State.Coins;
+            if(bet.IsSuccess())
+                Wallet -= coins / bet.State.Answers.Count;
+            else
+                Wallet += coins / bet.State.Answers.Count;
         }
 
         private void CheckAnswer(Bet bet, DateTime dateAnswer)
@@ -56,16 +74,6 @@ namespace BetFriend.Domain.Members
 
             if(dateAnswer.CompareTo(bet.GetEndDateToAnswer()) > 0)
                 throw new AnswerTooLateException($"The date limit to answer was at : {bet.GetEndDateToAnswer().ToLongDateString()}");
-        }
-
-        public void WonBet(Bet bet)
-        {
-            Wallet += bet.State.Coins;
-        }
-
-        public void LostBet(Bet bet)
-        {
-            Wallet -= bet.State.Coins;
         }
     }
 }
