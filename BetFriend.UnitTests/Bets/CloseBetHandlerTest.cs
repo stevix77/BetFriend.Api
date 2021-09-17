@@ -15,12 +15,6 @@
     using System.Threading.Tasks;
     using Xunit;
 
-    /// <summary>
-    /// terminer le pari
-    /// verifier que le user est le creator
-    /// donner un resutat (bool) à une date avec un byte[]
-    /// mettre à jour le pari
-    /// </summary>
     public class CloseBetHandlerTest
     {
         [Fact]
