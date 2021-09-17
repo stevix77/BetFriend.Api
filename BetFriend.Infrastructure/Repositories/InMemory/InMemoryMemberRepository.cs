@@ -3,6 +3,7 @@
     using BetFriend.Domain.Members;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
 
@@ -18,6 +19,17 @@
         public Task<Member> GetByIdAsync(MemberId memberId)
         {
             return Task.FromResult(_members.Find(x => x.Id.Value == memberId.Value));
+        }
+
+        public Task<List<Member>> GetByIdsAsync(IEnumerable<Guid> memberIds)
+        {
+            return Task.FromResult(_members.Where(x => memberIds.Contains(x.Id.Value))
+                                           .ToList());
+        }
+
+        public Task SaveAsync(IReadOnlyCollection<Member> members)
+        {
+            return Task.CompletedTask;
         }
     }
 }

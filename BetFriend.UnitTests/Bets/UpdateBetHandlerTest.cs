@@ -41,7 +41,7 @@
                                         new DateTime(2021, 3, 3),
                                         new List<AnswerState>()
                                         {
-                                            new AnswerState(memberId, true, new DateTime(2021, 4, 2))
+                                            new AnswerState(new(new(memberId), "name", 300), true, new DateTime(2021, 4, 2))
                                         });
             IBetRepository betRepository = new InMemoryBetRepository(default, betState);
             var betsDto = new List<BetDto>()
@@ -54,7 +54,7 @@
                             new DateTime(2021, 2, 1), 
                             new List<AnswerState>()
                             {
-                                new AnswerState(memberId,
+                                new AnswerState(new(new(memberId), "name", 300),
                                                 true,
                                                 new DateTime(2021, 3, 3))
                             }))

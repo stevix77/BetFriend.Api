@@ -45,7 +45,7 @@
                                                     entity.Coins, 
                                                     entity.CreationDate,
                                                     entity.Answers?.Select(x => 
-                                                        new AnswerState(x.Member.MemberId,
+                                                        new AnswerState(new(new(x.Member.MemberId), x.Member.MemberName, x.Member.Wallet),
                                                                         x.IsAccepted,
                                                                         x.DateAnswer))
                                                                    .ToList()));

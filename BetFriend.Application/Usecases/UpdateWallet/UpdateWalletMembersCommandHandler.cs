@@ -3,6 +3,7 @@ using BetFriend.Domain.Bets;
 using BetFriend.Domain.Exceptions;
 using BetFriend.Domain.Members;
 using MediatR;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,14 +25,9 @@ namespace BetFriend.Application.Usecases.UpdateWallet
         {
             var bet = await _betRepository.GetByIdAsync(new(request.BetId))
                     ?? throw new BetUnknownException($"This bet with id {request.BetId} is unknown");
-            var creator = await _memberRepository.GetByIdAsync(bet.State.Creator.Id).ConfigureAwait(false);
-            creator.WonBet(bet);
-
-            foreach(var answer in bet.State.Answers)
-            {
-                var member = await _memberRepository.GetByIdAsync(new(answer.MemberId)).ConfigureAwait(false);
-                member.LostBet(bet);
-            }
+            bet.UpdateWallets();
+            var members = bet.GetAllMembers();
+            await _memberRepository.SaveAsync(members).ConfigureAwait(false);
 
             return Unit.Value;
         }

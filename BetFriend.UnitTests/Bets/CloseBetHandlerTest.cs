@@ -2,8 +2,8 @@
 {
     using BetFriend.Application;
     using BetFriend.Application.Usecases.CloseBet;
-    using BetFriend.Domain;
     using BetFriend.Domain.Bets;
+    using BetFriend.Domain.Bets.Events;
     using BetFriend.Domain.Exceptions;
     using BetFriend.Domain.Members;
     using BetFriend.Infrastructure.DateTimeProvider;
@@ -42,6 +42,7 @@
 
             var bet = await repository.GetByIdAsync(new(betId));
             Assert.Equal(Unit.Value, result);
+            Assert.Equal(expectedStatus, bet.State.Status);
             Assert.Equal(expectedStatus, bet.State.Status);
             var domainEvent = domainEventsListener.GetDomainEvents()
                                                   .SingleOrDefault(x => x.GetType() == typeof(BetClosed)) as BetClosed;
@@ -91,7 +92,7 @@
                                         new DateTime(2021, 2, 4),
                                         new List<AnswerState>()
                                         {
-                                            new AnswerState(Guid.NewGuid(), true, new DateTime(2021, 3, 3))
+                                            new AnswerState(new(new(Guid.NewGuid()), "name", 300), true, new DateTime(2021, 3, 3))
                                         });
         }
     }

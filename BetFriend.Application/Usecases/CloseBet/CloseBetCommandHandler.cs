@@ -24,17 +24,10 @@
         public async Task<Unit> Handle(CloseBetCommand request, CancellationToken cancellationToken)
         {
             Bet bet = await GetBet(request).ConfigureAwait(false);
-            if (!IsCreator(request.MemberId, bet.State.Creator))
-                throw new MemberAuthorizationException($"Member {request.MemberId} is not creator of this bet");
-            bet.Close(request.Success, _dateTimeProvider);
+            bet.Close(new MemberId(request.MemberId), request.Success, _dateTimeProvider);
             await _betRepository.SaveAsync(bet);
 
             return Unit.Value;
-
-            static bool IsCreator(Guid memberId, Member creator)
-            {
-                return memberId == creator.Id.Value;
-            }
 
             async Task<Bet> GetBet(CloseBetCommand request)
             {
