@@ -3,7 +3,6 @@
     using BetFriend.Application.Abstractions;
     using BetFriend.Application.Usecases.AnswerBet;
     using BetFriend.Domain;
-    using BetFriend.Infrastructure.DateTimeProvider;
     using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Threading.Tasks;

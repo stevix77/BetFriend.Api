@@ -11,10 +11,10 @@
 
         public bool Success { get; }
 
-        public CloseBetCommand(Guid betId, Guid value, bool success)
+        public CloseBetCommand(Guid betId, Guid userId, bool success)
         {
             BetId = betId;
-            MemberId = value;
+            MemberId = userId;
             Success = success;
         }
     }
