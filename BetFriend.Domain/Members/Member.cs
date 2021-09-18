@@ -2,6 +2,7 @@
 {
     using BetFriend.Domain.Bets;
     using BetFriend.Domain.Exceptions;
+    using BetFriend.Domain.Members.Events;
     using BetFriend.Domain.Subscriptions;
     using System;
     using System.Collections.Generic;
@@ -42,6 +43,8 @@
         {
             if (!_subscriptions.Any(x => x.MemberId.Equals(subscription.MemberId)))
                 _subscriptions.Add(subscription);
+
+            AddDomainEvent(new MemberSubscribed(Id, subscription.MemberId));
         }
 
         public void Answer(Bet bet, bool isAccepted, DateTime dateAnswer)

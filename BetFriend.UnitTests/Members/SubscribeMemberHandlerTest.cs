@@ -1,8 +1,10 @@
 ﻿namespace BetFriend.UnitTests.Members
 {
+    using BetFriend.Application;
     using BetFriend.Application.Usecases.SubscribeMember;
     using BetFriend.Domain.Exceptions;
     using BetFriend.Domain.Members;
+    using BetFriend.Domain.Members.Events;
     using BetFriend.Infrastructure.Repositories.InMemory;
     using System;
     using System.Threading.Tasks;
@@ -17,7 +19,8 @@
             var memberId = Guid.NewGuid();
             var memberToSubscribe = new Member(new(subscriptionId), "member2", 300);
             var member = new Member(new(memberId), "member1", 300);
-            var memberReposiory = new InMemoryMemberRepository(new() { member, memberToSubscribe });
+            var domainListener = new DomainEventsListener();
+            var memberReposiory = new InMemoryMemberRepository(new() { member, memberToSubscribe }, domainListener);
             var handler = new SubscribeMemberCommanderHandler(memberReposiory);
             var command = new SubscribeMemberCommand(memberId, subscriptionId);
 
@@ -26,6 +29,12 @@
             Assert.Collection(member.Subscriptions, x =>
             {
                 Assert.Equal(subscriptionId, x.MemberId.Value);
+            });
+            Assert.Collection(domainListener.GetDomainEvents(), x =>
+            {
+                Assert.IsType<MemberSubscribed>(x);
+                Assert.Equal(memberId, (x as MemberSubscribed).MemberId);
+                Assert.Equal(subscriptionId, (x as MemberSubscribed).SubscriptionId);
             });
         }
 
