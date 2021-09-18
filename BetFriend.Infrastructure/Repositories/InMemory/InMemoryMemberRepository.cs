@@ -1,5 +1,6 @@
 ﻿namespace BetFriend.Infrastructure.Repositories.InMemory
 {
+    using BetFriend.Application.Abstractions;
     using BetFriend.Domain.Members;
     using System;
     using System.Collections.Generic;
@@ -10,10 +11,12 @@
     public sealed class InMemoryMemberRepository : IMemberRepository
     {
         private readonly List<Member> _members;
+        private readonly IDomainEventsListener _domainEventsListener;
 
-        public InMemoryMemberRepository(List<Member> members = null)
+        public InMemoryMemberRepository(List<Member> members = null, IDomainEventsListener domainEventsListener = null)
         {
             _members = members ?? (_members = new List<Member>());
+            _domainEventsListener = domainEventsListener;
         }
 
         public Task<Member> GetByIdAsync(MemberId memberId)
@@ -29,6 +32,7 @@
 
         public Task SaveAsync(IReadOnlyCollection<Member> members)
         {
+            _domainEventsListener?.AddDomainEvents(members.SelectMany(x => x.DomainEvents).ToList());
             return Task.CompletedTask;
         }
     }
