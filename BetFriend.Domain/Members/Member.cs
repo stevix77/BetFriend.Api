@@ -1,28 +1,29 @@
-﻿using BetFriend.Domain.Bets;
-using BetFriend.Domain.Exceptions;
-using BetFriend.Domain.Followers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace BetFriend.Domain.Members
+﻿namespace BetFriend.Domain.Members
 {
-    public class Member
+    using BetFriend.Domain.Bets;
+    using BetFriend.Domain.Exceptions;
+    using BetFriend.Domain.Subscriptions;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+
+    public class Member : Entity
     {
-        private readonly ICollection<Follower> _followers;
+        private readonly ICollection<Subscription> _subscriptions;
 
         public Member(MemberId creatorId, string memberName, int wallet)
         {
             Id = creatorId;
             Name = memberName;
             Wallet = wallet;
-            _followers = new List<Follower>();
+            _subscriptions = new List<Subscription>();
         }
 
         public MemberId Id { get; }
         public int Wallet { get; private set; }
         public string Name { get; }
-        public IReadOnlyCollection<Follower> Followers { get => _followers.ToList(); }
+        public IReadOnlyCollection<Subscription> Subscriptions { get => _subscriptions.ToList(); }
 
         private bool CanBet(int coins)
         {
@@ -31,15 +32,16 @@ namespace BetFriend.Domain.Members
 
         public Bet CreateBet(BetId betId, DateTime endDate, string description, int coins, DateTime creationDate)
         {
-            if(!CanBet(coins))
+            if (!CanBet(coins))
                 throw new MemberHasNotEnoughCoinsException(Wallet, coins);
 
             return Bet.Create(betId, endDate, description, coins, this, creationDate);
         }
 
-        public void AddFollower(Follower follower)
+        public void Subscribe(Subscription subscription)
         {
-            _followers.Add(follower);
+            if (!_subscriptions.Any(x => x.MemberId.Equals(subscription.MemberId)))
+                _subscriptions.Add(subscription);
         }
 
         public void Answer(Bet bet, bool isAccepted, DateTime dateAnswer)
@@ -61,7 +63,7 @@ namespace BetFriend.Domain.Members
         public void UpdateParticipantWallet(Bet bet)
         {
             var coins = bet.State.Coins;
-            if(bet.IsSuccess())
+            if (bet.IsSuccess())
                 Wallet -= coins / bet.State.Answers.Count;
             else
                 Wallet += coins / bet.State.Answers.Count;
@@ -72,7 +74,7 @@ namespace BetFriend.Domain.Members
             if (Wallet < bet.GetCoins())
                 throw new MemberHasNotEnoughCoinsException(Wallet, bet.GetCoins());
 
-            if(dateAnswer.CompareTo(bet.GetEndDateToAnswer()) > 0)
+            if (dateAnswer.CompareTo(bet.GetEndDateToAnswer()) > 0)
                 throw new AnswerTooLateException($"The date limit to answer was at : {bet.GetEndDateToAnswer().ToLongDateString()}");
         }
     }

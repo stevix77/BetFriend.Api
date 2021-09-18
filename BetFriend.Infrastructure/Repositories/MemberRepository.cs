@@ -24,7 +24,7 @@
                                     new Member(new MemberId(entity.MemberId), entity.MemberName, entity.Wallet);
         }
 
-        public Task<List<Member>> GetByIdsAsync(IEnumerable<Guid> participantsId)
+        public Task<List<Member>> GetByIdsAsync(IEnumerable<MemberId> participantsId)
         {
             throw new NotImplementedException();
         }

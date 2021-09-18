@@ -28,7 +28,7 @@ namespace BetFriend.Application.Usecases.UpdateFeedMember
             var bet = await _betRepository.GetByIdAsync(new(notification.BetId))
                         ?? throw new BetUnknownException($"Bet with Id {notification.BetId} does not exists");
             var member = await _memberRepository.GetByIdAsync(new(notification.MemberId));
-            var feeds = await _feedRepository.GetByIdsAsync(member.Followers.Select(x => x.MemberId.Value));
+            var feeds = await _feedRepository.GetByIdsAsync(member.Subscriptions.Select(x => x.MemberId.Value));
             foreach(var feed in feeds)
                 feed.AddBet(bet.State);
             await _feedRepository.SaveAsync(feeds);

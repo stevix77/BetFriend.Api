@@ -5,8 +5,8 @@
     using BetFriend.Domain.Bets;
     using BetFriend.Domain.Exceptions;
     using BetFriend.Domain.Feeds;
-    using BetFriend.Domain.Followers;
     using BetFriend.Domain.Members;
+    using BetFriend.Domain.Subscriptions;
     using BetFriend.Infrastructure.Repositories.InMemory;
     using System;
     using System.Collections.Generic;
@@ -23,15 +23,15 @@
             var memberId = Guid.NewGuid();
             var betId = Guid.NewGuid();
             var member = new Member(new(memberId), "toto", 0);
-            var followerId = Guid.NewGuid();
-            var followerId2 = Guid.NewGuid();
-            member.AddFollower(new Follower(new(followerId)));
-            member.AddFollower(new Follower(new(followerId2)));
+            var subscriptionId = Guid.NewGuid();
+            var subscriptionId2 = Guid.NewGuid();
+            member.Subscribe(new Subscription(new(subscriptionId)));
+            member.Subscribe(new Subscription(new(subscriptionId2)));
             var bet = Bet.Create(new BetId(betId),
                                 new DateTime(2022, 2, 3),
                                 "desc1", 10, new(new(memberId), "toto", 300), new DateTime(2021, 3, 2));
-            Feed feed = Feed.Create(followerId);
-            Feed feed2 = Feed.Create(followerId2);
+            Feed feed = Feed.Create(subscriptionId);
+            Feed feed2 = Feed.Create(subscriptionId2);
             var betRepository = new InMemoryBetRepository(null, bet.State);
             var memberRepository = new InMemoryMemberRepository(new() { member });
             var feedRepository = new InMemoryFeedRepository(new List<Feed>() { feed, feed2 });
@@ -42,8 +42,8 @@
             await handler.Handle(notification, default);
 
             //assert
-            await AssertFeedFollower(betId, followerId, bet, feedRepository);
-            await AssertFeedFollower(betId, followerId2, bet, feedRepository);
+            await AssertFeedSubscription(betId, subscriptionId, bet, feedRepository);
+            await AssertFeedSubscription(betId, subscriptionId2, bet, feedRepository);
         }
 
         [Fact]
@@ -62,11 +62,11 @@
             Assert.IsType<BetUnknownException>(record);
         }
 
-        private static async Task AssertFeedFollower(Guid betId, Guid followerId, Bet bet, InMemoryFeedRepository feedRepository)
+        private static async Task AssertFeedSubscription(Guid betId, Guid subscriptionId, Bet bet, InMemoryFeedRepository feedRepository)
         {
-            Feed feedToAssert = await feedRepository.GetByIdAsync(followerId);
+            Feed feedToAssert = await feedRepository.GetByIdAsync(subscriptionId);
             Assert.NotNull(feedToAssert);
-            Assert.Equal(followerId, feedToAssert.Id);
+            Assert.Equal(subscriptionId, feedToAssert.Id);
             Assert.Single(feedToAssert.Bets);
             Assert.Collection(feedToAssert.Bets, x =>
             {
