@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class MemberId
+    public struct MemberId
     {
         private Guid _value;
         public MemberId(Guid value)

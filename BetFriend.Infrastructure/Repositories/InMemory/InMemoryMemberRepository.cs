@@ -18,12 +18,12 @@
 
         public Task<Member> GetByIdAsync(MemberId memberId)
         {
-            return Task.FromResult(_members.Find(x => x.Id.Value == memberId.Value));
+            return Task.FromResult(_members.Find(x => x.Id.Equals(memberId)));
         }
 
-        public Task<List<Member>> GetByIdsAsync(IEnumerable<Guid> memberIds)
+        public Task<List<Member>> GetByIdsAsync(IEnumerable<MemberId> memberIds)
         {
-            return Task.FromResult(_members.Where(x => memberIds.Contains(x.Id.Value))
+            return Task.FromResult(_members.Where(x => memberIds.Contains(x.Id))
                                            .ToList());
         }
 
