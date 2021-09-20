@@ -1,6 +1,6 @@
-﻿namespace BetFriend.Domain.Bets.Events
+﻿namespace BetFriend.Bet.Domain.Bets.Events
 {
-    using BetFriend.Domain.Members;
+    using BetFriend.Bet.Domain.Members;
 
     public class BetCreated : IDomainEvent
     {

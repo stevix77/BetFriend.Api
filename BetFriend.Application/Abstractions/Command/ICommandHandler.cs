@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace BetFriend.Application.Abstractions.Command
+namespace BetFriend.Bet.Application.Abstractions.Command
 {
     public interface ICommandHandler<in TCommand> : ICommandHandler<TCommand, Unit> where TCommand : ICommand
     {

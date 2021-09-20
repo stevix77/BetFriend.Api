@@ -1,7 +1,7 @@
 ﻿namespace BetFriend.WebApi.Controllers.CloseBet
 {
-    using BetFriend.Application.Abstractions;
-    using BetFriend.Application.Usecases.CloseBet;
+    using BetFriend.Bet.Application.Abstractions;
+    using BetFriend.Bet.Application.Usecases.CloseBet;
     using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Threading.Tasks;

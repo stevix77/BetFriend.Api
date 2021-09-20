@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace BetFriend.Infrastructure
+namespace BetFriend.Bet.Infrastructure
 {
     public interface IUnitOfWork
     {

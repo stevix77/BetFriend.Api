@@ -1,4 +1,4 @@
-﻿namespace BetFriend.Application.Usecases.InsertBetQuerySide
+﻿namespace BetFriend.Bet.Application.Usecases.InsertBetQuerySide
 {
     using MediatR;
     using System;

@@ -1,8 +1,8 @@
-﻿namespace BetFriend.Domain.Bets
+﻿namespace BetFriend.Bet.Domain.Bets
 {
-    using BetFriend.Domain.Bets.Events;
-    using BetFriend.Domain.Exceptions;
-    using BetFriend.Domain.Members;
+    using BetFriend.Bet.Domain.Bets.Events;
+    using BetFriend.Bet.Domain.Exceptions;
+    using BetFriend.Bet.Domain.Members;
     using System;
     using System.Collections.Generic;
     using System.Linq;

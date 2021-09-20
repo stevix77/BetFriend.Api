@@ -1,8 +1,8 @@
-﻿namespace BetFriend.Application.Abstractions.Repository
+﻿namespace BetFriend.Bet.Application.Abstractions.Repository
 {
-    using BetFriend.Application.Models;
-    using BetFriend.Domain.Bets;
-    using BetFriend.Domain.Members;
+    using BetFriend.Bet.Application.Models;
+    using BetFriend.Bet.Domain.Bets;
+    using BetFriend.Bet.Domain.Members;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;

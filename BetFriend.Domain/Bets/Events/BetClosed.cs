@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BetFriend.Domain.Bets.Events
+namespace BetFriend.Bet.Domain.Bets.Events
 {
     public class BetClosed : IDomainEvent
     {

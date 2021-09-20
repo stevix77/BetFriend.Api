@@ -1,4 +1,4 @@
-﻿namespace BetFriend.Domain.Members
+﻿namespace BetFriend.Bet.Domain.Members
 {
     using System;
 

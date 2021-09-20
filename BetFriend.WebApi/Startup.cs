@@ -1,4 +1,4 @@
-using BetFriend.Infrastructure.DataAccess;
+using BetFriend.Bet.Infrastructure.DataAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -8,24 +8,24 @@ using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using BetFriend.WebApi.Extensions;
 using BetFriend.WebApi.Filters;
-using BetFriend.Infrastructure;
-using BetFriend.Application.Abstractions;
+using BetFriend.Bet.Infrastructure;
+using BetFriend.Bet.Application.Abstractions;
 using MediatR;
-using BetFriend.Infrastructure.Repositories.InMemory;
-using BetFriend.Domain.Bets;
-using BetFriend.Domain.Members;
+using BetFriend.Bet.Infrastructure.Repositories.InMemory;
+using BetFriend.Bet.Domain.Bets;
+using BetFriend.Bet.Domain.Members;
 using System.Collections.Generic;
 using System;
-using BetFriend.Infrastructure.Configuration.Behaviors;
-using BetFriend.Application;
-using BetFriend.Domain;
-using BetFriend.Infrastructure.AzureStorage;
-using BetFriend.Infrastructure.Repositories;
-using BetFriend.Infrastructure.DateTimeProvider;
-using BetFriend.Infrastructure.Configuration;
-using BetFriend.Application.Abstractions.Repository;
+using BetFriend.Bet.Infrastructure.Configuration.Behaviors;
+using BetFriend.Bet.Application;
+using BetFriend.Bet.Domain;
+using BetFriend.Bet.Infrastructure.AzureStorage;
+using BetFriend.Bet.Infrastructure.Repositories;
+using BetFriend.Bet.Infrastructure.DateTimeProvider;
+using BetFriend.Bet.Infrastructure.Configuration;
+using BetFriend.Bet.Application.Abstractions.Repository;
 using MongoDB.Driver;
-using BetFriend.Domain.Feeds;
+using BetFriend.Bet.Domain.Feeds;
 
 namespace BetFriend.WebApi
 {

@@ -1,8 +1,8 @@
-﻿using BetFriend.Application.Exceptions;
-using BetFriend.Application.Models;
-using BetFriend.Application.Usecases.RetrieveBet;
-using BetFriend.Domain.Exceptions;
-using BetFriend.Infrastructure.Repositories.InMemory;
+﻿using BetFriend.Bet.Application.Exceptions;
+using BetFriend.Bet.Application.Models;
+using BetFriend.Bet.Application.Usecases.RetrieveBet;
+using BetFriend.Bet.Domain.Exceptions;
+using BetFriend.Bet.Infrastructure.Repositories.InMemory;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

@@ -1,4 +1,4 @@
-﻿namespace BetFriend.Domain.Feeds
+﻿namespace BetFriend.Bet.Domain.Feeds
 {
     using System;
     using System.Collections.Generic;

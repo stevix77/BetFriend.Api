@@ -1,10 +1,10 @@
 ﻿namespace BetFriend.UnitTests.Bets
 {
-    using BetFriend.Application.Abstractions.Repository;
-    using BetFriend.Application.Models;
-    using BetFriend.Application.Usecases.RetrieveBets;
-    using BetFriend.Domain.Bets;
-    using BetFriend.Infrastructure.Repositories.InMemory;
+    using BetFriend.Bet.Application.Abstractions.Repository;
+    using BetFriend.Bet.Application.Models;
+    using BetFriend.Bet.Application.Usecases.RetrieveBets;
+    using BetFriend.Bet.Domain.Bets;
+    using BetFriend.Bet.Infrastructure.Repositories.InMemory;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;

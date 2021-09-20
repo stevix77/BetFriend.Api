@@ -1,7 +1,7 @@
-﻿using BetFriend.Application.Abstractions.Command;
+﻿using BetFriend.Bet.Application.Abstractions.Command;
 using System;
 
-namespace BetFriend.Application.Usecases.UpdateWallet
+namespace BetFriend.Bet.Application.Usecases.UpdateWallet
 {
     public class UpdateWalletMembersCommand : ICommand
     {

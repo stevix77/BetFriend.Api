@@ -1,4 +1,4 @@
-﻿namespace BetFriend.Domain.Exceptions
+﻿namespace BetFriend.Bet.Domain.Exceptions
 {
     using System;
 

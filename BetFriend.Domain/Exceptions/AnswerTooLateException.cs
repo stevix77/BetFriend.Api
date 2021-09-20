@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BetFriend.Domain.Exceptions
+namespace BetFriend.Bet.Domain.Exceptions
 {
     public class AnswerTooLateException : Exception
     {

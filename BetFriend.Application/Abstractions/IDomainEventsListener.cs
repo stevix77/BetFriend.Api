@@ -1,6 +1,6 @@
-﻿namespace BetFriend.Application.Abstractions
+﻿namespace BetFriend.Bet.Application.Abstractions
 {
-    using BetFriend.Domain;
+    using BetFriend.Bet.Domain;
     using System.Collections.Generic;
 
     public interface IDomainEventsListener

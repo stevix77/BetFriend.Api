@@ -1,6 +1,6 @@
-﻿namespace BetFriend.Domain.Feeds
+﻿namespace BetFriend.Bet.Domain.Feeds
 {
-    using BetFriend.Domain.Bets;
+    using BetFriend.Bet.Domain.Bets;
     using System;
     using System.Collections.Generic;
     using System.Linq;

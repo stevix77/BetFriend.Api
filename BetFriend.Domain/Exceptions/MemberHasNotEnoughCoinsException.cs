@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace BetFriend.Domain.Exceptions
+namespace BetFriend.Bet.Domain.Exceptions
 {
     [Serializable]
     public class MemberHasNotEnoughCoinsException : Exception

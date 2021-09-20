@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BetFriend.Domain
+namespace BetFriend.Bet.Domain
 {
     public interface IDateTimeProvider
     {

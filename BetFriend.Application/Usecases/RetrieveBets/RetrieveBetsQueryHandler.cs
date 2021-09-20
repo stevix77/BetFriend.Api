@@ -1,8 +1,8 @@
-﻿namespace BetFriend.Application.Usecases.RetrieveBets
+﻿namespace BetFriend.Bet.Application.Usecases.RetrieveBets
 {
-    using BetFriend.Application.Abstractions.Query;
-    using BetFriend.Application.Abstractions.Repository;
-    using BetFriend.Application.Models;
+    using BetFriend.Bet.Application.Abstractions.Query;
+    using BetFriend.Bet.Application.Abstractions.Repository;
+    using BetFriend.Bet.Application.Models;
     using System;
     using System.Collections.Generic;
     using System.Threading;

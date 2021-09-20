@@ -1,8 +1,8 @@
-﻿using BetFriend.Application.Abstractions.Command;
-using BetFriend.Application.Abstractions.Query;
+﻿using BetFriend.Bet.Application.Abstractions.Command;
+using BetFriend.Bet.Application.Abstractions.Query;
 using System.Threading.Tasks;
 
-namespace BetFriend.Application.Abstractions
+namespace BetFriend.Bet.Application.Abstractions
 {
     public interface IProcessor
     {

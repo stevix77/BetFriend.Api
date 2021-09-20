@@ -1,8 +1,8 @@
-﻿namespace BetFriend.Infrastructure.AzureStorage
+﻿namespace BetFriend.Bet.Infrastructure.AzureStorage
 {
     using Azure.Storage.Queues;
-    using BetFriend.Domain;
-    using BetFriend.Infrastructure.Configuration;
+    using BetFriend.Bet.Domain;
+    using BetFriend.Bet.Infrastructure.Configuration;
     using Newtonsoft.Json;
     using System.Threading.Tasks;
 

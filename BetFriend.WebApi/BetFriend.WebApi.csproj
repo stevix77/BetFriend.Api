@@ -16,8 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BetFriend.Application\BetFriend.Application.csproj" />
-    <ProjectReference Include="..\BetFriend.Infrastructure\BetFriend.Infrastructure.csproj" />
+    <ProjectReference Include="..\BetFriend.Application\BetFriend.Bet.Application.csproj" />
+    <ProjectReference Include="..\BetFriend.Infrastructure\BetFriend.Bet.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

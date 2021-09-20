@@ -1,11 +1,11 @@
 ﻿namespace BetFriend.UnitTests.Members
 {
-    using BetFriend.Application;
-    using BetFriend.Application.Usecases.SubscribeMember;
-    using BetFriend.Domain.Exceptions;
-    using BetFriend.Domain.Members;
-    using BetFriend.Domain.Members.Events;
-    using BetFriend.Infrastructure.Repositories.InMemory;
+    using BetFriend.Bet.Application;
+    using BetFriend.Bet.Application.Usecases.SubscribeMember;
+    using BetFriend.Bet.Domain.Exceptions;
+    using BetFriend.Bet.Domain.Members;
+    using BetFriend.Bet.Domain.Members.Events;
+    using BetFriend.Bet.Infrastructure.Repositories.InMemory;
     using System;
     using System.Threading.Tasks;
     using Xunit;

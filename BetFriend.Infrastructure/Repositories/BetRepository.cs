@@ -1,8 +1,8 @@
-﻿namespace BetFriend.Infrastructure.Repositories
+﻿namespace BetFriend.Bet.Infrastructure.Repositories
 {
-    using BetFriend.Domain.Bets;
-    using BetFriend.Domain.Members;
-    using BetFriend.Infrastructure.DataAccess.Entities;
+    using BetFriend.Bet.Domain.Bets;
+    using BetFriend.Bet.Domain.Members;
+    using BetFriend.Bet.Infrastructure.DataAccess.Entities;
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.Linq;

@@ -1,7 +1,7 @@
-﻿namespace BetFriend.Application.Models
+﻿namespace BetFriend.Bet.Application.Models
 {
-    using BetFriend.Domain.Bets;
-    using BetFriend.Domain.Members;
+    using BetFriend.Bet.Domain.Bets;
+    using BetFriend.Bet.Domain.Members;
     using System;
     using System.Collections.Generic;
     using System.Linq;

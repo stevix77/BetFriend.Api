@@ -1,8 +1,8 @@
-﻿using BetFriend.Infrastructure.DataAccess.Entities;
+﻿using BetFriend.Bet.Infrastructure.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
 
-namespace BetFriend.Infrastructure.DataAccess
+namespace BetFriend.Bet.Infrastructure.DataAccess
 {
     public class BetFriendContext : DbContext
     {

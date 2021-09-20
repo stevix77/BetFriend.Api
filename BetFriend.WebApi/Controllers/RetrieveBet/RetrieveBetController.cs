@@ -1,8 +1,8 @@
 ﻿namespace BetFriend.WebApi.Controllers.RetrieveBet
 {
-    using BetFriend.Application.Abstractions;
-    using BetFriend.Application.Models;
-    using BetFriend.Application.Usecases.RetrieveBet;
+    using BetFriend.Bet.Application.Abstractions;
+    using BetFriend.Bet.Application.Models;
+    using BetFriend.Bet.Application.Usecases.RetrieveBet;
     using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Threading.Tasks;
