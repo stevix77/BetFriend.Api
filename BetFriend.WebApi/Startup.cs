@@ -80,7 +80,7 @@ namespace BetFriend.WebApi
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnitOfWorkBehavior<,>));
-            services.AddMediatR(typeof(Application.Usecases.LaunchBet.LaunchBetCommand).Assembly);
+            services.AddMediatR(typeof(Bet.Application.Usecases.LaunchBet.LaunchBetCommand).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
