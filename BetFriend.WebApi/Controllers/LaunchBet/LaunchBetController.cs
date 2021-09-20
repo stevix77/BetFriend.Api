@@ -1,6 +1,6 @@
-﻿using BetFriend.Application.Abstractions;
-using BetFriend.Application.Usecases.LaunchBet;
-using BetFriend.Domain;
+﻿using BetFriend.Bet.Application.Abstractions;
+using BetFriend.Bet.Application.Usecases.LaunchBet;
+using BetFriend.Bet.Domain;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;

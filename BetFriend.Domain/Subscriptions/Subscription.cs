@@ -1,6 +1,6 @@
-﻿namespace BetFriend.Domain.Subscriptions
+﻿namespace BetFriend.Bet.Domain.Subscriptions
 {
-    using BetFriend.Domain.Members;
+    using BetFriend.Bet.Domain.Members;
 
 
     public class Subscription

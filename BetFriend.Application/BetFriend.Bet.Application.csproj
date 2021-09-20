@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>BetFriend.Bet.Application</AssemblyName>
+    <RootNamespace>BetFriend.Bet.Application</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BetFriend.Domain\BetFriend.Bet.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

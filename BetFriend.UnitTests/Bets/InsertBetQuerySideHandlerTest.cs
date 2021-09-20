@@ -1,9 +1,9 @@
-﻿using BetFriend.Application.Usecases.InsertBetQuerySide;
-using BetFriend.Application.Models;
-using BetFriend.Domain.Bets;
-using BetFriend.Domain.Exceptions;
-using BetFriend.Domain.Members;
-using BetFriend.Infrastructure.Repositories.InMemory;
+﻿using BetFriend.Bet.Application.Usecases.InsertBetQuerySide;
+using BetFriend.Bet.Application.Models;
+using BetFriend.Bet.Domain.Bets;
+using BetFriend.Bet.Domain.Exceptions;
+using BetFriend.Bet.Domain.Members;
+using BetFriend.Bet.Infrastructure.Repositories.InMemory;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -20,7 +20,7 @@ namespace BetFriend.UnitTests.Bets
             var memberId = Guid.NewGuid();
             var betId = Guid.NewGuid();
             var member = new Member(new(memberId), "toto", 0);
-            var bet = Bet.Create(new BetId(betId),
+            var bet = Bet.Domain.Bets.Bet.Create(new BetId(betId),
                                 new DateTime(2022, 2, 3),
                                 "desc1", 10, member, new DateTime(2021, 3, 2));
             var betRepository = new InMemoryBetRepository(null, bet.State);
@@ -49,7 +49,7 @@ namespace BetFriend.UnitTests.Bets
             var betId = Guid.NewGuid();
             var memberId = Guid.NewGuid();
             var member = new Member(new(memberId), "toto", 0);
-            var bet = Bet.Create(new BetId(Guid.NewGuid()),
+            var bet = Bet.Domain.Bets.Bet.Create(new BetId(Guid.NewGuid()),
                                 new DateTime(2022, 2, 3),
                                 "desc1", 10, member, new DateTime(2021, 3, 2));
             var betRepository = new InMemoryBetRepository(null, bet.State);

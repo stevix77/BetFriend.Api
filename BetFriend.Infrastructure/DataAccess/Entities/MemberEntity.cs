@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BetFriend.Infrastructure.DataAccess.Entities
+namespace BetFriend.Bet.Infrastructure.DataAccess.Entities
 {
     [Table("user")]
     public class MemberEntity

@@ -1,7 +1,7 @@
-﻿namespace BetFriend.Application.Usecases.AnswerBet
+﻿namespace BetFriend.Bet.Application.Usecases.AnswerBet
 {
-    using BetFriend.Application.Abstractions.Command;
-    using BetFriend.Domain;
+    using BetFriend.Bet.Application.Abstractions.Command;
+    using BetFriend.Bet.Domain;
     using System;
 
     public class AnswerBetCommand : ICommand

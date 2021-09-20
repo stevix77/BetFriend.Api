@@ -1,7 +1,7 @@
-﻿namespace BetFriend.Infrastructure
+﻿namespace BetFriend.Bet.Infrastructure
 {
-    using BetFriend.Application.Abstractions;
-    using BetFriend.Domain;
+    using BetFriend.Bet.Application.Abstractions;
+    using BetFriend.Bet.Domain;
     using System;
     using System.Threading.Tasks;
 

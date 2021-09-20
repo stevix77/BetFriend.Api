@@ -1,4 +1,4 @@
-﻿namespace BetFriend.Infrastructure
+﻿namespace BetFriend.Bet.Infrastructure
 {
     using Microsoft.EntityFrameworkCore;
     using System.Threading.Tasks;

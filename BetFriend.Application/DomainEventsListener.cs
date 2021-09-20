@@ -1,8 +1,8 @@
-﻿using BetFriend.Application.Abstractions;
-using BetFriend.Domain;
+﻿using BetFriend.Bet.Application.Abstractions;
+using BetFriend.Bet.Domain;
 using System.Collections.Generic;
 
-namespace BetFriend.Application
+namespace BetFriend.Bet.Application
 {
     public sealed class DomainEventsListener : IDomainEventsListener
     {

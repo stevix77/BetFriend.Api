@@ -1,14 +1,14 @@
 namespace BetFriend.UnitTests.Bets
 {
-    using BetFriend.Application;
-    using BetFriend.Application.Usecases.LaunchBet;
-    using BetFriend.Domain;
-    using BetFriend.Domain.Bets;
-    using BetFriend.Domain.Bets.Events;
-    using BetFriend.Domain.Exceptions;
-    using BetFriend.Domain.Members;
-    using BetFriend.Infrastructure.DateTimeProvider;
-    using BetFriend.Infrastructure.Repositories.InMemory;
+    using BetFriend.Bet.Application;
+    using BetFriend.Bet.Application.Usecases.LaunchBet;
+    using BetFriend.Bet.Domain;
+    using BetFriend.Bet.Domain.Bets;
+    using BetFriend.Bet.Domain.Bets.Events;
+    using BetFriend.Bet.Domain.Exceptions;
+    using BetFriend.Bet.Domain.Members;
+    using BetFriend.Bet.Infrastructure.DateTimeProvider;
+    using BetFriend.Bet.Infrastructure.Repositories.InMemory;
     using System;
     using System.Collections.Generic;
     using System.Linq;

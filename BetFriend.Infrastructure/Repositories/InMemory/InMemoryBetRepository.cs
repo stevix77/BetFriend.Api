@@ -1,10 +1,10 @@
-﻿namespace BetFriend.Infrastructure.Repositories.InMemory
+﻿namespace BetFriend.Bet.Infrastructure.Repositories.InMemory
 {
-    using BetFriend.Application.Abstractions;
-    using BetFriend.Domain.Bets;
+    using BetFriend.Bet.Application.Abstractions;
+    using BetFriend.Bet.Domain.Bets;
     using System;
     using System.Threading.Tasks;
-    using static BetFriend.Domain.Bets.Bet;
+    using static BetFriend.Bet.Domain.Bets.Bet;
 
     public sealed class InMemoryBetRepository : IBetRepository
     {

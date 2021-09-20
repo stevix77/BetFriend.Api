@@ -1,7 +1,7 @@
-﻿using BetFriend.Domain.Exceptions;
+﻿using BetFriend.Bet.Domain.Exceptions;
 using System;
 
-namespace BetFriend.Domain.Bets
+namespace BetFriend.Bet.Domain.Bets
 {
     public class EndDate
     {

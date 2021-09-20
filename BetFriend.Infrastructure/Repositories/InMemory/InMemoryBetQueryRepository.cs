@@ -1,7 +1,7 @@
-﻿namespace BetFriend.Infrastructure.Repositories.InMemory
+﻿namespace BetFriend.Bet.Infrastructure.Repositories.InMemory
 {
-    using BetFriend.Application.Abstractions.Repository;
-    using BetFriend.Application.Models;
+    using BetFriend.Bet.Application.Abstractions.Repository;
+    using BetFriend.Bet.Application.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;

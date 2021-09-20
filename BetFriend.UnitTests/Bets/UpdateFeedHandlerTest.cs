@@ -1,13 +1,13 @@
 ﻿namespace BetFriend.UnitTests.Bets
 {
-    using BetFriend.Application.Usecases.InsertBetQuerySide;
-    using BetFriend.Application.Usecases.UpdateFeedMember;
-    using BetFriend.Domain.Bets;
-    using BetFriend.Domain.Exceptions;
-    using BetFriend.Domain.Feeds;
-    using BetFriend.Domain.Members;
-    using BetFriend.Domain.Subscriptions;
-    using BetFriend.Infrastructure.Repositories.InMemory;
+    using BetFriend.Bet.Application.Usecases.InsertBetQuerySide;
+    using BetFriend.Bet.Application.Usecases.UpdateFeedMember;
+    using BetFriend.Bet.Domain.Bets;
+    using BetFriend.Bet.Domain.Exceptions;
+    using BetFriend.Bet.Domain.Feeds;
+    using BetFriend.Bet.Domain.Members;
+    using BetFriend.Bet.Domain.Subscriptions;
+    using BetFriend.Bet.Infrastructure.Repositories.InMemory;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;

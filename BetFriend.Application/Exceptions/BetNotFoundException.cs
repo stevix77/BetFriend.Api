@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BetFriend.Application.Exceptions
+namespace BetFriend.Bet.Application.Exceptions
 {
     public class BetNotFoundException : Exception
     {

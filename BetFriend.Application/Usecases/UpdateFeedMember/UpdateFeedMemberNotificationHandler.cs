@@ -1,14 +1,14 @@
-﻿using BetFriend.Application.Usecases.InsertBetQuerySide;
-using BetFriend.Domain.Bets;
-using BetFriend.Domain.Exceptions;
-using BetFriend.Domain.Feeds;
-using BetFriend.Domain.Members;
+﻿using BetFriend.Bet.Application.Usecases.InsertBetQuerySide;
+using BetFriend.Bet.Domain.Bets;
+using BetFriend.Bet.Domain.Exceptions;
+using BetFriend.Bet.Domain.Feeds;
+using BetFriend.Bet.Domain.Members;
 using MediatR;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BetFriend.Application.Usecases.UpdateFeedMember
+namespace BetFriend.Bet.Application.Usecases.UpdateFeedMember
 {
     public class UpdateFeedMemberNotificationHandler : INotificationHandler<InsertBetQuerySideNotification>
     {

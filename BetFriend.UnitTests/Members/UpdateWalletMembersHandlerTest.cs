@@ -1,9 +1,9 @@
-﻿using BetFriend.Application;
-using BetFriend.Application.Usecases.UpdateWallet;
-using BetFriend.Domain.Bets;
-using BetFriend.Domain.Exceptions;
-using BetFriend.Domain.Members;
-using BetFriend.Infrastructure.Repositories.InMemory;
+﻿using BetFriend.Bet.Application;
+using BetFriend.Bet.Application.Usecases.UpdateWallet;
+using BetFriend.Bet.Domain.Bets;
+using BetFriend.Bet.Domain.Exceptions;
+using BetFriend.Bet.Domain.Members;
+using BetFriend.Bet.Infrastructure.Repositories.InMemory;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

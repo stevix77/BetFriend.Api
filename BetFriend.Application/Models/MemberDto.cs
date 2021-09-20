@@ -1,6 +1,6 @@
-﻿namespace BetFriend.Application.Models
+﻿namespace BetFriend.Bet.Application.Models
 {
-    using BetFriend.Domain.Members;
+    using BetFriend.Bet.Domain.Members;
     using System;
     public class MemberDto
     {

@@ -1,8 +1,8 @@
-﻿using BetFriend.Domain.Members;
+﻿using BetFriend.Bet.Domain.Members;
 using System;
 using System.Collections.Generic;
 
-namespace BetFriend.Domain.Bets
+namespace BetFriend.Bet.Domain.Bets
 {
     public class BetState
     {

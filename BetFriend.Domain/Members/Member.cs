@@ -1,9 +1,9 @@
-﻿namespace BetFriend.Domain.Members
+﻿namespace BetFriend.Bet.Domain.Members
 {
-    using BetFriend.Domain.Bets;
-    using BetFriend.Domain.Exceptions;
-    using BetFriend.Domain.Members.Events;
-    using BetFriend.Domain.Subscriptions;
+    using BetFriend.Bet.Domain.Bets;
+    using BetFriend.Bet.Domain.Exceptions;
+    using BetFriend.Bet.Domain.Members.Events;
+    using BetFriend.Bet.Domain.Subscriptions;
     using System;
     using System.Collections.Generic;
     using System.Linq;

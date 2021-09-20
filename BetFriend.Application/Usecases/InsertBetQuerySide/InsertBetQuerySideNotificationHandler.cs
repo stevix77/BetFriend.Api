@@ -1,11 +1,11 @@
-﻿namespace BetFriend.Application.Usecases.InsertBetQuerySide
+﻿namespace BetFriend.Bet.Application.Usecases.InsertBetQuerySide
 {
-    using BetFriend.Application.Abstractions.Command;
-    using BetFriend.Application.Abstractions.Repository;
-    using BetFriend.Application.Models;
-    using BetFriend.Domain.Bets;
-    using BetFriend.Domain.Exceptions;
-    using BetFriend.Domain.Members;
+    using BetFriend.Bet.Application.Abstractions.Command;
+    using BetFriend.Bet.Application.Abstractions.Repository;
+    using BetFriend.Bet.Application.Models;
+    using BetFriend.Bet.Domain.Bets;
+    using BetFriend.Bet.Domain.Exceptions;
+    using BetFriend.Bet.Domain.Members;
     using MediatR;
     using System;
     using System.Threading;

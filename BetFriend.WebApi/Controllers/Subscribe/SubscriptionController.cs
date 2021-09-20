@@ -1,5 +1,5 @@
-﻿using BetFriend.Application.Abstractions;
-using BetFriend.Application.Usecases.SubscribeMember;
+﻿using BetFriend.Bet.Application.Abstractions;
+using BetFriend.Bet.Application.Usecases.SubscribeMember;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;

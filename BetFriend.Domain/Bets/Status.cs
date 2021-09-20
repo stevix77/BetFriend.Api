@@ -1,4 +1,4 @@
-﻿namespace BetFriend.Domain.Bets
+﻿namespace BetFriend.Bet.Domain.Bets
 {
     using System;
 

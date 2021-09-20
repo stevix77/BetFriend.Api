@@ -1,12 +1,12 @@
-﻿using BetFriend.Application;
-using BetFriend.Application.Usecases.AnswerBet;
-using BetFriend.Domain;
-using BetFriend.Domain.Bets;
-using BetFriend.Domain.Bets.Events;
-using BetFriend.Domain.Exceptions;
-using BetFriend.Domain.Members;
-using BetFriend.Infrastructure.DateTimeProvider;
-using BetFriend.Infrastructure.Repositories.InMemory;
+﻿using BetFriend.Bet.Application;
+using BetFriend.Bet.Application.Usecases.AnswerBet;
+using BetFriend.Bet.Domain;
+using BetFriend.Bet.Domain.Bets;
+using BetFriend.Bet.Domain.Bets.Events;
+using BetFriend.Bet.Domain.Exceptions;
+using BetFriend.Bet.Domain.Members;
+using BetFriend.Bet.Infrastructure.DateTimeProvider;
+using BetFriend.Bet.Infrastructure.Repositories.InMemory;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -131,7 +131,7 @@ namespace BetFriend.UnitTests.Bets
 
             //assert
             Assert.IsType<AnswerTooLateException>(record);
-            Assert.Equal($"The date limit to answer was at : {Bet.FromState(betState).GetEndDateToAnswer().ToLongDateString()}", 
+            Assert.Equal($"The date limit to answer was at : {Bet.Domain.Bets.Bet.FromState(betState).GetEndDateToAnswer().ToLongDateString()}", 
                         record.Message);
         }
 

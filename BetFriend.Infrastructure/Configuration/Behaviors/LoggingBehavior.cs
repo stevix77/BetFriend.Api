@@ -1,4 +1,4 @@
-﻿namespace BetFriend.Infrastructure.Configuration.Behaviors
+﻿namespace BetFriend.Bet.Infrastructure.Configuration.Behaviors
 {
     using MediatR;
     using Microsoft.Extensions.Logging;

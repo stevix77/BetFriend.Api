@@ -1,6 +1,6 @@
-﻿namespace BetFriend.Application.Usecases.UpdateBet
+﻿namespace BetFriend.Bet.Application.Usecases.UpdateBet
 {
-    using BetFriend.Application.Abstractions.Command;
+    using BetFriend.Bet.Application.Abstractions.Command;
     using MediatR;
     using System;
 

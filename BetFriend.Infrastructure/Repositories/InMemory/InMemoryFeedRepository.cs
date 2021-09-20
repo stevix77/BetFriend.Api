@@ -1,6 +1,6 @@
-﻿namespace BetFriend.Infrastructure.Repositories.InMemory
+﻿namespace BetFriend.Bet.Infrastructure.Repositories.InMemory
 {
-    using BetFriend.Domain.Feeds;
+    using BetFriend.Bet.Domain.Feeds;
     using System;
     using System.Collections.Generic;
     using System.Linq;

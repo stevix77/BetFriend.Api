@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BetFriend.Domain
+namespace BetFriend.Bet.Domain
 {
     public abstract class Entity
     {
