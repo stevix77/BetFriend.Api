@@ -1,4 +1,5 @@
 ﻿using BetFriend.Bet.Application.Abstractions.Command;
+using BetFriend.Bet.Domain;
 using BetFriend.Bet.Domain.Bets;
 using BetFriend.Bet.Domain.Exceptions;
 using BetFriend.Bet.Domain.Members;
@@ -12,16 +13,21 @@ namespace BetFriend.Bet.Application.Usecases.AnswerBet
     {
         private readonly IMemberRepository _memberRepository;
         private readonly IBetRepository _betRepository;
+        private readonly IAuthenticationGateway _authentificationGateway;
 
-        public AnswerBetCommandHandler(IMemberRepository memberRepository, IBetRepository betRepository)
+        public AnswerBetCommandHandler(IMemberRepository memberRepository, IBetRepository betRepository, IAuthenticationGateway authentificationGateway)
         {
             _memberRepository = memberRepository;
             _betRepository = betRepository;
+            _authentificationGateway = authentificationGateway;
         }
 
         public async Task<Unit> Handle(AnswerBetCommand request, CancellationToken cancellationToken)
         {
             ValidateRequest(request);
+
+            if(!_authentificationGateway.IsAuthenticated(request.MemberId))
+                throw new NotAuthenticatedException();
 
             var member = await _memberRepository.GetByIdAsync(new(request.MemberId)).ConfigureAwait(false) ??
                 throw new MemberUnknownException("Member unknown");

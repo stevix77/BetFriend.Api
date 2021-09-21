@@ -6,7 +6,6 @@
     using BetFriend.Bet.Domain.Exceptions;
     using BetFriend.Bet.Domain.Members;
     using MediatR;
-    using System;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -14,15 +13,21 @@
     {
         private readonly IBetRepository _betRepository;
         private readonly IDateTimeProvider _dateTimeProvider;
+        private readonly IAuthenticationGateway _authenticationGateway;
 
-        public CloseBetCommandHandler(IBetRepository repository, IDateTimeProvider dateTimeProvider)
+        public CloseBetCommandHandler(IBetRepository repository,
+                                      IDateTimeProvider dateTimeProvider,
+                                      IAuthenticationGateway authenticationGateway)
         {
             _betRepository = repository;
             _dateTimeProvider = dateTimeProvider;
+            _authenticationGateway = authenticationGateway;
         }
 
         public async Task<Unit> Handle(CloseBetCommand request, CancellationToken cancellationToken)
         {
+            if (!_authenticationGateway.IsAuthenticated(request.MemberId))
+                throw new NotAuthenticatedException();
             Bet bet = await GetBet(request).ConfigureAwait(false);
             bet.Close(new MemberId(request.MemberId), request.Success, _dateTimeProvider);
             await _betRepository.SaveAsync(bet);
