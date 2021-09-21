@@ -15,7 +15,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace BetFriend.UnitTests.Bets
+namespace BetFriend.Bet.UnitTests.Bets
 {
     public class AnswerBetHandlerTest
     {

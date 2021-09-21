@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace BetFriend.UnitTests.Bets
+namespace BetFriend.Bet.UnitTests.Bets
 {
     public class InsertBetQuerySideHandlerTest
     {

@@ -19,4 +19,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BetFriend.UserAccess.Application\BetFriend.UserAccess.Application.csproj" />
+    <ProjectReference Include="..\BetFriend.UserAccess.Infrastructure\BetFriend.UserAccess.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

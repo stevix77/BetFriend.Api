@@ -1,4 +1,4 @@
-﻿namespace BetFriend.UnitTests.Bets
+﻿namespace BetFriend.Bet.UnitTests.Bets
 {
     using BetFriend.Bet.Application.Usecases.InsertBetQuerySide;
     using BetFriend.Bet.Application.Usecases.UpdateFeedMember;

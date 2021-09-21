@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace BetFriend.UnitTests.Members
+namespace BetFriend.Bet.UnitTests.Members
 {
     public class UpdateWalletMembersHandlerTest
     {
