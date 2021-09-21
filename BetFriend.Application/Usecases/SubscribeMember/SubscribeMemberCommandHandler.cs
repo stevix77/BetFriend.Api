@@ -1,6 +1,7 @@
 ﻿namespace BetFriend.Bet.Application.Usecases.SubscribeMember
 {
     using BetFriend.Bet.Application.Abstractions.Command;
+    using BetFriend.Bet.Domain;
     using BetFriend.Bet.Domain.Exceptions;
     using BetFriend.Bet.Domain.Members;
     using BetFriend.Bet.Domain.Subscriptions;
@@ -12,15 +13,19 @@
 
     public sealed class SubscribeMemberCommanderHandler : ICommandHandler<SubscribeMemberCommand>
     {
-        private IMemberRepository _memberReposiory;
+        private readonly IMemberRepository _memberReposiory;
+        private readonly IAuthenticationGateway _authenticationGateway;
 
-        public SubscribeMemberCommanderHandler(IMemberRepository memberReposiory)
+        public SubscribeMemberCommanderHandler(IMemberRepository memberReposiory, IAuthenticationGateway authenticationGateway)
         {
             _memberReposiory = memberReposiory;
+            _authenticationGateway = authenticationGateway;
         }
 
         public async Task<Unit> Handle(SubscribeMemberCommand command, CancellationToken cancellationToken)
         {
+            if (!_authenticationGateway.IsAuthenticated(command.MemberId.Value))
+                throw new NotAuthenticatedException();
             var members = await _memberReposiory.GetByIdsAsync(new[] { command.MemberId, command.SubscriptionId }).ConfigureAwait(false);
             var member = members.SingleOrDefault(x => x.Id.Equals(command.MemberId))
                             ?? throw new MemberUnknownException($"Member with id {command.MemberId.Value} does not exist");

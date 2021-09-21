@@ -5,6 +5,7 @@
     using BetFriend.Bet.Domain.Exceptions;
     using BetFriend.Bet.Domain.Members;
     using BetFriend.Bet.Domain.Members.Events;
+    using BetFriend.Bet.Infrastructure.Gateways;
     using BetFriend.Bet.Infrastructure.Repositories.InMemory;
     using System;
     using System.Threading.Tasks;
@@ -21,7 +22,7 @@
             var member = new Member(new(memberId), "member1", 300);
             var domainListener = new DomainEventsListener();
             var memberReposiory = new InMemoryMemberRepository(new() { member, memberToSubscribe }, domainListener);
-            var handler = new SubscribeMemberCommanderHandler(memberReposiory);
+            var handler = new SubscribeMemberCommanderHandler(memberReposiory, new InMemoryAuthenticationGateway(memberId));
             var command = new SubscribeMemberCommand(memberId, subscriptionId);
 
             await handler.Handle(command, default);
@@ -45,7 +46,7 @@
             var memberId = Guid.NewGuid();
             var member = new Member(new(memberId), "member1", 300);
             var memberReposiory = new InMemoryMemberRepository(new() { member });
-            var handler = new SubscribeMemberCommanderHandler(memberReposiory);
+            var handler = new SubscribeMemberCommanderHandler(memberReposiory, new InMemoryAuthenticationGateway(memberId));
             var command = new SubscribeMemberCommand(memberId, memberIdToSubscribe);
 
             var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
@@ -62,7 +63,7 @@
             var memberId = Guid.NewGuid();
             var member = new Member(new(memberIdToSubscribe), "member2", 300);
             var memberReposiory = new InMemoryMemberRepository(new() { member });
-            var handler = new SubscribeMemberCommanderHandler(memberReposiory);
+            var handler = new SubscribeMemberCommanderHandler(memberReposiory, new InMemoryAuthenticationGateway(memberId));
             var command = new SubscribeMemberCommand(memberId, memberIdToSubscribe);
 
             var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
@@ -80,12 +81,21 @@
             member.Subscribe(new(new(memberIdToSubscribe)));
             var memberToSubscribe = new Member(new(memberIdToSubscribe), "member2", 300);
             var memberReposiory = new InMemoryMemberRepository(new() { member, memberToSubscribe });
-            var handler = new SubscribeMemberCommanderHandler(memberReposiory);
+            var handler = new SubscribeMemberCommanderHandler(memberReposiory, new InMemoryAuthenticationGateway(memberId));
             var command = new SubscribeMemberCommand(memberId, memberIdToSubscribe);
 
             await handler.Handle(command, default);
 
             Assert.Equal(1, member.Subscriptions.Count);
+        }
+
+        [Fact]
+        public async Task ShouldThrowNotAuthenticatedException()
+        {
+            var command = new SubscribeMemberCommand(Guid.NewGuid(), Guid.NewGuid());
+            var handler = new SubscribeMemberCommanderHandler(default, new InMemoryAuthenticationGateway(Guid.NewGuid()));
+            var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
+            Assert.IsType<NotAuthenticatedException>(record);
         }
     }
 }
