@@ -29,6 +29,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UserAccess", "UserAccess", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BetFriend.Bet.UnitTests", "BetFriend.UnitTests\BetFriend.Bet.UnitTests.csproj", "{A5E59C0B-C32A-4822-A6AD-E002057545CD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetFriend.UserAccess.UnitTests", "BetFriend.UserAccess.UnitTests\BetFriend.UserAccess.UnitTests.csproj", "{CEE57D90-3768-4F7B-8366-5C58B79AAECD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetFriend.UserAccess.Domain", "BetFriend.UserAccess.Domain\BetFriend.UserAccess.Domain.csproj", "{3868C51C-BE24-4315-AFE6-08E26F99F190}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetFriend.UserAccess.Application", "BetFriend.UserAccess.Application\BetFriend.UserAccess.Application.csproj", "{F64F6842-EDFB-4773-B81B-7D4965741DED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetFriend.UserAccess.Infrastructure", "BetFriend.UserAccess.Infrastructure\BetFriend.UserAccess.Infrastructure.csproj", "{565CE899-9709-49FF-84BF-91BED57C8CAB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +69,22 @@ Global
 		{A5E59C0B-C32A-4822-A6AD-E002057545CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5E59C0B-C32A-4822-A6AD-E002057545CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5E59C0B-C32A-4822-A6AD-E002057545CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEE57D90-3768-4F7B-8366-5C58B79AAECD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEE57D90-3768-4F7B-8366-5C58B79AAECD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEE57D90-3768-4F7B-8366-5C58B79AAECD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEE57D90-3768-4F7B-8366-5C58B79AAECD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3868C51C-BE24-4315-AFE6-08E26F99F190}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3868C51C-BE24-4315-AFE6-08E26F99F190}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3868C51C-BE24-4315-AFE6-08E26F99F190}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3868C51C-BE24-4315-AFE6-08E26F99F190}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F64F6842-EDFB-4773-B81B-7D4965741DED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F64F6842-EDFB-4773-B81B-7D4965741DED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F64F6842-EDFB-4773-B81B-7D4965741DED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F64F6842-EDFB-4773-B81B-7D4965741DED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{565CE899-9709-49FF-84BF-91BED57C8CAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{565CE899-9709-49FF-84BF-91BED57C8CAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{565CE899-9709-49FF-84BF-91BED57C8CAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{565CE899-9709-49FF-84BF-91BED57C8CAB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -77,6 +101,10 @@ Global
 		{87D4916B-D075-4B7B-855F-F558AC4E7052} = {BF645286-91BE-4736-AADA-139461B68FB4}
 		{D2C63FE9-DF2E-49EA-9D01-91DA12AB6F2A} = {BF645286-91BE-4736-AADA-139461B68FB4}
 		{A5E59C0B-C32A-4822-A6AD-E002057545CD} = {87D4916B-D075-4B7B-855F-F558AC4E7052}
+		{CEE57D90-3768-4F7B-8366-5C58B79AAECD} = {D2C63FE9-DF2E-49EA-9D01-91DA12AB6F2A}
+		{3868C51C-BE24-4315-AFE6-08E26F99F190} = {D2C63FE9-DF2E-49EA-9D01-91DA12AB6F2A}
+		{F64F6842-EDFB-4773-B81B-7D4965741DED} = {D2C63FE9-DF2E-49EA-9D01-91DA12AB6F2A}
+		{565CE899-9709-49FF-84BF-91BED57C8CAB} = {D2C63FE9-DF2E-49EA-9D01-91DA12AB6F2A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {37AADF4B-9BA3-4CB6-9CFC-CADCD698A0C8}
