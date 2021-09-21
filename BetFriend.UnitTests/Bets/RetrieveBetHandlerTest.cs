@@ -2,6 +2,7 @@
 using BetFriend.Bet.Application.Models;
 using BetFriend.Bet.Application.Usecases.RetrieveBet;
 using BetFriend.Bet.Domain.Exceptions;
+using BetFriend.Bet.Infrastructure.Gateways;
 using BetFriend.Bet.Infrastructure.Repositories.InMemory;
 using System;
 using System.Collections.Generic;

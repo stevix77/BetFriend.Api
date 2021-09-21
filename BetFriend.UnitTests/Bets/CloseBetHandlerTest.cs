@@ -7,6 +7,7 @@
     using BetFriend.Bet.Domain.Exceptions;
     using BetFriend.Bet.Domain.Members;
     using BetFriend.Bet.Infrastructure.DateTimeProvider;
+    using BetFriend.Bet.Infrastructure.Gateways;
     using BetFriend.Bet.Infrastructure.Repositories.InMemory;
     using MediatR;
     using System;
@@ -29,7 +30,7 @@
             var command = new CloseBetCommand(betId, memberId.Value, true);
             var dateTimeClosed = new DateTime(2021, 4, 1);
             var dateTimeProvider = new FakeDateTimeProvider(dateTimeClosed);
-            var handler = new CloseBetCommandHandler(repository, dateTimeProvider);
+            var handler = new CloseBetCommandHandler(repository, dateTimeProvider, new InMemoryAuthenticationGateway(memberId.Value));
             var expectedStatus = new Status(true, dateTimeClosed);
 
             var result = await handler.Handle(command, default);
@@ -52,7 +53,8 @@
             var betState = GenerateBet(betId, new Member(new MemberId(Guid.NewGuid()), "name", 200));
             var command = new CloseBetCommand(betId, memberId.Value, true);
             var handler = new CloseBetCommandHandler(new InMemoryBetRepository(default, betState),
-                                                    new FakeDateTimeProvider(default));
+                                                    new FakeDateTimeProvider(default),
+                                                    new InMemoryAuthenticationGateway(memberId.Value));
 
             var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
 
@@ -67,7 +69,8 @@
             var memberId = Guid.NewGuid();
             var command = new CloseBetCommand(betId, memberId, true);
             var handler = new CloseBetCommandHandler(new InMemoryBetRepository(default, default),
-                                                    new FakeDateTimeProvider(default));
+                                                    new FakeDateTimeProvider(default),
+                                                    new InMemoryAuthenticationGateway(memberId));
 
             var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
 
@@ -75,7 +78,21 @@
             Assert.Equal($"This bet with id {betId} is unknown", record.Message);
         }
 
-        //test si bet unknown
+        [Fact]
+        public async Task ShouldThrowNotAuthenticatedException()
+        {
+            var betId = Guid.NewGuid();
+            var memberId = Guid.NewGuid();
+            var command = new CloseBetCommand(betId, memberId, true);
+            var handler = new CloseBetCommandHandler(new InMemoryBetRepository(default, default),
+                                                    new FakeDateTimeProvider(default),
+                                                    new InMemoryAuthenticationGateway(Guid.NewGuid()));
+
+            var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
+
+            Assert.IsType<NotAuthenticatedException>(record);
+        }
+
         private static BetState GenerateBet(Guid betId, Member creator)
         {
             return new BetState(betId,
