@@ -1,4 +1,4 @@
-﻿namespace BetFriend.UnitTests.Members
+﻿namespace BetFriend.Bet.UnitTests.Members
 {
     using BetFriend.Bet.Application;
     using BetFriend.Bet.Application.Usecases.SubscribeMember;

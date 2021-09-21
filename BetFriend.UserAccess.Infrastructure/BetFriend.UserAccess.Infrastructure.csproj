@@ -4,4 +4,8 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BetFriend.UserAccess.Application\BetFriend.UserAccess.Application.csproj" />
+  </ItemGroup>
+
 </Project>
