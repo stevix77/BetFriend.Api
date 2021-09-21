@@ -48,3 +48,11 @@
 /BetFriend.Database/BetFriend.Database.sqlproj.user
 /BetFriend.Database/BetFriend.Database.dbmdl
 /BetFriend.Database/BetFriend.Database.jfm
+/BetFriend.UserAccess.Application/bin/Debug/net5.0
+/BetFriend.UserAccess.Application/obj
+/BetFriend.UserAccess.Domain/bin/Debug/net5.0
+/BetFriend.UserAccess.Domain/obj
+/BetFriend.UserAccess.Infrastructure/bin/Debug/net5.0
+/BetFriend.UserAccess.Infrastructure/obj
+/BetFriend.UserAccess.UnitTests/bin/Debug/net5.0
+/BetFriend.UserAccess.UnitTests/obj
