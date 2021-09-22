@@ -1,12 +1,13 @@
-﻿using BetFriend.Bet.Application.Abstractions;
-using BetFriend.Bet.Application.Usecases.LaunchBet;
-using BetFriend.Bet.Domain;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading.Tasks;
-
-namespace BetFriend.WebApi.Controllers.LaunchBet
+﻿namespace BetFriend.WebApi.Controllers.LaunchBet
 {
+    using BetFriend.Bet.Application.Usecases.LaunchBet;
+    using BetFriend.Shared.Application.Abstractions;
+    using BetFriend.Shared.Domain;
+    using Microsoft.AspNetCore.Mvc;
+    using System;
+    using System.Threading.Tasks;
+
+
     [Route("api/bets/launch")]
     public class LaunchBetController : Controller
     {

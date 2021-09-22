@@ -1,9 +1,8 @@
-﻿using BetFriend.Shared.Application.Abstractions.Command;
-using BetFriend.Shared.Domain;
-using BetFriend.UserAccess.Domain;
-using BetFriend.UserAccess.Domain.Users;
-namespace BetFriend.UserAccess.Application.Usecases.Register
+﻿namespace BetFriend.UserAccess.Application.Usecases.Register
 {
+    using BetFriend.Shared.Application.Abstractions.Command;
+    using BetFriend.Shared.Domain;
+    using BetFriend.UserAccess.Domain.Users;
     using MediatR;
     using System.Threading;
     using System.Threading.Tasks;

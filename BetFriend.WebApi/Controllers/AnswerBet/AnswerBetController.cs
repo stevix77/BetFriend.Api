@@ -1,8 +1,8 @@
 ﻿namespace BetFriend.WebApi.Controllers.AnswerBet
 {
-    using BetFriend.Bet.Application.Abstractions;
     using BetFriend.Bet.Application.Usecases.AnswerBet;
-    using BetFriend.Bet.Domain;
+    using BetFriend.Shared.Application.Abstractions;
+    using BetFriend.Shared.Domain;
     using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Threading.Tasks;

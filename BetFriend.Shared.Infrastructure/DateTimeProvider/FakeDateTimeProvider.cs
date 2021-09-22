@@ -1,7 +1,8 @@
-﻿namespace BetFriend.UserAccess.Infrastructure
+﻿namespace BetFriend.Shared.Infrastructure.DateTimeProvider
 {
     using BetFriend.Shared.Domain;
     using System;
+
 
     public class FakeDateTimeProvider : IDateTimeProvider
     {
@@ -12,6 +13,6 @@
             _dateTime = dateTime;
         }
 
-        public DateTime Now => _dateTime;
+        public DateTime Now { get => _dateTime; }
     }
 }

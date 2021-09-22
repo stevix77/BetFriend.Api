@@ -1,14 +1,14 @@
 ﻿namespace BetFriend.Bet.UnitTests.Bets
 {
-    using BetFriend.Bet.Application;
     using BetFriend.Bet.Application.Usecases.CloseBet;
     using BetFriend.Bet.Domain.Bets;
     using BetFriend.Bet.Domain.Bets.Events;
     using BetFriend.Bet.Domain.Exceptions;
     using BetFriend.Bet.Domain.Members;
-    using BetFriend.Bet.Infrastructure.DateTimeProvider;
     using BetFriend.Bet.Infrastructure.Gateways;
     using BetFriend.Bet.Infrastructure.Repositories.InMemory;
+    using BetFriend.Shared.Application;
+    using BetFriend.Shared.Infrastructure.DateTimeProvider;
     using MediatR;
     using System;
     using System.Collections.Generic;

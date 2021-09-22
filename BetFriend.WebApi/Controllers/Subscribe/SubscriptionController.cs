@@ -1,11 +1,11 @@
-﻿using BetFriend.Bet.Application.Abstractions;
-using BetFriend.Bet.Application.Usecases.SubscribeMember;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading.Tasks;
-
-namespace BetFriend.WebApi.Controllers.Subscribe
+﻿namespace BetFriend.WebApi.Controllers.Subscribe
 {
+    using BetFriend.Bet.Application.Usecases.SubscribeMember;
+    using BetFriend.Shared.Application.Abstractions;
+    using Microsoft.AspNetCore.Mvc;
+    using System;
+    using System.Threading.Tasks;
+
     [Route("api/subscriptions/{subscriptionId}")]
     public class SubscriptionController : Controller
     {
