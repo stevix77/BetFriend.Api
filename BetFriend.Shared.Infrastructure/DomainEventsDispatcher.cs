@@ -1,7 +1,7 @@
 ﻿namespace BetFriend.Shared.Infrastructure
 {
     using BetFriend.Bet.Application.Abstractions;
-    using BetFriend.Bet.Domain;
+    using BetFriend.Shared.Domain;
     using System;
     using System.Threading.Tasks;
 
@@ -18,7 +18,7 @@
 
         public async Task DispatchEventsAsync()
         {
-            foreach(var item in _domainEventsListener.GetDomainEvents())
+            foreach (var item in _domainEventsListener.GetDomainEvents())
             {
                 await _storageDomainEventsRepository.SaveAsync(item).ConfigureAwait(false);
             }

@@ -1,31 +1,33 @@
+using BetFriend.Bet.Application.Abstractions;
+using BetFriend.Bet.Application.Abstractions.Repository;
+using BetFriend.Bet.Domain.Bets;
+using BetFriend.Bet.Domain.Feeds;
+using BetFriend.Bet.Domain.Members;
+using BetFriend.Bet.Infrastructure;
+using BetFriend.Bet.Infrastructure.AzureStorage;
 using BetFriend.Bet.Infrastructure.DataAccess;
+using BetFriend.Bet.Infrastructure.Repositories;
+using BetFriend.Bet.Infrastructure.Repositories.InMemory;
+using BetFriend.Shared.Application;
+using BetFriend.Shared.Application.Abstractions;
+using BetFriend.Shared.Domain;
+using BetFriend.Shared.Infrastructure;
+using BetFriend.Shared.Infrastructure.Configuration;
+using BetFriend.Shared.Infrastructure.Configuration.Behaviors;
+using BetFriend.Shared.Infrastructure.DateTimeProvider;
+using BetFriend.WebApi.Extensions;
+using BetFriend.WebApi.Filters;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Microsoft.EntityFrameworkCore;
-using BetFriend.WebApi.Extensions;
-using BetFriend.WebApi.Filters;
-using BetFriend.Bet.Infrastructure;
-using BetFriend.Bet.Application.Abstractions;
-using MediatR;
-using BetFriend.Bet.Infrastructure.Repositories.InMemory;
-using BetFriend.Bet.Domain.Bets;
-using BetFriend.Bet.Domain.Members;
-using System.Collections.Generic;
-using System;
-using BetFriend.Bet.Infrastructure.Configuration.Behaviors;
-using BetFriend.Bet.Application;
-using BetFriend.Bet.Domain;
-using BetFriend.Bet.Infrastructure.AzureStorage;
-using BetFriend.Bet.Infrastructure.Repositories;
-using BetFriend.Bet.Infrastructure.DateTimeProvider;
-using BetFriend.Bet.Infrastructure.Configuration;
-using BetFriend.Bet.Application.Abstractions.Repository;
 using MongoDB.Driver;
-using BetFriend.Bet.Domain.Feeds;
+using System;
+using System.Collections.Generic;
 
 namespace BetFriend.WebApi
 {
@@ -72,8 +74,8 @@ namespace BetFriend.WebApi
             services.AddScoped<IDomainEventsDispatcher, DomainEventsDispatcher>();
             services.AddScoped<IDomainEventsListener, DomainEventsListener>();
             services.AddScoped<IStorageDomainEventsRepository, AzureStorageDomainEventsRepository>();
-            services.AddScoped<IMemberRepository>(x => new InMemoryMemberRepository(new List<Member>() 
-            { 
+            services.AddScoped<IMemberRepository>(x => new InMemoryMemberRepository(new List<Member>()
+            {
                 new Member(new MemberId(Guid.Parse("01c1da98-b4b7-45dc-8352-c98ece06dab1")),
                             "memberName",
                             100) }));

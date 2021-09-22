@@ -1,23 +1,19 @@
-﻿using BetFriend.UserAccess.Application.Usecases.Register;
-using BetFriend.UserAccess.Domain;
-using BetFriend.UserAccess.Domain.Users;
-using BetFriend.UserAccess.Infrastructure;
-using BetFriend.UserAccess.Infrastructure.Repositories;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Xunit;
-
-namespace BetFriend.UserAccess.UnitTests
+﻿namespace BetFriend.UserAccess.UnitTests
 {
+    using BetFriend.Shared.Infrastructure.DateTimeProvider;
+    using BetFriend.UserAccess.Application.Usecases.Register;
+    using BetFriend.UserAccess.Domain.Users;
+    using BetFriend.UserAccess.Infrastructure.Repositories;
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Xunit;
+
     public class RegisterUserHandlerTest
     {
         private readonly InMemoryUserRepository repository;
         private readonly FakeDateTimeProvider fakeDateTimeProvider;
-        private readonly User _user;
-
+        
         public RegisterUserHandlerTest()
         {
             repository = new InMemoryUserRepository();
@@ -44,5 +40,5 @@ namespace BetFriend.UserAccess.UnitTests
         }
     }
 
-    
+
 }

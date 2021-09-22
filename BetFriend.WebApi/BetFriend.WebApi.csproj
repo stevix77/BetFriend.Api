@@ -9,8 +9,8 @@
   <ItemGroup>
     <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.9" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.10" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.11.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.1" />
   </ItemGroup>
@@ -18,6 +18,9 @@
   <ItemGroup>
     <ProjectReference Include="..\BetFriend.Application\BetFriend.Bet.Application.csproj" />
     <ProjectReference Include="..\BetFriend.Infrastructure\BetFriend.Bet.Infrastructure.csproj" />
+    <ProjectReference Include="..\BetFriend.Shared.Infrastructure\BetFriend.Shared.Infrastructure.csproj" />
+    <ProjectReference Include="..\BetFriend.UserAccess.Application\BetFriend.UserAccess.Application.csproj" />
+    <ProjectReference Include="..\BetFriend.UserAccess.Infrastructure\BetFriend.UserAccess.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

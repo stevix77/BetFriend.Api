@@ -1,4 +1,4 @@
-﻿namespace BetFriend.Bet.Infrastructure.Configuration
+﻿namespace BetFriend.Shared.Infrastructure.Configuration
 {
     public class AzureStorageConfiguration
     {

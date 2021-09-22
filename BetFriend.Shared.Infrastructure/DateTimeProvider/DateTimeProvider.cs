@@ -1,6 +1,6 @@
-﻿namespace BetFriend.Bet.Infrastructure.DateTimeProvider
+﻿namespace BetFriend.Shared.Infrastructure.DateTimeProvider
 {
-    using BetFriend.Bet.Domain;
+    using BetFriend.Shared.Domain;
     using System;
 
     public class DateTimeProvider : IDateTimeProvider

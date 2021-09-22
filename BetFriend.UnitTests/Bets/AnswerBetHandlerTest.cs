@@ -1,13 +1,12 @@
-﻿using BetFriend.Bet.Application;
-using BetFriend.Bet.Application.Usecases.AnswerBet;
-using BetFriend.Bet.Domain;
+﻿using BetFriend.Bet.Application.Usecases.AnswerBet;
 using BetFriend.Bet.Domain.Bets;
 using BetFriend.Bet.Domain.Bets.Events;
 using BetFriend.Bet.Domain.Exceptions;
 using BetFriend.Bet.Domain.Members;
-using BetFriend.Bet.Infrastructure.DateTimeProvider;
 using BetFriend.Bet.Infrastructure.Gateways;
 using BetFriend.Bet.Infrastructure.Repositories.InMemory;
+using BetFriend.Shared.Application;
+using BetFriend.Shared.Infrastructure.DateTimeProvider;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -104,7 +103,7 @@ namespace BetFriend.Bet.UnitTests.Bets
             //assert
             var actualBet = await betRepository.GetByIdAsync(betId);
             var answer = actualBet.GetAnswerForMember(memberId);
-            IDomainEvent domainEvent = domainEventsListener.GetDomainEvents()
+            var domainEvent = domainEventsListener.GetDomainEvents()
                                                            .SingleOrDefault(x => x.GetType() == typeof(BetAnswered));
             Assert.Equal(command.IsAccepted, answer.Accepted);
             Assert.Equal(command.DateTimeProvider.Now, answer.DateAnswer);

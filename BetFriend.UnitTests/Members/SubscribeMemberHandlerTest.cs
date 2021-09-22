@@ -7,6 +7,7 @@
     using BetFriend.Bet.Domain.Members.Events;
     using BetFriend.Bet.Infrastructure.Gateways;
     using BetFriend.Bet.Infrastructure.Repositories.InMemory;
+    using BetFriend.Shared.Application;
     using System;
     using System.Threading.Tasks;
     using Xunit;

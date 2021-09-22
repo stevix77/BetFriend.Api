@@ -1,8 +1,8 @@
-﻿namespace BetFriend.Bet.Infrastructure
+﻿namespace BetFriend.Shared.Infrastructure
 {
-    using BetFriend.Bet.Application.Abstractions;
-    using BetFriend.Bet.Application.Abstractions.Command;
-    using BetFriend.Bet.Application.Abstractions.Query;
+    using BetFriend.Shared.Application.Abstractions;
+    using BetFriend.Shared.Application.Abstractions.Command;
+    using BetFriend.Shared.Application.Abstractions.Query;
     using MediatR;
     using System.Threading.Tasks;
 

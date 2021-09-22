@@ -1,6 +1,7 @@
-﻿namespace BetFriend.Bet.Infrastructure.Configuration.Behaviors
+﻿namespace BetFriend.Shared.Infrastructure.Configuration.Behaviors
 {
-    using BetFriend.Bet.Application.Abstractions.Command;
+    using BetFriend.Shared.Application.Abstractions.Command;
+    using BetFriend.Shared.Infrastructure;
     using MediatR;
     using System.Threading;
     using System.Threading.Tasks;

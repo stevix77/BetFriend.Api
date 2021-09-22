@@ -1,8 +1,9 @@
-﻿using BetFriend.Bet.Domain;
-using System;
-
-namespace BetFriend.Bet.Infrastructure.Gateways
+﻿namespace BetFriend.Bet.Infrastructure.Gateways
 {
+    using BetFriend.Shared.Domain;
+    using System;
+
+
     public class InMemoryAuthenticationGateway : IAuthenticationGateway
     {
         private Guid _memberId;
