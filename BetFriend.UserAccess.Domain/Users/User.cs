@@ -25,24 +25,15 @@
             _registerDate = dateTime;
         }
 
+        public string Username { get => _username; }
+        public string Email { get => _email; }
+
         public override bool Equals(object obj)
         {
             return obj is User user &&
                    EqualityComparer<UserId>.Default.Equals(_id, user._id) &&
                    _username == user._username &&
-                   _email == user._email &&
-                   _password == user._password &&
-                   _registerDate == user._registerDate;
-        }
-    }
-
-    internal struct UserId
-    {
-        private string id;
-
-        public UserId(string id)
-        {
-            this.id = id;
+                   _email == user._email;
         }
     }
 }
