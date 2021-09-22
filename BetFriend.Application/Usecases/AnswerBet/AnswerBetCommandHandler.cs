@@ -1,14 +1,15 @@
-﻿using BetFriend.Bet.Application.Abstractions.Command;
-using BetFriend.Bet.Domain;
-using BetFriend.Bet.Domain.Bets;
-using BetFriend.Bet.Domain.Exceptions;
-using BetFriend.Bet.Domain.Members;
-using MediatR;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace BetFriend.Bet.Application.Usecases.AnswerBet
+﻿namespace BetFriend.Bet.Application.Usecases.AnswerBet
 {
+    using BetFriend.Bet.Domain.Bets;
+    using BetFriend.Bet.Domain.Exceptions;
+    using BetFriend.Bet.Domain.Members;
+    using BetFriend.Shared.Application.Abstractions.Command;
+    using BetFriend.Shared.Domain;
+    using MediatR;
+    using System.Threading;
+    using System.Threading.Tasks;
+
+
     public sealed class AnswerBetCommandHandler : ICommandHandler<AnswerBetCommand>
     {
         private readonly IMemberRepository _memberRepository;
@@ -26,7 +27,7 @@ namespace BetFriend.Bet.Application.Usecases.AnswerBet
         {
             ValidateRequest(request);
 
-            if(!_authentificationGateway.IsAuthenticated(request.MemberId))
+            if (!_authentificationGateway.IsAuthenticated(request.MemberId))
                 throw new NotAuthenticatedException();
 
             var member = await _memberRepository.GetByIdAsync(new(request.MemberId)).ConfigureAwait(false) ??

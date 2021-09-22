@@ -1,7 +1,7 @@
 ﻿namespace BetFriend.Bet.Application.Usecases.RetrieveBet
 {
-    using BetFriend.Bet.Application.Abstractions.Query;
     using BetFriend.Bet.Application.Models;
+    using BetFriend.Shared.Application.Abstractions.Query;
     using System;
 
 

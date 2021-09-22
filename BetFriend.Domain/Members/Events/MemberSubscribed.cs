@@ -1,7 +1,7 @@
 ﻿namespace BetFriend.Bet.Domain.Members.Events
 {
+    using BetFriend.Shared.Domain;
     using System;
-
 
     public class MemberSubscribed : IDomainEvent
     {

@@ -1,12 +1,15 @@
-﻿using BetFriend.UserAccess.Domain;
+﻿using BetFriend.Shared.Application.Abstractions.Command;
+using BetFriend.Shared.Domain;
+using BetFriend.UserAccess.Domain;
 using BetFriend.UserAccess.Domain.Users;
-using MediatR;
-using System.Threading;
-using System.Threading.Tasks;
-
 namespace BetFriend.UserAccess.Application.Usecases.Register
 {
-    public class RegisterCommandHandler
+    using MediatR;
+    using System.Threading;
+    using System.Threading.Tasks;
+
+
+    public sealed class RegisterCommandHandler : ICommandHandler<RegisterCommand>
     {
         private readonly IUserRepository _userRepository;
         private readonly IDateTimeProvider _dateTimeProvider;

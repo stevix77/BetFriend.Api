@@ -1,10 +1,10 @@
 ﻿namespace BetFriend.Bet.Application.Usecases.CloseBet
 {
-    using BetFriend.Bet.Application.Abstractions.Command;
-    using BetFriend.Bet.Domain;
     using BetFriend.Bet.Domain.Bets;
     using BetFriend.Bet.Domain.Exceptions;
     using BetFriend.Bet.Domain.Members;
+    using BetFriend.Shared.Application.Abstractions.Command;
+    using BetFriend.Shared.Domain;
     using MediatR;
     using System.Threading;
     using System.Threading.Tasks;

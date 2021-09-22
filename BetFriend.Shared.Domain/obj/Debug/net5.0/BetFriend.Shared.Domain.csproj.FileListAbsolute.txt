@@ -1,0 +1,11 @@
+C:\Users\Moi\source\Workspaces\BetFriend\Api\BetFriend.Shared.Domain\bin\Debug\net5.0\BetFriend.Shared.Domain.deps.json
+C:\Users\Moi\source\Workspaces\BetFriend\Api\BetFriend.Shared.Domain\bin\Debug\net5.0\BetFriend.Shared.Domain.dll
+C:\Users\Moi\source\Workspaces\BetFriend\Api\BetFriend.Shared.Domain\bin\Debug\net5.0\ref\BetFriend.Shared.Domain.dll
+C:\Users\Moi\source\Workspaces\BetFriend\Api\BetFriend.Shared.Domain\bin\Debug\net5.0\BetFriend.Shared.Domain.pdb
+C:\Users\Moi\source\Workspaces\BetFriend\Api\BetFriend.Shared.Domain\obj\Debug\net5.0\BetFriend.Shared.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Moi\source\Workspaces\BetFriend\Api\BetFriend.Shared.Domain\obj\Debug\net5.0\BetFriend.Shared.Domain.AssemblyInfoInputs.cache
+C:\Users\Moi\source\Workspaces\BetFriend\Api\BetFriend.Shared.Domain\obj\Debug\net5.0\BetFriend.Shared.Domain.AssemblyInfo.cs
+C:\Users\Moi\source\Workspaces\BetFriend\Api\BetFriend.Shared.Domain\obj\Debug\net5.0\BetFriend.Shared.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Moi\source\Workspaces\BetFriend\Api\BetFriend.Shared.Domain\obj\Debug\net5.0\BetFriend.Shared.Domain.dll
+C:\Users\Moi\source\Workspaces\BetFriend\Api\BetFriend.Shared.Domain\obj\Debug\net5.0\ref\BetFriend.Shared.Domain.dll
+C:\Users\Moi\source\Workspaces\BetFriend\Api\BetFriend.Shared.Domain\obj\Debug\net5.0\BetFriend.Shared.Domain.pdb

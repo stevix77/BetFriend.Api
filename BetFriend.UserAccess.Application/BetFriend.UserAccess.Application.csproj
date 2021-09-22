@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BetFriend.Shared.Application\BetFriend.Shared.Application.csproj" />
     <ProjectReference Include="..\BetFriend.UserAccess.Domain\BetFriend.UserAccess.Domain.csproj" />
   </ItemGroup>
 

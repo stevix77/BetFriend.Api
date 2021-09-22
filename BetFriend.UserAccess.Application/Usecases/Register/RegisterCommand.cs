@@ -1,8 +1,8 @@
 ﻿namespace BetFriend.UserAccess.Application.Usecases.Register
 {
-    using System;
+    using BetFriend.Shared.Application.Abstractions.Command;
 
-    public sealed class RegisterCommand
+    public sealed class RegisterCommand : ICommand
     {
         public RegisterCommand(string userId, string username, string password, string email)
         {

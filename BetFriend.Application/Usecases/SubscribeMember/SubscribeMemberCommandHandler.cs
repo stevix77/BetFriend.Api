@@ -1,10 +1,10 @@
 ﻿namespace BetFriend.Bet.Application.Usecases.SubscribeMember
 {
-    using BetFriend.Bet.Application.Abstractions.Command;
-    using BetFriend.Bet.Domain;
     using BetFriend.Bet.Domain.Exceptions;
     using BetFriend.Bet.Domain.Members;
     using BetFriend.Bet.Domain.Subscriptions;
+    using BetFriend.Shared.Application.Abstractions.Command;
+    using BetFriend.Shared.Domain;
     using MediatR;
     using System.Linq;
     using System.Threading;

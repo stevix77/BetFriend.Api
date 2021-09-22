@@ -1,15 +1,14 @@
-﻿using BetFriend.Bet.Application.Abstractions.Command;
-using BetFriend.Bet.Domain.Bets;
-using BetFriend.Bet.Domain.Exceptions;
-using BetFriend.Bet.Domain.Members;
-using MediatR;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace BetFriend.Bet.Application.Usecases.UpdateWallet
+﻿namespace BetFriend.Bet.Application.Usecases.UpdateWallet
 {
+    using BetFriend.Bet.Domain.Bets;
+    using BetFriend.Bet.Domain.Exceptions;
+    using BetFriend.Bet.Domain.Members;
+    using BetFriend.Shared.Application.Abstractions.Command;
+    using MediatR;
+    using System.Threading;
+    using System.Threading.Tasks;
+
+
     public class UpdateWalletMembersCommandHandler : ICommandHandler<UpdateWalletMembersCommand>
     {
         private readonly IBetRepository _betRepository;
