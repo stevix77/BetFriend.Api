@@ -1,7 +1,8 @@
-﻿using System;
-
-namespace BetFriend.Bet.Domain.Bets.Events
+﻿namespace BetFriend.Bet.Domain.Bets.Events
 {
+    using BetFriend.Shared.Domain;
+    using System;
+
     public class BetAnswered : IDomainEvent
     {
         public BetAnswered(Guid betId, Guid memberId, bool isAccepted)

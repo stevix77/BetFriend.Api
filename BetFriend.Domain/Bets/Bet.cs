@@ -3,6 +3,7 @@
     using BetFriend.Bet.Domain.Bets.Events;
     using BetFriend.Bet.Domain.Exceptions;
     using BetFriend.Bet.Domain.Members;
+    using BetFriend.Shared.Domain;
     using System;
     using System.Collections.Generic;
     using System.Linq;

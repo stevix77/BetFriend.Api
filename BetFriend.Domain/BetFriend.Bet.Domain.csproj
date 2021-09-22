@@ -6,4 +6,8 @@
     <RootNamespace>BetFriend.Bet.Domain</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BetFriend.Shared.Domain\BetFriend.Shared.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

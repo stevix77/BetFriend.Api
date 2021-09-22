@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace BetFriend.UserAccess.Domain.Users
+﻿namespace BetFriend.UserAccess.Domain.Users
 {
-    public class User
+    using BetFriend.Shared.Domain;
+    using System;
+    using System.Collections.Generic;
+
+    public class User : Entity, IAggregateRoot
     {
         private readonly UserId _id;
         private readonly string _username;

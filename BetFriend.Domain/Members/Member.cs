@@ -4,6 +4,7 @@
     using BetFriend.Bet.Domain.Exceptions;
     using BetFriend.Bet.Domain.Members.Events;
     using BetFriend.Bet.Domain.Subscriptions;
+    using BetFriend.Shared.Domain;
     using System;
     using System.Collections.Generic;
     using System.Linq;

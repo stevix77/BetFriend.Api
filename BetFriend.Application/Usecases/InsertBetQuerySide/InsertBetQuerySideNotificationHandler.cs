@@ -1,6 +1,5 @@
 ﻿namespace BetFriend.Bet.Application.Usecases.InsertBetQuerySide
 {
-    using BetFriend.Bet.Application.Abstractions.Command;
     using BetFriend.Bet.Application.Abstractions.Repository;
     using BetFriend.Bet.Application.Models;
     using BetFriend.Bet.Domain.Bets;

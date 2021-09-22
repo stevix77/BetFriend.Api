@@ -1,7 +1,7 @@
 ﻿namespace BetFriend.Bet.Application.Usecases.SubscribeMember
 {
-    using BetFriend.Bet.Application.Abstractions.Command;
     using BetFriend.Bet.Domain.Members;
+    using BetFriend.Shared.Application.Abstractions.Command;
     using System;
 
 

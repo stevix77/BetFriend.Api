@@ -1,6 +1,6 @@
 ﻿namespace BetFriend.Bet.Application.Usecases.CloseBet
 {
-    using BetFriend.Bet.Application.Abstractions.Command;
+    using BetFriend.Shared.Application.Abstractions.Command;
     using System;
 
 

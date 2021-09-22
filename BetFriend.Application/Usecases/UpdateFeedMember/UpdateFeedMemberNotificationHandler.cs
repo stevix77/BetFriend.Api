@@ -1,15 +1,16 @@
-﻿using BetFriend.Bet.Application.Usecases.InsertBetQuerySide;
-using BetFriend.Bet.Domain.Bets;
-using BetFriend.Bet.Domain.Exceptions;
-using BetFriend.Bet.Domain.Feeds;
-using BetFriend.Bet.Domain.Members;
-using MediatR;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace BetFriend.Bet.Application.Usecases.UpdateFeedMember
+﻿namespace BetFriend.Bet.Application.Usecases.UpdateFeedMember
 {
+    using BetFriend.Bet.Application.Usecases.InsertBetQuerySide;
+    using BetFriend.Bet.Domain.Bets;
+    using BetFriend.Bet.Domain.Exceptions;
+    using BetFriend.Bet.Domain.Feeds;
+    using BetFriend.Bet.Domain.Members;
+    using MediatR;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
+
+
     public class UpdateFeedMemberNotificationHandler : INotificationHandler<InsertBetQuerySideNotification>
     {
         private IBetRepository _betRepository;
@@ -29,7 +30,7 @@ namespace BetFriend.Bet.Application.Usecases.UpdateFeedMember
                         ?? throw new BetUnknownException($"Bet with Id {notification.BetId} does not exists");
             var member = await _memberRepository.GetByIdAsync(new(notification.MemberId));
             var feeds = await _feedRepository.GetByIdsAsync(member.Subscriptions.Select(x => x.MemberId.Value));
-            foreach(var feed in feeds)
+            foreach (var feed in feeds)
                 feed.AddBet(bet.State);
             await _feedRepository.SaveAsync(feeds);
         }

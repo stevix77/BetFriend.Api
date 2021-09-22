@@ -1,6 +1,6 @@
 ﻿namespace BetFriend.UserAccess.Infrastructure
 {
-    using BetFriend.UserAccess.Domain;
+    using BetFriend.Shared.Domain;
     using System;
 
     public class FakeDateTimeProvider : IDateTimeProvider

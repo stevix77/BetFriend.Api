@@ -1,7 +1,7 @@
 ﻿namespace BetFriend.Bet.Application.Usecases.LaunchBet
 {
-    using BetFriend.Bet.Application.Abstractions.Command;
-    using BetFriend.Bet.Domain;
+    using BetFriend.Shared.Application.Abstractions.Command;
+    using BetFriend.Shared.Domain;
     using System;
 
     public class LaunchBetCommand : ICommand
