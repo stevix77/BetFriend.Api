@@ -1,6 +1,7 @@
 ﻿namespace BetFriend.UserAccess.Domain.Users
 {
     using BetFriend.Shared.Domain;
+    using BetFriend.UserAccess.Domain.Users.Events;
     using System;
     using System.Collections.Generic;
 
@@ -23,6 +24,7 @@
             _email = email;
             _password = password;
             _registerDate = dateTime;
+            AddDomainEvent(new UserRegistered(id, _email));
         }
 
         public string Username { get => _username; }
