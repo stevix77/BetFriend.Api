@@ -26,7 +26,7 @@
 
         public Task<bool> IsEmailExistsAsync(string email)
         {
-            return Task.FromResult(_users.Any(x => x.Email == email));
+            return Task.FromResult(_users.Any(x => x.Email.ToString() == email));
         }
 
         public Task<bool> IsUsernameExistsAsync(string username)
