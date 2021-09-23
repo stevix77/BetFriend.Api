@@ -84,6 +84,14 @@
             Assert.IsType<UserIdNotValidException>(record);
         }
 
+        [Fact]
+        public async Task ShouldNotRegisterUserIfEmailIsNotValid()
+        {
+            var command = new RegisterCommand("abc", "username", "password", "email@email");
+            var record = await Record.ExceptionAsync(() => RegisterUser(command, userRepository, hashPassword: new MD5HashPassword()));
+            Assert.IsType<EmailNotValidException>(record);
+        }
+
         private void AssertThatUserIsRegistered(string token)
         {
             var user = new User("abc", "username", "email@email.com", "password", new DateTime(2021, 9, 22));
