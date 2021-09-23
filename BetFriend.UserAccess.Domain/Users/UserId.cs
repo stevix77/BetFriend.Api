@@ -4,13 +4,13 @@ namespace BetFriend.UserAccess.Domain.Users
 {
     public struct UserId
     {
-        private string id;
+        private readonly string _id;
 
         public UserId(string id)
         {
             if (string.IsNullOrEmpty(id))
                 throw new UserIdNotValidException();
-            this.id = id;
+            _id = id;
         }
     }
 }

@@ -1,15 +1,17 @@
 ﻿namespace BetFriend.UserAccess.Domain.Users
 {
     using BetFriend.Shared.Domain;
+    using BetFriend.UserAccess.Domain.Exceptions;
     using BetFriend.UserAccess.Domain.Users.Events;
     using System;
     using System.Collections.Generic;
+    using System.Text.RegularExpressions;
 
     public class User : Entity, IAggregateRoot
     {
         private readonly UserId _id;
         private readonly string _username;
-        private readonly string _email;
+        private readonly Email _email;
         private readonly string _password;
         private readonly DateTime _registerDate;
 
@@ -21,14 +23,20 @@
         {
             _id = new(id);
             _username = username;
-            _email = email;
+            _email = IsAddressEmailValid(email) ? new(email) : throw new EmailNotValidException();
             _password = password;
             _registerDate = dateTime;
-            AddDomainEvent(new UserRegistered(id, _email));
+            AddDomainEvent(new UserRegistered(id, _email.ToString()));
+        }
+
+        private bool IsAddressEmailValid(string email)
+        {
+            var regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+            return regex.IsMatch(email);
         }
 
         public string Username { get => _username; }
-        public string Email { get => _email; }
+        public string Email { get => _email.ToString(); }
 
         public override bool Equals(object obj)
         {
