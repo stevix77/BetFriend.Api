@@ -56,3 +56,16 @@
 /BetFriend.UserAccess.Infrastructure/obj
 /BetFriend.UserAccess.UnitTests/bin/Debug/net5.0
 /BetFriend.UserAccess.UnitTests/obj
+/BetFriend.Shared.Application/bin/Debug/net5.0
+/BetFriend.Shared.Application/obj/Debug/net5.0
+/BetFriend.Shared.Application/obj
+/BetFriend.Shared.Domain/bin/Debug/net5.0
+/BetFriend.Shared.Domain/obj/Debug/net5.0
+/BetFriend.Shared.Domain/obj
+/BetFriend.Shared.Infrastructure/bin/Debug/net5.0
+/BetFriend.Shared.Infrastructure/obj/Debug/net5.0
+/BetFriend.Shared.Infrastructure/obj/project.nuget.cache
+/BetFriend.Shared.Infrastructure/obj/project.assets.json
+/BetFriend.Shared.Infrastructure/obj/BetFriend.Shared.Infrastructure.csproj.nuget.g.targets
+/BetFriend.Shared.Infrastructure/obj/BetFriend.Shared.Infrastructure.csproj.nuget.g.props
+/BetFriend.Shared.Infrastructure/obj/BetFriend.Shared.Infrastructure.csproj.nuget.dgspec.json
