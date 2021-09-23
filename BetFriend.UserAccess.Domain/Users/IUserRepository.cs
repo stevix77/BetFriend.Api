@@ -5,6 +5,7 @@
     public interface IUserRepository
     {
         Task SaveAsync(User user);
-        Task<bool> IsUserExistsAsync(string username, string email);
+        Task<bool> IsUsernameExistsAsync(string username);
+        Task<bool> IsEmailExistsAsync(string email);
     }
 }

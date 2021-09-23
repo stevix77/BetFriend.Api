@@ -1,11 +1,10 @@
 ﻿namespace BetFriend.UserAccess.Domain.Exceptions
 {
     using System;
-
     [Serializable]
-    public class UserIdNotValidException : Exception
+    public class UsernameAlreadyExistsException : Exception
     {
-        public UserIdNotValidException()
+        public UsernameAlreadyExistsException()
         {
         }
     }

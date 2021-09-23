@@ -3,6 +3,7 @@
     using BetFriend.Shared.Application.Abstractions.Command;
     using BetFriend.Shared.Domain;
     using BetFriend.UserAccess.Domain;
+    using BetFriend.UserAccess.Domain.Exceptions;
     using BetFriend.UserAccess.Domain.Users;
     using MediatR;
     using System.Threading;
@@ -14,28 +15,43 @@
         private readonly IUserRepository _userRepository;
         private readonly IDateTimeProvider _dateTimeProvider;
         private readonly IHashPassword _hashPassword;
+        private readonly ITokenGenerator _tokenGenerator;
+        private readonly IRegisterPresenter _presenter;
 
         public RegisterCommandHandler(IUserRepository userRepository,
                                       IDateTimeProvider dateTimeProvider,
-                                      IHashPassword hashPassword)
+                                      IHashPassword hashPassword,
+                                      ITokenGenerator tokenGenerator,
+                                      IRegisterPresenter presenter)
         {
             _userRepository = userRepository;
             _dateTimeProvider = dateTimeProvider;
             _hashPassword = hashPassword;
+            _tokenGenerator = tokenGenerator;
+            _presenter = presenter;
         }
 
         public async Task<Unit> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
-            if (!await _userRepository.IsUserExistsAsync(request.Username, request.Email))
-            {
-                await _userRepository.SaveAsync(new User(request.UserId,
-                                                     request.Username,
-                                                     request.Email,
-                                                     _hashPassword.Hash(request.Password),
-                                                     _dateTimeProvider.Now));
-            }
+            if (await _userRepository.IsUsernameExistsAsync(request.Username))
+                throw new UsernameAlreadyExistsException();
 
+            if (await _userRepository.IsEmailExistsAsync(request.Email))
+                throw new EmailAlreadyExistsException();
+
+            var user = new User(request.UserId,
+                                request.Username,
+                                request.Email,
+                                _hashPassword.Hash(request.Password),
+                                _dateTimeProvider.Now);
+            await _userRepository.SaveAsync(user);
+            _presenter.Present(await _tokenGenerator.GenerateAsync(user));
             return Unit.Value;
         }
+    }
+
+    public interface IRegisterPresenter
+    {
+        void Present(string token);
     }
 }
