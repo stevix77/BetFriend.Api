@@ -26,7 +26,7 @@
             _email = IsAddressEmailValid(email) ? new(email) : throw new EmailNotValidException();
             _password = password;
             _registerDate = dateTime;
-            AddDomainEvent(new UserRegistered(id, _email.ToString()));
+            AddDomainEvent(new UserRegistered(id, email));
         }
 
         private bool IsAddressEmailValid(string email)
@@ -36,7 +36,7 @@
         }
 
         public string Username { get => _username; }
-        public string Email { get => _email.ToString(); }
+        public Email Email { get => _email; }
 
         public override bool Equals(object obj)
         {
