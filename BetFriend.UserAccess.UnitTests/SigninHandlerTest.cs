@@ -27,25 +27,52 @@ namespace BetFriend.UserAccess.UnitTests
     /// </summary>
     public class SigninHandlerTest
     {
+        private readonly InMemorySignInPresenter _presenter = new InMemorySignInPresenter();
+        
         [Fact]
         public async Task ShouldSignInUserIfIdentificationOK()
         {
             var command = new SignInCommand("username", "password");
-            var presenter = new InMemorySignInPresenter();
             var user = new User("abc", "username", "email@email.com", "password", new DateTime(2021, 9, 24));
-            var handler = new SignInCommandHandler(new InMemoryUserRepository(user), new InMemoryHashPassword("password"), new InMemoryTokenGenerator("jwtToken"), presenter);
-            await handler.Handle(command, default);
-            Assert.Equal("jwtToken", presenter.Token);
+            await SignIn(command, user);
+            AssertThatPresenterHasAToken();
         }
 
         [Fact]
-        public async Task ShouldThrowAuthenticationNotValidException()
+        public async Task ShouldSignInUserIfIdentificationOKWithEmail()
+        {
+            var command = new SignInCommand("email@email.com", "password");
+            var user = new User("abc", "username", "email@email.com", "password", new DateTime(2021, 9, 24));
+            await SignIn(command, user);
+            AssertThatPresenterHasAToken();
+        }
+
+        [Fact]
+        public async void ShouldThrowAuthenticationNotValidException()
         {
             var command = new SignInCommand("username", "password");
-            var presenter = new InMemorySignInPresenter();
             var user = new User("abc", "usernam", "email@email.com", "password", new DateTime(2021, 9, 24));
-            var handler = new SignInCommandHandler(new InMemoryUserRepository(user), new InMemoryHashPassword("password"), new InMemoryTokenGenerator("jwtToken"), presenter);
-            var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
+            await AssertThatAuthenticationIsNotValid(command, user);
+        }
+
+
+        private void AssertThatPresenterHasAToken()
+        {
+            Assert.Equal("jwtToken", _presenter.Token);
+        }
+
+        private async Task SignIn(SignInCommand command, User user)
+        {
+            var handler = new SignInCommandHandler(new InMemoryUserRepository(user),
+                                                   new InMemoryHashPassword("password"),
+                                                   new InMemoryTokenGenerator("jwtToken"),
+                                                   _presenter);
+            await handler.Handle(command, default);
+        }
+
+        private async Task AssertThatAuthenticationIsNotValid(SignInCommand command, User user)
+        {
+            var record = await Record.ExceptionAsync(() => SignIn(command, user));
             Assert.IsType<AuthenticationNotValidException>(record);
         }
     }
