@@ -37,6 +37,7 @@
 
         public string Username { get => _username; }
         public Email Email { get => _email; }
+        public string Password { get => _password; }
 
         public override bool Equals(object obj)
         {
