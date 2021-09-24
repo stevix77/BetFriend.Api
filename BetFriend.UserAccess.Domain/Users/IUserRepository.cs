@@ -7,5 +7,6 @@
         Task SaveAsync(User user);
         Task<bool> IsUsernameExistsAsync(string username);
         Task<bool> IsEmailExistsAsync(string email);
+        Task<User> GetByLoginPasswordAsync(string login, string password);
     }
 }

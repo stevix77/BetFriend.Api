@@ -49,9 +49,4 @@
             return Unit.Value;
         }
     }
-
-    public interface IRegisterPresenter
-    {
-        void Present(string token);
-    }
 }

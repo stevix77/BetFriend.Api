@@ -19,6 +19,11 @@
             _domainEventsListener = domainEventsListener;
         }
 
+        public Task<User> GetByLoginPasswordAsync(string login, string password)
+        {
+            return Task.FromResult(_users.SingleOrDefault(x => x.Password == password && (x.Email.ToString() == login || x.Username == login)));
+        }
+
         public IReadOnlyCollection<User> GetUsers()
         {
             return _users.ToList();
