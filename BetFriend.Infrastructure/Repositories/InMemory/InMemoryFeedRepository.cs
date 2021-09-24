@@ -2,6 +2,7 @@
 {
     using BetFriend.Bet.Domain.Feeds;
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -27,7 +28,10 @@
 
         public Task SaveAsync(IReadOnlyCollection<Feed> feeds)
         {
+            _feeds.AddRange(feeds);
             return Task.CompletedTask;
         }
+
+        public IEnumerable<Feed> GetFeeds() => _feeds;
     }
 }

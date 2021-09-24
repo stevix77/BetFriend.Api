@@ -11,5 +11,10 @@
         }
 
         public Guid Value { get => _value; }
+
+        public override string ToString()
+        {
+            return Value.ToString();
+        }
     }
 }
