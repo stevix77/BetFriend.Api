@@ -2,8 +2,6 @@
 {
     using BetFriend.Bet.Application.Abstractions.Repository;
     using BetFriend.Bet.Application.Models;
-    using BetFriend.Bet.Domain.Bets;
-    using BetFriend.Bet.Domain.Members;
     using MongoDB.Driver;
     using System;
     using System.Collections.Generic;
@@ -19,6 +17,11 @@
             _collection = mongoDatabase.GetCollection<BetDto>(nameof(BetDto));
         }
 
+        public Task<IReadOnlyCollection<BetDto>> GetBetsForFeedAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<IReadOnlyCollection<BetDto>> GetBetsForMemberAsync(Guid memberId)
         {
             var bets = (await _collection.FindAsync(x => x.Creator.Id == memberId
@@ -28,7 +31,7 @@
 
             return await bets;
 
-            
+
         }
 
         public async Task<BetDto> GetByIdAsync(Guid betId)
@@ -41,7 +44,7 @@
         public async Task SaveAsync(BetDto betDto)
         {
             var result = _collection.FindOneAndReplace(x => x.Id == betDto.Id, betDto);
-            if(result == null)
+            if (result == null)
                 await _collection.InsertOneAsync(betDto).ConfigureAwait(false);
         }
     }

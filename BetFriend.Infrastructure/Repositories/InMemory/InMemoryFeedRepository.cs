@@ -33,5 +33,11 @@
         }
 
         public IEnumerable<Feed> GetFeeds() => _feeds;
+
+        public Task SaveAsync(Feed feed)
+        {
+            _feeds.Add(feed);
+            return Task.CompletedTask;
+        }
     }
 }
