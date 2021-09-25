@@ -1,19 +1,18 @@
-﻿using BetFriend.Bet.Application.Abstractions.Repository;
-using BetFriend.Bet.Application.Exceptions;
-using BetFriend.Bet.Application.Models;
-using BetFriend.Bet.Application.Usecases.GenerateFeed;
-using BetFriend.Bet.Domain.Bets;
-using BetFriend.Bet.Domain.Feeds;
-using BetFriend.Bet.Domain.Members;
-using BetFriend.Bet.Infrastructure.Repositories.InMemory;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Xunit;
-
-namespace BetFriend.Bet.UnitTests.Bets
+﻿namespace BetFriend.Bet.UnitTests.Bets
 {
+    using BetFriend.Bet.Application.Exceptions;
+    using BetFriend.Bet.Application.Models;
+    using BetFriend.Bet.Application.Usecases.GenerateFeed;
+    using BetFriend.Bet.Domain.Bets;
+    using BetFriend.Bet.Domain.Members;
+    using BetFriend.Bet.Infrastructure.Repositories.InMemory;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Xunit;
+
+
     public class GenerateFeedHandlerTest
     {
         [Fact]

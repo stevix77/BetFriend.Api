@@ -3,12 +3,10 @@
     using BetFriend.Bet.Application.Abstractions.Repository;
     using BetFriend.Bet.Application.Exceptions;
     using BetFriend.Bet.Application.Models;
-    using BetFriend.Bet.Domain.Bets;
     using BetFriend.Bet.Domain.Members;
     using BetFriend.Shared.Application.Abstractions.Command;
     using MediatR;
     using System;
-    using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
 

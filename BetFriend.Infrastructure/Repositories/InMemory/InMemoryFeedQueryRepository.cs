@@ -1,13 +1,11 @@
-﻿using BetFriend.Bet.Application.Abstractions.Repository;
-using BetFriend.Bet.Application.Models;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace BetFriend.Bet.Infrastructure.Repositories.InMemory
+﻿namespace BetFriend.Bet.Infrastructure.Repositories.InMemory
 {
+    using BetFriend.Bet.Application.Abstractions.Repository;
+    using BetFriend.Bet.Application.Models;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+
     public class InMemoryFeedQueryRepository : IFeedQueryRepository
     {
         private readonly List<FeedDto> _feeds;
