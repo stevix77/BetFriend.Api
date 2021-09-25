@@ -12,5 +12,6 @@
         Task<IReadOnlyCollection<BetDto>> GetBetsForMemberAsync(Guid memberId);
         Task SaveAsync(BetDto betDto);
         Task<BetDto> GetByIdAsync(Guid betId);
+        Task<IReadOnlyCollection<BetDto>> GetBetsForFeedAsync();
     }
 }

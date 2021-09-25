@@ -8,9 +8,9 @@ namespace BetFriend.Bet.Application.Usecases.GenerateFeed
     {
         public GenerateFeedCommand(MemberId memberId)
         {
-            FeedId = memberId.ToString();
+            MemberId = memberId.ToString();
         }
 
-        public string FeedId { get; }
+        public string MemberId { get; }
     }
 }
