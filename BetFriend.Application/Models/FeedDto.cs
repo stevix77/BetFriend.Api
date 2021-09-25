@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace BetFriend.Bet.Application.Models
+﻿namespace BetFriend.Bet.Application.Models
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
+
     public class FeedDto
     {
         public FeedDto(string id, IEnumerable<BetDto> bets)
