@@ -33,5 +33,10 @@
         {
             throw new NotImplementedException();
         }
+
+        public Task SaveAsync(Member member)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
