@@ -1,34 +1,134 @@
-# ASP.NET
-# Build and test ASP.NET projects.
-# Add steps that publish symbols, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
-
-trigger:
-- develop
+name: $(major).$(minor)$(Rev:.r)
 
 pool:
   vmImage: 'windows-latest'
+  name: Azure Pipelines
+  demands:
+  - msbuild
+  - visualstudio
+  - vstest
 
 variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
+  major: 1
+  minor: $[counter(variables['major'], 0)]
+  BuildPlatform: 'any cpu'
+  BuildConfiguration: 'release'
+  projectApi: 'BetFriend.WebApi/BetFriend.WebApi.csproj'
+  ProjectTest: '*UnitTests/*UnitTests.csproj'
+
+  
+trigger:
+  branches:
+    include: [ 'develop' ]
 
 steps:
-- task: NuGetToolInstaller@1
 
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
+# - task: replacetokens@3
+  # displayName: 'replace token settings'
+  # inputs:
+    # targetFiles: '**/*.appsettings.json'
+    # encoding: 'auto'
+    # writeBOM: true
+    # actionOnMissing: 'warn'
+    # keepToken: false
+    # tokenPrefix: '#{'
+    # tokenSuffix: '}#'
+    # useLegacyPattern: false
+    # enableTelemetry: true
 
-- task: VSBuild@1
+- task: DotNetCoreCLI@2
+  displayName: 'restore api'
   inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    command: restore
+    projects: '**/BetFriend.WebApi.csproj'
+    feedsToUse: 'select'
+    vstsFeed: 'c7c3bb11-7615-404c-b622-c41ff134b93a/0994108f-e633-4efb-bf4e-ce7021d55777'
 
-- task: VSTest@2
+# - task: DotNetCoreCLI@2
+  # displayName: 'restore azurefunctions'
+  # inputs:
+    # command: restore
+    # projects: '**/Vocal.AzureFunctions.csproj'
+    # feedsToUse: 'select'
+    # vstsFeed: 'c7c3bb11-7615-404c-b622-c41ff134b93a/0994108f-e633-4efb-bf4e-ce7021d55777'
+
+- task: UseDotNet@2
   inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    packageType: 'sdk'
+    version: '5.0.x'
+
+- task: DotNetCoreCLI@2
+  displayName: 'build api'
+  inputs:
+    command: build
+    configuration: '$(BuildConfiguration)'
+    projects: '$(projectApi)'
+
+
+# - task: UseDotNet@2
+  # inputs:
+    # packageType: 'sdk'
+    # version: '3.1.x'
+
+# - task: DotNetCoreCLI@2
+  # displayName: 'build azurefunctions'
+  # inputs:
+    # command: 'build'
+    # projects: '**/Vocal.AzureFunctions.csproj'
+
+- task: DotNetCoreCLI@2
+  displayName: 'unit tests'
+  inputs:
+    command: test
+    projects: '$(ProjectTest)'
+    arguments: --configuration $(buildConfiguration) --collect "XPlat Code coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)\TestResults\Coverage\
+    publishTestResults: true
+    nobuild: true
+
+- script: 'dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.5.8'  
+  displayName: 'Install ReportGenerator tool'
+
+- script: 'reportgenerator -reports:$(Agent.TempDirectory)/**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/coverlet/reports -reporttypes:"Cobertura"'  
+  displayName: 'Create reports' 
+
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'code coverage'
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: '$(Build.SourcesDirectory)/coverlet/reports/*cobertura.xml'
+    reportDirectory: '$(Build.SourcesDirectory)/coverlet/reports'
+
+- task: DotNetCoreCLI@2
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  displayName: 'api binaries'
+  inputs:
+    command: publish
+    projects: '$(projectApi)'
+    zipAfterPublish: false
+    publishWebProjects: false
+    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/api'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact Api'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)/api'
+    ArtifactName: '$(Parameters.ArtifactName)'
+  condition: succeededOrFailed()
+
+# - task: DotNetCoreCLI@2
+  # condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  # displayName: 'binaries az'
+  # inputs:
+    # command: 'publish'
+    # projects: '**/Vocal.AzureFunctions.csproj'
+    # zipAfterPublish: false
+    # publishWebProjects: false
+    # arguments: '--configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)/az' 
+
+# - task: PublishBuildArtifacts@1
+  # displayName: 'Publish Artifact AzureFunctions'
+  # inputs:
+    # PathtoPublish: '$(build.artifactstagingdirectory)/az'
+    # ArtifactName: '$(Parameters.ArtifactName)'
+  # condition: succeededOrFailed()
