@@ -1,11 +1,12 @@
-﻿using BetFriend.Shared.Application.Abstractions;
-using BetFriend.UserAccess.Application.Usecases.Register;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading.Tasks;
-
-namespace BetFriend.WebApi.Controllers.Register
+﻿namespace BetFriend.WebApi.Controllers.Register
 {
+    using BetFriend.Shared.Application.Abstractions;
+    using BetFriend.UserAccess.Application.Usecases.Register;
+    using Microsoft.AspNetCore.Mvc;
+    using System;
+    using System.Threading.Tasks;
+
+
     [Route("api/users/register")]
     public class RegisterController : Controller
     {
