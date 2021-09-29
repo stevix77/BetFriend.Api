@@ -18,12 +18,14 @@ namespace BetFriend.WebApi
     using BetFriend.Shared.Infrastructure.Configuration.Behaviors;
     using BetFriend.Shared.Infrastructure.DateTimeProvider;
     using BetFriend.UserAccess.Application.Usecases.Register;
+    using BetFriend.UserAccess.Application.Usecases.SignIn;
     using BetFriend.UserAccess.Domain;
     using BetFriend.UserAccess.Domain.Users;
     using BetFriend.UserAccess.Infrastructure.Hash;
     using BetFriend.UserAccess.Infrastructure.Repositories;
     using BetFriend.UserAccess.Infrastructure.TokenGenerator;
     using BetFriend.WebApi.Controllers.Register;
+    using BetFriend.WebApi.Controllers.SignIn;
     using BetFriend.WebApi.Extensions;
     using BetFriend.WebApi.Filters;
     using MediatR;
@@ -81,6 +83,7 @@ namespace BetFriend.WebApi
             services.AddScoped<IUserRepository, InMemoryUserRepository>();
             services.AddScoped<IBetQueryRepository>(x => new InMemoryBetQueryRepository());
             services.AddScoped<IFeedRepository>(x => new InMemoryFeedRepository());
+            services.AddScoped<IFeedQueryRepository>(x => new InMemoryFeedQueryRepository());
             services.AddScoped<IDomainEventsDispatcher, DomainEventsDispatcher>();
             services.AddScoped<IDomainEventsListener, DomainEventsListener>();
             services.AddScoped<IStorageDomainEventsRepository, AzureStorageDomainEventsRepository>();
@@ -94,6 +97,8 @@ namespace BetFriend.WebApi
             services.AddScoped<ITokenGenerator>(x => new InMemoryTokenGenerator("jwtToken"));
             services.AddScoped<RegisterPresenter>();
             services.AddScoped<IRegisterPresenter>(x => x.GetRequiredService<RegisterPresenter>());
+            services.AddScoped<SignInPresenter>();
+            services.AddScoped<ISignInPresenter>(x => x.GetRequiredService<SignInPresenter>());
             services.AddScoped<IUnitOfWork, InMemoryUnitOfWork>();
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnitOfWorkBehavior<,>));
