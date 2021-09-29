@@ -19,7 +19,7 @@ variables:
   
 trigger:
   branches:
-    include: [ 'develop' ]
+    include: [ 'develop', feature/*, bugfix/*, main ]
 
 steps:
 
@@ -42,7 +42,8 @@ steps:
     command: restore
     projects: '**/BetFriend.WebApi.csproj'
     feedsToUse: 'select'
-    vstsFeed: 'c7c3bb11-7615-404c-b622-c41ff134b93a/0994108f-e633-4efb-bf4e-ce7021d55777'
+    vstsFeed: '6632784c-d3d3-4bab-bba0-1fa9ea12b374/e1e6622c-8333-4ec2-9b46-16bd34ad7de7'
+
 
 # - task: DotNetCoreCLI@2
   # displayName: 'restore azurefunctions'
@@ -50,7 +51,7 @@ steps:
     # command: restore
     # projects: '**/Vocal.AzureFunctions.csproj'
     # feedsToUse: 'select'
-    # vstsFeed: 'c7c3bb11-7615-404c-b622-c41ff134b93a/0994108f-e633-4efb-bf4e-ce7021d55777'
+    # vstsFeed: '6632784c-d3d3-4bab-bba0-1fa9ea12b374/e1e6622c-8333-4ec2-9b46-16bd34ad7de7'
 
 - task: UseDotNet@2
   inputs:
