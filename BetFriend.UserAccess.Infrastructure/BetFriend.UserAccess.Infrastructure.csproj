@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.10" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BetFriend.UserAccess.Application\BetFriend.UserAccess.Application.csproj" />
   </ItemGroup>
 

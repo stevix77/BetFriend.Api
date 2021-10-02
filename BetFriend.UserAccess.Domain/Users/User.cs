@@ -29,7 +29,24 @@
             AddDomainEvent(new UserRegistered(id, email));
         }
 
-        private bool IsAddressEmailValid(string email)
+        private User(UserId userId, string username, Email email, string password)
+        {
+            _id = userId;
+            _username = username;
+            _email = email;
+            _password = password;
+        }
+
+        public static User Restore(string userId, string username, string email, string password)
+        {
+            return new User(
+                new UserId(userId),
+                username,
+                new Email(email),
+                password);
+        }
+
+        private static bool IsAddressEmailValid(string email)
         {
             var regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
             return regex.IsMatch(email);
@@ -38,6 +55,8 @@
         public string Username { get => _username; }
         public Email Email { get => _email; }
         public string Password { get => _password; }
+        public string UserId { get => _id.ToString(); }
+        public DateTime RegisterDate { get => _registerDate; }
 
         public override bool Equals(object obj)
         {

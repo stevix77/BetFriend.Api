@@ -12,5 +12,10 @@ namespace BetFriend.UserAccess.Domain.Users
                 throw new UserIdNotValidException();
             _id = id;
         }
+
+        public override string ToString()
+        {
+            return _id;
+        }
     }
 }

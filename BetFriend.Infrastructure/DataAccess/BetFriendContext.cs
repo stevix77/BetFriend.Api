@@ -6,7 +6,7 @@ namespace BetFriend.Bet.Infrastructure.DataAccess
 {
     public class BetFriendContext : DbContext
     {
-        public BetFriendContext([NotNull] DbContextOptions options) : base(options)
+        public BetFriendContext([NotNull] DbContextOptions<BetFriendContext> options) : base(options)
         {
             
         }

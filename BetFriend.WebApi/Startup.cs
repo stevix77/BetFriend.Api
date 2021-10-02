@@ -21,6 +21,7 @@ namespace BetFriend.WebApi
     using BetFriend.UserAccess.Application.Usecases.SignIn;
     using BetFriend.UserAccess.Domain;
     using BetFriend.UserAccess.Domain.Users;
+    using BetFriend.UserAccess.Infrastructure.DataAccess;
     using BetFriend.UserAccess.Infrastructure.Hash;
     using BetFriend.UserAccess.Infrastructure.Repositories;
     using BetFriend.UserAccess.Infrastructure.TokenGenerator;
@@ -70,6 +71,7 @@ namespace BetFriend.WebApi
             });
 
             services.AddDbContext<DbContext, BetFriendContext>(options => options.UseSqlServer(Configuration.GetConnectionString("BetFriendDbContext")));
+            services.AddDbContext<UserAccessContext>(options => options.UseSqlServer(Configuration.GetConnectionString("UserAccessDbContext")));
             services.AddLogging();
             services.AddScoped(x =>
             {
@@ -80,7 +82,7 @@ namespace BetFriend.WebApi
             services.AddTransient<IDateTimeProvider, DateTimeProvider>();
             services.AddScoped<IProcessor, Processor>();
             services.AddScoped<IBetRepository, InMemoryBetRepository>();
-            services.AddScoped<IUserRepository, InMemoryUserRepository>();
+            services.AddScoped<IUserRepository, SqlServUserRepository>(x => new SqlServUserRepository(x.GetRequiredService<UserAccessContext>()));
             services.AddScoped<IBetQueryRepository>(x => new InMemoryBetQueryRepository());
             services.AddScoped<IFeedRepository>(x => new InMemoryFeedRepository());
             services.AddScoped<IFeedQueryRepository>(x => new InMemoryFeedQueryRepository());
@@ -93,13 +95,13 @@ namespace BetFriend.WebApi
                             "memberName",
                             100) }));
             services.AddScoped<IAuthenticationGateway>(x => new InMemoryAuthenticationGateway(_memberId));
-            services.AddScoped<IHashPassword, MD5HashPassword>();
+            services.AddScoped<IHashPassword, Sha256HashPassword>();
             services.AddScoped<ITokenGenerator>(x => new InMemoryTokenGenerator("jwtToken"));
             services.AddScoped<RegisterPresenter>();
             services.AddScoped<IRegisterPresenter>(x => x.GetRequiredService<RegisterPresenter>());
             services.AddScoped<SignInPresenter>();
             services.AddScoped<ISignInPresenter>(x => x.GetRequiredService<SignInPresenter>());
-            services.AddScoped<IUnitOfWork, InMemoryUnitOfWork>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnitOfWorkBehavior<,>));
             services.AddMediatR(typeof(LaunchBetCommand).Assembly,
