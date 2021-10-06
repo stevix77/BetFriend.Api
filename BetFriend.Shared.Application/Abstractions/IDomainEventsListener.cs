@@ -1,4 +1,4 @@
-﻿namespace BetFriend.Bet.Application.Abstractions
+﻿namespace BetFriend.Shared.Application.Abstractions
 {
     using BetFriend.Shared.Domain;
     using System.Collections.Generic;

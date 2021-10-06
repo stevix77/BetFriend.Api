@@ -1,5 +1,6 @@
 ﻿namespace BetFriend.WebApi.Controllers.AnswerBet
 {
+    using BetFriend.Bet.Application.Abstractions;
     using BetFriend.Bet.Application.Usecases.AnswerBet;
     using BetFriend.Shared.Application.Abstractions;
     using BetFriend.Shared.Domain;
@@ -10,10 +11,10 @@
     [Route("api/bets/answer")]
     public class AnswerBetController : Controller
     {
-        private readonly IProcessor _processor;
+        private readonly IBetProcessor _processor;
         private readonly IDateTimeProvider _dateTimeProvider;
 
-        public AnswerBetController(IProcessor processor, IDateTimeProvider dateTimeProvider)
+        public AnswerBetController(IBetProcessor processor, IDateTimeProvider dateTimeProvider)
         {
             _processor = processor ?? throw new ArgumentNullException(nameof(processor));
             _dateTimeProvider = dateTimeProvider;

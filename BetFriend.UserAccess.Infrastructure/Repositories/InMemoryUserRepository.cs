@@ -1,6 +1,6 @@
 ﻿namespace BetFriend.UserAccess.Infrastructure.Repositories
 {
-    using BetFriend.Bet.Application.Abstractions;
+    using BetFriend.Shared.Application.Abstractions;
     using BetFriend.UserAccess.Domain.Users;
     using System.Collections.Generic;
     using System.Linq;
