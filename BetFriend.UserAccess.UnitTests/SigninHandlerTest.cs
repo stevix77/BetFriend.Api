@@ -13,15 +13,12 @@
 
     public class SigninHandlerTest
     {
-        private readonly InMemorySignInPresenter _presenter = new InMemorySignInPresenter();
-
         [Fact]
         public async Task ShouldSignInUserIfIdentificationOK()
         {
             var command = new SignInCommand("username", "password");
             var user = new User("abc", "username", "email@email.com", "password", new DateTime(2021, 9, 24));
-            await SignIn(command, user);
-            AssertThatPresenterHasAToken();
+            AssertThatHandlerReturnToken(await SignIn(command, user));
         }
 
         [Fact]
@@ -29,8 +26,8 @@
         {
             var command = new SignInCommand("email@email.com", "password");
             var user = new User("abc", "username", "email@email.com", "password", new DateTime(2021, 9, 24));
-            await SignIn(command, user);
-            AssertThatPresenterHasAToken();
+            var result = await SignIn(command, user);
+            AssertThatHandlerReturnToken(result);
         }
 
         [Fact]
@@ -42,18 +39,17 @@
         }
 
 
-        private void AssertThatPresenterHasAToken()
+        private void AssertThatHandlerReturnToken(string token)
         {
-            Assert.Equal("jwtToken", _presenter.Token);
+            Assert.Equal("jwtToken", token);
         }
 
-        private async Task SignIn(SignInCommand command, User user)
+        private async Task<string> SignIn(SignInCommand command, User user)
         {
             var handler = new SignInCommandHandler(new InMemoryUserRepository(user),
                                                    new InMemoryHashPassword("password"),
-                                                   new InMemoryTokenGenerator("jwtToken"),
-                                                   _presenter);
-            await handler.Handle(command, default);
+                                                   new InMemoryTokenGenerator("jwtToken"));
+            return await handler.Handle(command, default);
         }
 
         private async Task AssertThatAuthenticationIsNotValid(SignInCommand command, User user)
@@ -75,20 +71,6 @@
         public string Hash(string password)
         {
             return _hashedPassword;
-        }
-    }
-
-    internal class InMemorySignInPresenter : ISignInPresenter
-    {
-        public InMemorySignInPresenter()
-        {
-        }
-
-        public string Token { get; private set; }
-
-        public void Present(string token)
-        {
-            Token = token;
         }
     }
 }
