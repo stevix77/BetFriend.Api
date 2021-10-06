@@ -4,21 +4,27 @@
     using BetFriend.Shared.Application.Abstractions.Query;
     using BetFriend.UserAccess.Application.Abstractions;
     using MediatR;
+    using System;
     using System.Threading.Tasks;
 
 
     public class UserAccessProcessor : IUserAccessProcessor
     {
-        public async Task ExecuteCommandAsync<TRequest>(ICommand<TRequest> command)
+        private readonly UserAccessCompositionRoot _userAccessCompositionRoot;
+        public UserAccessProcessor(IServiceProvider provider)
         {
-            using var scope = UserAccessCompositionRoot.BeginScope();
+            _userAccessCompositionRoot = new UserAccessCompositionRoot(provider);
+        }
+        public async Task<TResult> ExecuteCommandAsync<TResult>(ICommand<TResult> command)
+        {
+            using var scope = _userAccessCompositionRoot.BeginScope();
             var mediator = scope.ServiceProvider.GetService(typeof(IMediator)) as IMediator;
-            await mediator.Send(command);
+            return await mediator.Send(command);
         }
 
         public async Task<TResult> ExecuteQueryAsync<TResult>(IQuery<TResult> query)
         {
-            using var scope = UserAccessCompositionRoot.BeginScope();
+            using var scope = _userAccessCompositionRoot.BeginScope();
             var mediator = scope.ServiceProvider.GetService(typeof(IMediator)) as IMediator;
             return await mediator.Send(query);
         }

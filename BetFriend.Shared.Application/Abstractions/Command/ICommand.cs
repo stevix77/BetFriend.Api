@@ -6,5 +6,5 @@
     {
     }
 
-    public interface ICommand<TRequest> : IRequest<TRequest> { }
+    public interface ICommand<TResponse> : IRequest<TResponse> { }
 }

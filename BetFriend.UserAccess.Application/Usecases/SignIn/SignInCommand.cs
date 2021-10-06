@@ -3,7 +3,7 @@
     using BetFriend.Shared.Application.Abstractions.Command;
 
 
-    public class SignInCommand : ICommand
+    public class SignInCommand : ICommand<string>
     {
         public SignInCommand(string login, string password)
         {

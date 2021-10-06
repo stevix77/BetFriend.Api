@@ -2,7 +2,7 @@
 {
     using BetFriend.Shared.Application.Abstractions.Command;
 
-    public sealed class RegisterCommand : ICommand
+    public sealed class RegisterCommand : ICommand<string>
     {
         public RegisterCommand(string userId, string username, string password, string email)
         {
