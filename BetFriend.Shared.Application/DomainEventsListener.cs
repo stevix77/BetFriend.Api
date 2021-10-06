@@ -1,6 +1,6 @@
 ﻿namespace BetFriend.Shared.Application
 {
-    using BetFriend.Bet.Application.Abstractions;
+    using BetFriend.Shared.Application.Abstractions;
     using BetFriend.Shared.Domain;
     using System.Collections.Generic;
 

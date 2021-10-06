@@ -5,7 +5,7 @@
 
     public class RegisterPresenter : IRegisterPresenter
     {
-        public string ViewModel { get; private set; }
+        public string ViewModel { get; internal set; }
 
         public void Present(string token)
         {

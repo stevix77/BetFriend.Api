@@ -1,6 +1,6 @@
 ﻿namespace BetFriend.Shared.Infrastructure
 {
-    using BetFriend.Bet.Application.Abstractions;
+    using BetFriend.Shared.Application.Abstractions;
     using BetFriend.Shared.Domain;
     using System;
     using System.Threading.Tasks;

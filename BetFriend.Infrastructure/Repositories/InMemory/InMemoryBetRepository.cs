@@ -1,8 +1,7 @@
 ﻿namespace BetFriend.Bet.Infrastructure.Repositories.InMemory
 {
-    using BetFriend.Bet.Application.Abstractions;
     using BetFriend.Bet.Domain.Bets;
-    using System;
+    using BetFriend.Shared.Application.Abstractions;
     using System.Threading.Tasks;
     using static BetFriend.Bet.Domain.Bets.Bet;
 

@@ -5,11 +5,11 @@
     using Microsoft.EntityFrameworkCore;
     using System.Threading.Tasks;
 
-    public class SqlServUserRepository : IUserRepository
+    public class UserRepository : IUserRepository
     {
         private readonly DbContext _dbContext;
 
-        public SqlServUserRepository(DbContext dbContext)
+        public UserRepository(DbContext dbContext)
         {
             _dbContext = dbContext;
         }

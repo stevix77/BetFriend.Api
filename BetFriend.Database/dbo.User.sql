@@ -6,5 +6,5 @@
     [email] VARCHAR(50) NOT NULL, 
     [password] VARCHAR(150) NOT NULL, 
     [register_date] DATETIME2 NOT NULL, 
-    [wallet] DECIMAL(2) NOT NULL
+    [wallet] DECIMAL(2) NULL
 )

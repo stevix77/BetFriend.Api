@@ -7,12 +7,13 @@
     using BetFriend.Shared.Domain;
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
 
 
     public class Member : Entity
     {
-        private readonly ICollection<Subscription> _subscriptions;
+        private readonly List<Subscription> _subscriptions;
 
         public Member(MemberId creatorId, string memberName, int wallet)
         {
@@ -25,7 +26,7 @@
         public MemberId Id { get; }
         public int Wallet { get; private set; }
         public string Name { get; }
-        public IReadOnlyCollection<Subscription> Subscriptions { get => _subscriptions.ToList(); }
+        public IReadOnlyCollection<Subscription> Subscriptions { get => _subscriptions; }
 
         private bool CanBet(int coins)
         {

@@ -1,7 +1,7 @@
 ﻿namespace BetFriend.Bet.Infrastructure.Repositories.InMemory
 {
-    using BetFriend.Bet.Application.Abstractions;
     using BetFriend.Bet.Domain.Members;
+    using BetFriend.Shared.Application.Abstractions;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -16,7 +16,7 @@
 
         public InMemoryMemberRepository(List<Member> members = null, IDomainEventsListener domainEventsListener = null)
         {
-            _members = members ?? (_members = new List<Member>());
+            _members = members ?? new List<Member>();
             _domainEventsListener = domainEventsListener;
         }
 
@@ -25,15 +25,15 @@
             return Task.FromResult(_members.Find(x => x.Id.Equals(memberId)));
         }
 
-        public Task<List<Member>> GetByIdsAsync(IEnumerable<MemberId> memberIds)
+        public Task<List<Member>> GetByIdsAsync(IEnumerable<MemberId> participantsId)
         {
-            return Task.FromResult(_members.Where(x => memberIds.Contains(x.Id))
+            return Task.FromResult(_members.Where(x => participantsId.Contains(x.Id))
                                            .ToList());
         }
 
         public Task SaveAsync(IReadOnlyCollection<Member> members)
         {
-            foreach(var member in members)
+            foreach (var member in members)
             {
                 if (!_members.Any(x => x.Id.Equals(member.Id)))
                     _members.Add(member);
