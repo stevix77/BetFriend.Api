@@ -12,12 +12,10 @@
     public class RegisterController : Controller
     {
         private readonly IUserAccessProcessor _processor;
-        private readonly IRegisterPresenter _registerPresenter;
 
-        public RegisterController(IUserAccessProcessor processor, IRegisterPresenter registerPresenter)
+        public RegisterController(IUserAccessProcessor processor)
         {
             _processor = processor;
-            _registerPresenter = registerPresenter;
         }
 
         [HttpPost]
@@ -27,8 +25,8 @@
                                               registerInput.Username,
                                               registerInput.Password,
                                               registerInput.Email);
-            await _processor.ExecuteCommandAsync(command);
-            return Created(string.Empty, null);
+            var result = await _processor.ExecuteCommandAsync(command);
+            return Created(string.Empty, result);
         }
     }
 }

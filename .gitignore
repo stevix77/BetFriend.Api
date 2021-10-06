@@ -69,3 +69,6 @@
 /BetFriend.Shared.Infrastructure/obj/BetFriend.Shared.Infrastructure.csproj.nuget.g.targets
 /BetFriend.Shared.Infrastructure/obj/BetFriend.Shared.Infrastructure.csproj.nuget.g.props
 /BetFriend.Shared.Infrastructure/obj/BetFriend.Shared.Infrastructure.csproj.nuget.dgspec.json
+/BetFriend.AzureFunctions/bin/Debug/net5.0
+/BetFriend.AzureFunctions/obj
+/BetFriend.AzureFunctions/Properties

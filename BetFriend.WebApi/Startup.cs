@@ -73,16 +73,12 @@ namespace BetFriend.WebApi
             });
             
             services.AddTransient<IDateTimeProvider, DateTimeProvider>();
-            services.AddScoped<RegisterPresenter>();
-            services.AddScoped<IRegisterPresenter>(x => x.GetRequiredService<RegisterPresenter>());
-            services.AddScoped<SignInPresenter>();
-            services.AddScoped<ISignInPresenter>(x => x.GetRequiredService<SignInPresenter>());
             services.AddScoped<IBetProcessor, BetProcessor>();
-            services.AddScoped<IUserAccessProcessor, UserAccessProcessor>();
+            services.AddUserAccessModule(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -90,8 +86,6 @@ namespace BetFriend.WebApi
             }
 
             BetStartup.Initialize(Configuration);
-            UserAccessStartup.Initialize(Configuration, serviceProvider.GetRequiredService<IRegisterPresenter>(), serviceProvider.GetRequiredService<ISignInPresenter>());
-
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BetFriend.WebApi v1"));
 

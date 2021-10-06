@@ -10,28 +10,25 @@
     using System.Threading.Tasks;
 
 
-    public sealed class RegisterCommandHandler : ICommandHandler<RegisterCommand>
+    public sealed class RegisterCommandHandler : ICommandHandler<RegisterCommand, string>
     {
         private readonly IUserRepository _userRepository;
         private readonly IDateTimeProvider _dateTimeProvider;
         private readonly IHashPassword _hashPassword;
         private readonly ITokenGenerator _tokenGenerator;
-        private readonly IRegisterPresenter _presenter;
 
         public RegisterCommandHandler(IUserRepository userRepository,
                                       IDateTimeProvider dateTimeProvider,
                                       IHashPassword hashPassword,
-                                      ITokenGenerator tokenGenerator,
-                                      IRegisterPresenter presenter)
+                                      ITokenGenerator tokenGenerator)
         {
             _userRepository = userRepository;
             _dateTimeProvider = dateTimeProvider;
             _hashPassword = hashPassword;
             _tokenGenerator = tokenGenerator;
-            _presenter = presenter;
         }
 
-        public async Task<Unit> Handle(RegisterCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
             if (await _userRepository.IsUsernameExistsAsync(request.Username))
                 throw new UsernameAlreadyExistsException();
@@ -45,8 +42,7 @@
                                 _hashPassword.Hash(request.Password),
                                 _dateTimeProvider.Now);
             await _userRepository.SaveAsync(user);
-            _presenter.Present(await _tokenGenerator.GenerateAsync(user));
-            return Unit.Value;
+            return await _tokenGenerator.GenerateAsync(user);
         }
     }
 }

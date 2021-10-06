@@ -7,6 +7,7 @@
     using BetFriend.Shared.Infrastructure.Configuration;
     using BetFriend.Shared.Infrastructure.Configuration.Behaviors;
     using BetFriend.Shared.Infrastructure.DateTimeProvider;
+    using BetFriend.UserAccess.Application.Abstractions;
     using BetFriend.UserAccess.Application.Usecases.Register;
     using BetFriend.UserAccess.Application.Usecases.SignIn;
     using BetFriend.UserAccess.Domain;
@@ -27,11 +28,17 @@
     {
         private static readonly Guid _memberId = Guid.Parse("01c1da98-b4b7-45dc-8352-c98ece06dab1");
 
-        public static void Initialize(IConfiguration configuration,
-                                      IRegisterPresenter registerPresenter,
-                                      ISignInPresenter signInPresenter)
+        public static IServiceCollection AddUserAccessModule(this IServiceCollection services,
+                                                             IConfiguration configuration)
         {
-            var serviceCollection = new ServiceCollection();
+            var provider = Initialize(services, configuration);
+            services.AddScoped<IUserAccessProcessor>(x => new UserAccessProcessor(provider));
+            return services;
+        }
+
+        private static IServiceProvider Initialize(IServiceCollection serviceCollection,
+                                      IConfiguration configuration)
+        {
             serviceCollection.AddLogging();
             serviceCollection.AddSingleton<AzureStorageConfiguration>();
             serviceCollection.AddTransient<IDateTimeProvider, DateTimeProvider>();
@@ -40,18 +47,17 @@
             serviceCollection.AddScoped<IUserRepository, UserRepository>();
             serviceCollection.AddScoped<IDomainEventsDispatcher, DomainEventsDispatcher>();
             serviceCollection.AddScoped<IDomainEventsListener, DomainEventsListener>();
+            serviceCollection.AddScoped<IDomainEventsListener, DomainEventsListener>();
             serviceCollection.AddScoped<IStorageDomainEventsRepository, AzureStorageDomainEventsRepository>();
             serviceCollection.AddScoped<IHashPassword, Sha256HashPassword>();
             serviceCollection.AddScoped<ITokenGenerator>(x => new InMemoryTokenGenerator("jwtToken"));
             serviceCollection.AddScoped<IUnitOfWork, UnitOfWork>();
-            serviceCollection.AddScoped(x => registerPresenter);
-            serviceCollection.AddScoped(x => signInPresenter);
 
             serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
             serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnitOfWorkBehavior<,>));
             serviceCollection.AddMediatR(typeof(RegisterCommand).Assembly);
             var _serviceProvider = serviceCollection.BuildServiceProvider();
-            UserAccessCompositionRoot.SetProvider(_serviceProvider);
+            return _serviceProvider;
         }
     }
 }

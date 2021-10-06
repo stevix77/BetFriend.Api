@@ -4,16 +4,16 @@
     using System;
 
 
-    internal static class UserAccessCompositionRoot
+    internal class UserAccessCompositionRoot
     {
-        private static IServiceProvider _serviceProvider;
-
-        internal static void SetProvider(ServiceProvider serviceProvider)
+        internal UserAccessCompositionRoot(IServiceProvider provider)
         {
-            _serviceProvider = serviceProvider;
+            _serviceProvider = provider;
         }
 
-        internal static IServiceScope BeginScope()
+        private readonly IServiceProvider _serviceProvider;
+
+        internal IServiceScope BeginScope()
         {
             return _serviceProvider.CreateScope();
         }
