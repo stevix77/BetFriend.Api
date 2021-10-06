@@ -3,7 +3,6 @@
     using BetFriend.Shared.Application;
     using BetFriend.Shared.Infrastructure.DateTimeProvider;
     using BetFriend.UserAccess.Application.Usecases.Register;
-    using BetFriend.UserAccess.Domain;
     using BetFriend.UserAccess.Domain.Exceptions;
     using BetFriend.UserAccess.Domain.Users;
     using BetFriend.UserAccess.Domain.Users.Events;
@@ -22,7 +21,6 @@
         private readonly FakeDateTimeProvider fakeDateTimeProvider;
         private readonly DomainEventsListener domainEventsListener;
         private readonly InMemoryTokenGenerator inMemoryTokenGenerator;
-        private readonly InMemoryRegisterPresenter inMemoryPresenter;
 
         public RegisterUserHandlerTest()
         {
@@ -30,14 +28,13 @@
             userRepository = new InMemoryUserRepository(domainEventsListener: domainEventsListener);
             fakeDateTimeProvider = new FakeDateTimeProvider(new DateTime(2021, 9, 22));
             inMemoryTokenGenerator = new InMemoryTokenGenerator(JWT_TOKEN);
-            inMemoryPresenter = new InMemoryRegisterPresenter();
         }
         [Fact]
         public async Task ShouldRegisterAUser()
         {
             var command = new RegisterCommand("abc", "username", "password", "email@email.com");
-            await RegisterUser(command, hashPassword: new MD5HashPassword());
-            AssertThatUserIsRegistered(JWT_TOKEN);
+            var token = await RegisterUser(command, hashPassword: new MD5HashPassword());
+            AssertThatUserIsRegistered(JWT_TOKEN, token);
         }
 
         [Fact]
@@ -92,36 +89,24 @@
             Assert.IsType<EmailNotValidException>(record);
         }
 
-        private void AssertThatUserIsRegistered(string token)
+        private void AssertThatUserIsRegistered(string token, string actualToken)
         {
             var user = new User("abc", "username", "email@email.com", "password", new DateTime(2021, 9, 22));
             Assert.Equal(user, userRepository.GetUsers().Single());
             var domainEvent = domainEventsListener.GetDomainEvents().SingleOrDefault();
             Assert.Equal(new UserRegistered("abc", "email@email.com"), domainEvent);
-            Assert.Equal(token, inMemoryPresenter.Token);
+            Assert.Equal(token, actualToken);
         }
 
-        private async Task RegisterUser(RegisterCommand command,
+        private async Task<string> RegisterUser(RegisterCommand command,
                                         InMemoryUserRepository inMemoryUserRepository = null,
                                         MD5HashPassword hashPassword = null)
         {
-            await new RegisterCommandHandler(inMemoryUserRepository ?? userRepository,
+            return await new RegisterCommandHandler(inMemoryUserRepository ?? userRepository,
                                             fakeDateTimeProvider,
                                             hashPassword,
-                                            inMemoryTokenGenerator, presenter: inMemoryPresenter)
+                                            inMemoryTokenGenerator)
                 .Handle(command, default);
         }
     }
-
-    internal class InMemoryRegisterPresenter : IRegisterPresenter
-    {
-        public string Token { get; private set; }
-
-        public void Present(string token)
-        {
-            Token = token;
-        }
-    }
-
-    
 }
