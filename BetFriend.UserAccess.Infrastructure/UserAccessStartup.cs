@@ -9,13 +9,11 @@
     using BetFriend.Shared.Infrastructure.DateTimeProvider;
     using BetFriend.UserAccess.Application.Abstractions;
     using BetFriend.UserAccess.Application.Usecases.Register;
-    using BetFriend.UserAccess.Application.Usecases.SignIn;
     using BetFriend.UserAccess.Domain;
     using BetFriend.UserAccess.Domain.Users;
     using BetFriend.UserAccess.Infrastructure.AzureStorage;
     using BetFriend.UserAccess.Infrastructure.Configurations;
     using BetFriend.UserAccess.Infrastructure.DataAccess;
-    using BetFriend.UserAccess.Infrastructure.Gateways;
     using BetFriend.UserAccess.Infrastructure.Hash;
     using BetFriend.UserAccess.Infrastructure.Repositories;
     using BetFriend.UserAccess.Infrastructure.TokenGenerator;
@@ -39,7 +37,7 @@
                                       IConfiguration configuration)
         {
             serviceCollection.AddLogging();
-            serviceCollection.AddSingleton<AzureStorageConfiguration>();
+            serviceCollection.AddSingleton(x => configuration.GetSection("AzureStorage").Get<AzureStorageConfiguration>());
             serviceCollection.AddSingleton(x => configuration.GetSection("Authentification").Get<AuthenticationConfiguration>());
             serviceCollection.AddTransient<IDateTimeProvider, DateTimeProvider>();
             serviceCollection.AddDbContext<DbContext, UserAccessContext>(options => options.UseSqlServer(configuration.GetConnectionString("UserAccessDbContext")));
@@ -54,8 +52,7 @@
             serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
             serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnitOfWorkBehavior<,>));
             serviceCollection.AddMediatR(typeof(RegisterCommand).Assembly);
-            var _serviceProvider = serviceCollection.BuildServiceProvider();
-            return _serviceProvider;
+            return serviceCollection.BuildServiceProvider();
         }
     }
 }

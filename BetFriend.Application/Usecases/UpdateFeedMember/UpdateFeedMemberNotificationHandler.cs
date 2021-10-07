@@ -13,9 +13,9 @@
 
     public class UpdateFeedMemberNotificationHandler : INotificationHandler<InsertBetQuerySideNotification>
     {
-        private IBetRepository _betRepository;
-        private IMemberRepository _memberRepository;
-        private IFeedRepository _feedRepository;
+        private readonly IBetRepository _betRepository;
+        private readonly IMemberRepository _memberRepository;
+        private readonly IFeedRepository _feedRepository;
 
         public UpdateFeedMemberNotificationHandler(IBetRepository betRepository, IMemberRepository memberRepository, IFeedRepository feedRepository)
         {

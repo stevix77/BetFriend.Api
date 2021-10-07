@@ -22,15 +22,5 @@ namespace BetFriend.UserAccess.Domain.Users
         {
             return _email;
         }
-
-        public static bool operator ==(Email left, Email right)
-        {
-            return left.Equals(right);
-        }
-
-        public static bool operator !=(Email left, Email right)
-        {
-            return !(left == right);
-        }
     }
 }

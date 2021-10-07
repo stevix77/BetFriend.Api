@@ -63,7 +63,7 @@
             return obj is User user &&
                    EqualityComparer<UserId>.Default.Equals(_id, user._id) &&
                    _username == user._username &&
-                   _email == user._email;
+                   _email.Equals(user._email);
         }
     }
 }
