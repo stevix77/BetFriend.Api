@@ -8,10 +8,10 @@
     using System.Threading.Tasks;
 
 
-    public class UserAccessProcessor : IUserAccessProcessor
+    public class UserAccessModule : IUserAccessModule
     {
         private readonly UserAccessCompositionRoot _userAccessCompositionRoot;
-        public UserAccessProcessor(IServiceProvider provider)
+        public UserAccessModule(IServiceProvider provider)
         {
             _userAccessCompositionRoot = new UserAccessCompositionRoot(provider);
         }

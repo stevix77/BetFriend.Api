@@ -49,7 +49,7 @@ namespace BetFriend.Bet.Infrastructure
             serviceCollection.AddScoped<IFeedRepository>(x => new InMemoryFeedRepository());
             serviceCollection.AddScoped<IFeedQueryRepository>(x => new InMemoryFeedQueryRepository());
             serviceCollection.AddScoped<IDomainEventsDispatcher, DomainEventsDispatcher>();
-            serviceCollection.AddScoped<IDomainEventsListener, DomainEventsListener>();
+            serviceCollection.AddScoped<IDomainEventsAccessor, DomainEventsAccessor>();
             serviceCollection.AddScoped<IStorageDomainEventsRepository, AzureStorageDomainEventsRepository>();
             serviceCollection.AddScoped<IUnitOfWork, UnitOfWork>();
             serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));

@@ -25,7 +25,7 @@
             var memberId = new MemberId(Guid.Parse("1311e8c9-d993-4346-94c1-1907e3ce65d3"));
             var creator = new Member(memberId, "name", 300);
             BetState betState = GenerateBet(betId, creator);
-            var domainEventsListener = new DomainEventsListener();
+            var domainEventsListener = new DomainEventsAccessor();
             var repository = new InMemoryBetRepository(domainEventsListener, betState);
             var command = new CloseBetCommand(betId, memberId.Value, true);
             var dateTimeClosed = new DateTime(2021, 4, 1);

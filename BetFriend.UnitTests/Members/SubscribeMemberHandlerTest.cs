@@ -21,7 +21,7 @@
             var memberId = Guid.NewGuid();
             var memberToSubscribe = new Member(new(subscriptionId), "member2", 300);
             var member = new Member(new(memberId), "member1", 300);
-            var domainListener = new DomainEventsListener();
+            var domainListener = new DomainEventsAccessor();
             var memberReposiory = new InMemoryMemberRepository(new() { member, memberToSubscribe }, domainListener);
             var handler = new SubscribeMemberCommanderHandler(memberReposiory, new InMemoryAuthenticationGateway(memberId));
             var command = new SubscribeMemberCommand(memberId, subscriptionId);

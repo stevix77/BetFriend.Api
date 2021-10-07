@@ -1,6 +1,5 @@
 ﻿namespace BetFriend.WebApi.Controllers.SignIn
 {
-    using BetFriend.Shared.Application.Abstractions;
     using BetFriend.UserAccess.Application.Abstractions;
     using BetFriend.UserAccess.Application.Usecases.SignIn;
     using Microsoft.AspNetCore.Mvc;
@@ -10,11 +9,11 @@
     [Route("api/users/signin")]
     public class SignInController : Controller
     {
-        private readonly IUserAccessProcessor _processor;
+        private readonly IUserAccessModule _module;
 
-        public SignInController(IUserAccessProcessor processor)
+        public SignInController(IUserAccessModule module)
         {
-            _processor = processor;
+            _module = module;
         }
 
         [HttpPost]
@@ -22,7 +21,7 @@
         {
             var command = new SignInCommand(signInInput.Login,
                                             signInInput.Password);
-            var result = await _processor.ExecuteCommandAsync(command);
+            var result = await _module.ExecuteCommandAsync(command);
             return Ok(result);
         }
     }

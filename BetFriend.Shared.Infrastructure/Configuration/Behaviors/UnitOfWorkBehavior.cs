@@ -3,7 +3,6 @@
     using BetFriend.Shared.Application.Abstractions.Command;
     using BetFriend.Shared.Infrastructure;
     using MediatR;
-    using System;
     using System.Threading;
     using System.Threading.Tasks;
 

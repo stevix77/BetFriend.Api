@@ -9,14 +9,14 @@
     public class InMemoryUserRepository : IUserRepository
     {
         private readonly ICollection<User> _users;
-        private readonly IDomainEventsListener _domainEventsListener;
+        private readonly IDomainEventsAccessor _domainEventsAccessor;
 
-        public InMemoryUserRepository(User user = null, IDomainEventsListener domainEventsListener = null)
+        public InMemoryUserRepository(User user = null, IDomainEventsAccessor domainEventsAccessor = null)
         {
             _users = new List<User>();
             if (user != null)
                 _users.Add(user);
-            _domainEventsListener = domainEventsListener;
+            _domainEventsAccessor = domainEventsAccessor;
         }
 
         public Task<User> GetByLoginPasswordAsync(string login, string password)
@@ -42,7 +42,7 @@
         public Task SaveAsync(User user)
         {
             _users.Add(user);
-            _domainEventsListener?.AddDomainEvents(user.DomainEvents);
+            _domainEventsAccessor?.AddDomainEvents(user.DomainEvents);
             return Task.CompletedTask;
         }
     }

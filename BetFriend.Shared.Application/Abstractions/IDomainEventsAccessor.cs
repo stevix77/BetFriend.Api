@@ -3,7 +3,7 @@
     using BetFriend.Shared.Domain;
     using System.Collections.Generic;
 
-    public interface IDomainEventsListener
+    public interface IDomainEventsAccessor
     {
         void AddDomainEvents(IReadOnlyCollection<IDomainEvent> domainEvents);
         IReadOnlyCollection<IDomainEvent> GetDomainEvents();

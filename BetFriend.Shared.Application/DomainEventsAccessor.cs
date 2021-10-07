@@ -4,10 +4,10 @@
     using BetFriend.Shared.Domain;
     using System.Collections.Generic;
 
-    public sealed class DomainEventsListener : IDomainEventsListener
+    public sealed class DomainEventsAccessor : IDomainEventsAccessor
     {
         private readonly List<IDomainEvent> _domainEvents;
-        public DomainEventsListener()
+        public DomainEventsAccessor()
         {
             _domainEvents = new List<IDomainEvent>();
         }
