@@ -8,7 +8,7 @@
     {
         Task<Feed> GetByIdAsync(Guid feedId);
         Task SaveAsync(IReadOnlyCollection<Feed> feeds);
-        Task<IReadOnlyCollection<Feed>> GetByIdsAsync(IEnumerable<Guid> enumerable);
+        Task<IReadOnlyCollection<Feed>> GetByIdsAsync(IEnumerable<Guid> feedIds);
         Task SaveAsync(Feed feed);
     }
 }

@@ -18,46 +18,36 @@
         [Fact]
         public async Task ShouldGenerateFeed()
         {
-            var bets = new List<BetDto>()
-            {
-                new BetDto(new BetState(Guid.Parse("ddc5776b-3596-4dfb-ad0c-691812bfebbd"),
+            var bet = new BetState(Guid.Parse("adc5776b-3596-4dfb-ad0c-691812bfebbd"),
                                         new Member(new(Guid.Parse("ddc5776b-3596-4dfb-ad0c-691812bfebbf")), "toto", 300),
                                         new DateTime(2022, 9, 24),
                                         "description",
                                         30,
                                         new DateTime(2021, 9, 24),
-                                        null)),
-                new BetDto(new BetState(Guid.Parse("adc5776b-3596-4dfb-ad0c-691812bfebbd"),
-                                        new Member(new(Guid.Parse("ddc5776b-3596-4dfb-ad0c-691812bfebbf")), "toto", 300),
-                                        new DateTime(2022, 9, 24),
-                                        "description",
-                                        30,
-                                        new DateTime(2021, 9, 24),
-                                        null)),
-            };
-            var betQueryRepo = new InMemoryBetQueryRepository(bets);
+                                        new List<AnswerState>());
+            var betRepo = new InMemoryBetRepository(null, bet);
             var memberRepo = new InMemoryMemberRepository(new List<Member>() { new Member(new(Guid.Parse("ddc5776b-3596-4dfb-ad0c-691812bfebbf")),
                                                                                           "toto",
                                                                                           300) });
             var command = new GenerateFeedCommand(new(Guid.Parse("ddc5776b-3596-4dfb-ad0c-691812bfebbf")));
-            var feedRepo = new InMemoryFeedQueryRepository();
+            var feedRepo = new InMemoryFeedRepository();
             var handler = new GenerateFeedCommandHandler(feedRepo,
-                                                         betQueryRepo,
+                                                         betRepo,
                                                          memberRepo);
             await handler.Handle(command, default);
             Assert.Single(feedRepo.GetFeeds());
             var feed = feedRepo.GetFeeds().First();
-            Assert.Equal(bets.Count, feed.Bets.Count);
-            Assert.Equal("ddc5776b-3596-4dfb-ad0c-691812bfebbf", feed.Id);
+            Assert.Equal(1, feed.Bets.Count);
+            Assert.Equal("ddc5776b-3596-4dfb-ad0c-691812bfebbf", feed.Id.ToString());
         }
 
         [Fact]
         public async Task ShouldNotGenerateFeedIfMemberDoesNotExists()
         {
             var command = new GenerateFeedCommand(new(Guid.Parse("ddc5776b-3596-4dfb-ad0c-691812bfebbf")));
-            var feedRepo = new InMemoryFeedQueryRepository();
+            var feedRepo = new InMemoryFeedRepository();
             var handler = new GenerateFeedCommandHandler(feedRepo,
-                                                         new InMemoryBetQueryRepository(),
+                                                         new InMemoryBetRepository(),
                                                          new InMemoryMemberRepository());
             var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
             Assert.IsType<MemberNotFoundException>(record);

@@ -3,7 +3,6 @@
     using BetFriend.Bet.Domain.Bets;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
 
 
     public class Feed
@@ -15,8 +14,8 @@
         }
 
         public Guid Id { get; private set; }
-        private ICollection<BetState> _bets;
-        public IReadOnlyCollection<BetState> Bets { get => _bets.ToList(); }
+        private readonly List<BetState> _bets;
+        public IReadOnlyCollection<BetState> Bets { get => _bets; }
 
         public static Feed Create(Guid feedId)
         {

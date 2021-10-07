@@ -33,6 +33,24 @@
 
         }
 
+        private Bet(BetState state)
+        {
+            _betId = new BetId(state.BetId);
+            _endDate = new EndDate(state.EndDate);
+            _coins = state.Coins;
+            _creator = state.Creator;
+            _description = state.Description;
+            _creationDate = state.CreationDate;
+            _answers = new Dictionary<Member, Answer>(
+                        state.Answers?.Select(x =>
+                            new KeyValuePair<Member, Answer>(
+                                x.Member,
+                                new Answer(x.IsAccepted, x.DateAnswer)
+                            )
+                        ));
+            _status = state.Status;
+        }
+
         public IReadOnlyCollection<Member> GetAllMembers()
         {
             var members = _answers.Select(x => x.Key).ToList();
@@ -55,24 +73,6 @@
             {
                 answer.Key.UpdateParticipantWallet(this);
             }
-        }
-
-        private Bet(BetState state)
-        {
-            _betId = new BetId(state.BetId);
-            _endDate = new EndDate(state.EndDate);
-            _coins = state.Coins;
-            _creator = state.Creator;
-            _description = state.Description;
-            _creationDate = state.CreationDate;
-            _answers = new Dictionary<Member, Answer>(
-                        state.Answers.Select(x => 
-                            new KeyValuePair<Member, Answer>(
-                                x.Member, 
-                                new Answer(x.IsAccepted, x.DateAnswer)
-                            )
-                        ));
-            _status = state.Status;
         }
 
         internal bool IsSuccess() => _status.IsSuccess();
