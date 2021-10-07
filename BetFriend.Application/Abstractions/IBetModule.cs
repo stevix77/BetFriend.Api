@@ -2,7 +2,7 @@
 
 namespace BetFriend.Bet.Application.Abstractions
 {
-    public interface IBetProcessor : IProcessor
+    public interface IBetModule : IProcessor
     {
     }
 }

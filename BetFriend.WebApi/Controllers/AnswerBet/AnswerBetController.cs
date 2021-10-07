@@ -11,10 +11,10 @@
     [Route("api/bets/answer")]
     public class AnswerBetController : Controller
     {
-        private readonly IBetProcessor _processor;
+        private readonly IBetModule _processor;
         private readonly IDateTimeProvider _dateTimeProvider;
 
-        public AnswerBetController(IBetProcessor processor, IDateTimeProvider dateTimeProvider)
+        public AnswerBetController(IBetModule processor, IDateTimeProvider dateTimeProvider)
         {
             _processor = processor ?? throw new ArgumentNullException(nameof(processor));
             _dateTimeProvider = dateTimeProvider;

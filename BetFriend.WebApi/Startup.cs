@@ -43,8 +43,8 @@ namespace BetFriend.WebApi
             });
 
             services.AddTransient<IDateTimeProvider, DateTimeProvider>();
-            services.AddScoped<IBetProcessor, BetProcessor>();
             services.AddUserAccessModule(Configuration);
+            services.AddBetModule(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,7 +55,6 @@ namespace BetFriend.WebApi
                 app.UseDeveloperExceptionPage();
             }
 
-            BetStartup.Initialize(Configuration);
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BetFriend.WebApi v1"));
 

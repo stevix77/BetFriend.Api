@@ -1,18 +1,17 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-
-namespace BetFriend.Bet.Infrastructure
+﻿namespace BetFriend.Bet.Infrastructure
 {
-    internal static class BetCompositionRoot
-    {
-        private static IServiceProvider _serviceProvider;
+    using Microsoft.Extensions.DependencyInjection;
+    using System;
 
-        internal static void SetProvider(ServiceProvider serviceProvider)
+    internal class BetCompositionRoot
+    {
+        private readonly IServiceProvider _serviceProvider;
+        internal BetCompositionRoot(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
 
-        internal static IServiceScope BeginScope()
+        internal IServiceScope BeginScope()
         {
             return _serviceProvider.CreateScope();
         }

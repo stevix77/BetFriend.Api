@@ -4,7 +4,6 @@
     using BetFriend.Bet.Domain.Members;
     using BetFriend.Bet.Infrastructure.DataAccess.Entities;
     using Microsoft.EntityFrameworkCore;
-    using System;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -36,15 +35,15 @@
             var entity = await _dbContext.Set<BetEntity>().FirstOrDefaultAsync(x => x.BetId == betId.Value);
             return entity == null ? null :
                                     Bet.FromState(
-                                        new BetState(betId.Value, 
+                                        new BetState(betId.Value,
                                                     new Member(new(entity.Creator.MemberId),
                                                                 entity.Creator.MemberName,
                                                                 entity.Creator.Wallet),
-                                                    entity.EndDate, 
-                                                    entity.Description, 
-                                                    entity.Coins, 
+                                                    entity.EndDate,
+                                                    entity.Description,
+                                                    entity.Coins,
                                                     entity.CreationDate,
-                                                    entity.Answers?.Select(x => 
+                                                    entity.Answers?.Select(x =>
                                                         new AnswerState(new(new(x.Member.MemberId), x.Member.MemberName, x.Member.Wallet),
                                                                         x.IsAccepted,
                                                                         x.DateAnswer))

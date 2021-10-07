@@ -6,12 +6,11 @@
 
     internal class UserAccessCompositionRoot
     {
+        private readonly IServiceProvider _serviceProvider;
         internal UserAccessCompositionRoot(IServiceProvider provider)
         {
             _serviceProvider = provider;
         }
-
-        private readonly IServiceProvider _serviceProvider;
 
         internal IServiceScope BeginScope()
         {
