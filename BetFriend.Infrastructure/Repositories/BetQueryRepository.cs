@@ -17,11 +17,6 @@
             _collection = mongoDatabase.GetCollection<BetDto>(nameof(BetDto));
         }
 
-        public Task<IReadOnlyCollection<BetDto>> GetBetsForFeedAsync()
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<IReadOnlyCollection<BetDto>> GetBetsForMemberAsync(Guid memberId)
         {
             var bets = (await _collection.FindAsync(x => x.Creator.Id == memberId

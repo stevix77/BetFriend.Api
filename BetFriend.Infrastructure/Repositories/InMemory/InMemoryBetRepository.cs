@@ -2,6 +2,7 @@
 {
     using BetFriend.Bet.Domain.Bets;
     using BetFriend.Shared.Application.Abstractions;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using static BetFriend.Bet.Domain.Bets.Bet;
 
@@ -30,6 +31,11 @@
 
             return Task.FromResult<Bet>(null);
 
+        }
+
+        public async Task<IReadOnlyCollection<Bet>> GetBetsForFeedAsync()
+        {
+            return await Task.FromResult(new List<Bet>() { FromState(_bet) });
         }
     }
 }

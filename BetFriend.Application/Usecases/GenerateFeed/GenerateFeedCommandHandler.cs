@@ -1,8 +1,8 @@
 ﻿namespace BetFriend.Bet.Application.Usecases.GenerateFeed
 {
-    using BetFriend.Bet.Application.Abstractions.Repository;
     using BetFriend.Bet.Application.Exceptions;
-    using BetFriend.Bet.Application.Models;
+    using BetFriend.Bet.Domain.Bets;
+    using BetFriend.Bet.Domain.Feeds;
     using BetFriend.Bet.Domain.Members;
     using BetFriend.Shared.Application.Abstractions.Command;
     using MediatR;
@@ -12,14 +12,14 @@
 
     public sealed class GenerateFeedCommandHandler : ICommandHandler<GenerateFeedCommand>
     {
-        private readonly IFeedQueryRepository _feedRepository;
-        private readonly IBetQueryRepository _betQueryRepository;
+        private readonly IFeedRepository _feedRepository;
+        private readonly IBetRepository _betRepository;
         private readonly IMemberRepository _memberRepository;
 
-        public GenerateFeedCommandHandler(IFeedQueryRepository feedRepository, IBetQueryRepository betQueryRepository, IMemberRepository memberRepository)
+        public GenerateFeedCommandHandler(IFeedRepository feedRepository, IBetRepository betRepository, IMemberRepository memberRepository)
         {
             _feedRepository = feedRepository;
-            _betQueryRepository = betQueryRepository;
+            _betRepository = betRepository;
             _memberRepository = memberRepository;
         }
 
@@ -27,9 +27,11 @@
         {
             var member = await _memberRepository.GetByIdAsync(new(Guid.Parse(request.MemberId)))
                         ?? throw new MemberNotFoundException();
-            var bets = await _betQueryRepository.GetBetsForFeedAsync();
-            var feedDto = new FeedDto(member.Id.ToString(), bets);
-            await _feedRepository.SaveAsync(feedDto);
+            var bets = await _betRepository.GetBetsForFeedAsync();
+            var feed = Feed.Create(member.Id.Value);
+            foreach (var bet in bets)
+                feed.AddBet(bet.State);
+            await _feedRepository.SaveAsync(feed);
             return Unit.Value;
         }
     }

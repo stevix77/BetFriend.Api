@@ -42,10 +42,5 @@
         {
             return Task.FromResult(_bets.FirstOrDefault(x => x.Id == betId));
         }
-
-        public async Task<IReadOnlyCollection<BetDto>> GetBetsForFeedAsync()
-        {
-            return await Task.FromResult(_bets.ToList());
-        }
     }
 }

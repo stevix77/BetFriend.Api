@@ -4,6 +4,7 @@
     using BetFriend.Bet.Domain.Members;
     using BetFriend.Bet.Infrastructure.DataAccess.Entities;
     using Microsoft.EntityFrameworkCore;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -48,6 +49,11 @@
                                                                         x.IsAccepted,
                                                                         x.DateAnswer))
                                                                    .ToList()));
+        }
+
+        public Task<IReadOnlyCollection<Bet>> GetBetsForFeedAsync()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -2,6 +2,7 @@
 {
     using BetFriend.Bet.Domain.Feeds;
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -25,17 +26,17 @@
             return await Task.FromResult(_feeds.Where(x => feedIds.Contains(x.Id)).ToList());
         }
 
-        public Task SaveAsync(IReadOnlyCollection<Feed> feeds)
-        {
-            _feeds.AddRange(feeds);
-            return Task.CompletedTask;
-        }
-
         public IEnumerable<Feed> GetFeeds() => _feeds;
 
         public Task SaveAsync(Feed feed)
         {
             _feeds.Add(feed);
+            return Task.CompletedTask;
+        }
+
+        public Task SaveAsync(IReadOnlyCollection<Feed> feeds)
+        {
+            _feeds.AddRange(feeds);
             return Task.CompletedTask;
         }
     }

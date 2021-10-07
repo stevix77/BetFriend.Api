@@ -52,7 +52,6 @@ namespace BetFriend.Bet.Infrastructure
             serviceCollection.AddScoped<IBetRepository, BetRepository>();
             serviceCollection.AddScoped<IBetQueryRepository, BetQueryRepository>();
             serviceCollection.AddScoped<IFeedRepository>(x => new InMemoryFeedRepository());
-            serviceCollection.AddScoped<IFeedQueryRepository>(x => new InMemoryFeedQueryRepository());
             serviceCollection.AddScoped<IDomainEventsDispatcher, DomainEventsDispatcher>();
             serviceCollection.AddScoped<IDomainEventsAccessor, DomainEventsAccessor>();
             serviceCollection.AddScoped<IStorageDomainEventsRepository, AzureStorageDomainEventsRepository>();
