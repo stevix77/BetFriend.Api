@@ -53,7 +53,7 @@
         }
 
         public string Username { get => _username; }
-        public Email Email { get => _email; }
+        public string Email { get => _email.ToString(); }
         public string Password { get => _password; }
         public string UserId { get => _id.ToString(); }
         public DateTime RegisterDate { get => _registerDate; }

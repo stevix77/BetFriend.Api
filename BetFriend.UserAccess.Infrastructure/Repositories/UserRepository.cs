@@ -1,5 +1,6 @@
 ﻿namespace BetFriend.UserAccess.Infrastructure.Repositories
 {
+    using BetFriend.Shared.Application.Abstractions;
     using BetFriend.UserAccess.Domain.Users;
     using BetFriend.UserAccess.Infrastructure.DataAccess.Entities;
     using Microsoft.EntityFrameworkCore;
@@ -8,10 +9,12 @@
     public class UserRepository : IUserRepository
     {
         private readonly DbContext _dbContext;
+        private readonly IDomainEventsAccessor _domainEventsAccessor;
 
-        public UserRepository(DbContext dbContext)
+        public UserRepository(DbContext dbContext, IDomainEventsAccessor domainEventsAccessor)
         {
             _dbContext = dbContext;
+            _domainEventsAccessor = domainEventsAccessor;
         }
         public async Task<User> GetByLoginPasswordAsync(string login, string password)
         {
@@ -45,6 +48,7 @@
                 RegisterDate = user.RegisterDate
             };
             await _dbContext.AddAsync(userEntity).ConfigureAwait(false);
+            _domainEventsAccessor.AddDomainEvents(user.DomainEvents);
         }
     }
 }

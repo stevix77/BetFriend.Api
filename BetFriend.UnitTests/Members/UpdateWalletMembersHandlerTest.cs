@@ -32,7 +32,7 @@ namespace BetFriend.Bet.UnitTests.Members
                                             new AnswerState(participant2, true, new DateTime(2021, 3,4))
                                         },
                                         new Status(true, new DateTime(2021, 5, 5)));
-            var domainEventListener = new DomainEventsListener();
+            var domainEventListener = new DomainEventsAccessor();
             IBetRepository betRepository = new InMemoryBetRepository(domainEventListener, betState);
             IMemberRepository memberRepository = new InMemoryMemberRepository(new() { creator, participant, participant2 });
             var command = new UpdateWalletMembersCommand(betId);
@@ -82,7 +82,7 @@ namespace BetFriend.Bet.UnitTests.Members
                                             new AnswerState(participant2, true, new DateTime(2021, 3,4))
                                         },
                                         new Status(false, new DateTime(2021, 5, 5)));
-            var domainEventListener = new DomainEventsListener();
+            var domainEventListener = new DomainEventsAccessor();
             IBetRepository betRepository = new InMemoryBetRepository(domainEventListener, betState);
             IMemberRepository memberRepository = new InMemoryMemberRepository(new() { creator, participant, participant2 });
             var command = new UpdateWalletMembersCommand(betId);

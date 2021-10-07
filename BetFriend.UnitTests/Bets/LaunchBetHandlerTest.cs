@@ -36,7 +36,7 @@ namespace BetFriend.Bet.UnitTests.Bets
             IDateTimeProvider dtNow = new FakeDateTimeProvider(new DateTime(2021, 5, 6, 0, 0, 0));
             var endDate = new DateTime(2021, 5, 7, 0, 0, 0);
             var command = new LaunchBetCommand(_betId, _creatorId, endDate, coins, description, dtNow);
-            var domainEventsListener = new DomainEventsListener();
+            var domainEventsListener = new DomainEventsAccessor();
             var betRepository = new InMemoryBetRepository(domainEventsListener);
             var member = new Member(new MemberId(_creatorId), "name", 25);
             var memberRepository = new InMemoryMemberRepository(new List<Member>() { member });

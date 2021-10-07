@@ -19,13 +19,13 @@
         private const string JWT_TOKEN = "jwtToken";
         private readonly InMemoryUserRepository userRepository;
         private readonly FakeDateTimeProvider fakeDateTimeProvider;
-        private readonly DomainEventsListener domainEventsListener;
+        private readonly DomainEventsAccessor domainEventsListener;
         private readonly InMemoryTokenGenerator inMemoryTokenGenerator;
 
         public RegisterUserHandlerTest()
         {
-            domainEventsListener = new DomainEventsListener();
-            userRepository = new InMemoryUserRepository(domainEventsListener: domainEventsListener);
+            domainEventsListener = new DomainEventsAccessor();
+            userRepository = new InMemoryUserRepository(domainEventsAccessor: domainEventsListener);
             fakeDateTimeProvider = new FakeDateTimeProvider(new DateTime(2021, 9, 22));
             inMemoryTokenGenerator = new InMemoryTokenGenerator(JWT_TOKEN);
         }
@@ -46,7 +46,7 @@
             AssertThatThrowUsernameAlreadyExistsException(record);
         }
 
-        private void AssertThatThrowUsernameAlreadyExistsException(Exception record)
+        private static void AssertThatThrowUsernameAlreadyExistsException(Exception record)
         {
             Assert.IsType<UsernameAlreadyExistsException>(record);
         }
@@ -60,7 +60,7 @@
             AssertThatThrowEmailAlreadyExistsException(record);
         }
 
-        private void AssertThatThrowEmailAlreadyExistsException(Exception record)
+        private static void AssertThatThrowEmailAlreadyExistsException(Exception record)
         {
             Assert.IsType<EmailAlreadyExistsException>(record);
         }

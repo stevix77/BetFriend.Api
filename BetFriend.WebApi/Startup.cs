@@ -1,48 +1,18 @@
 namespace BetFriend.WebApi
 {
     using BetFriend.Bet.Application.Abstractions;
-    using BetFriend.Bet.Application.Abstractions.Repository;
-    using BetFriend.Bet.Application.Usecases.LaunchBet;
-    using BetFriend.Bet.Domain.Bets;
-    using BetFriend.Bet.Domain.Feeds;
-    using BetFriend.Bet.Domain.Members;
     using BetFriend.Bet.Infrastructure;
-    using BetFriend.Bet.Infrastructure.AzureStorage;
-    using BetFriend.Bet.Infrastructure.DataAccess;
-    using BetFriend.Bet.Infrastructure.Gateways;
-    using BetFriend.Bet.Infrastructure.Repositories.InMemory;
-    using BetFriend.Shared.Application;
-    using BetFriend.Shared.Application.Abstractions;
     using BetFriend.Shared.Domain;
-    using BetFriend.Shared.Infrastructure;
-    using BetFriend.Shared.Infrastructure.Configuration;
-    using BetFriend.Shared.Infrastructure.Configuration.Behaviors;
     using BetFriend.Shared.Infrastructure.DateTimeProvider;
-    using BetFriend.UserAccess.Application.Abstractions;
-    using BetFriend.UserAccess.Application.Usecases.Register;
-    using BetFriend.UserAccess.Application.Usecases.SignIn;
-    using BetFriend.UserAccess.Domain;
-    using BetFriend.UserAccess.Domain.Users;
     using BetFriend.UserAccess.Infrastructure;
-    using BetFriend.UserAccess.Infrastructure.DataAccess;
-    using BetFriend.UserAccess.Infrastructure.Hash;
-    using BetFriend.UserAccess.Infrastructure.Repositories;
-    using BetFriend.UserAccess.Infrastructure.TokenGenerator;
-    using BetFriend.WebApi.Controllers.Register;
-    using BetFriend.WebApi.Controllers.SignIn;
     using BetFriend.WebApi.Extensions;
     using BetFriend.WebApi.Filters;
-    using MediatR;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.OpenApi.Models;
-    using MongoDB.Driver;
-    using System;
-    using System.Collections.Generic;
 
 
     public class Startup
@@ -71,7 +41,7 @@ namespace BetFriend.WebApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "BetFriend.WebApi", Version = "v1" });
             });
-            
+
             services.AddTransient<IDateTimeProvider, DateTimeProvider>();
             services.AddScoped<IBetProcessor, BetProcessor>();
             services.AddUserAccessModule(Configuration);
@@ -94,6 +64,7 @@ namespace BetFriend.WebApi
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {

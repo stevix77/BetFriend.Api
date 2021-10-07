@@ -5,7 +5,6 @@
     using BetFriend.UserAccess.Domain;
     using BetFriend.UserAccess.Domain.Exceptions;
     using BetFriend.UserAccess.Domain.Users;
-    using MediatR;
     using System.Threading;
     using System.Threading.Tasks;
 

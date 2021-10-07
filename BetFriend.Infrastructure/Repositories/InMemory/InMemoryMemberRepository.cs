@@ -12,9 +12,9 @@
     public sealed class InMemoryMemberRepository : IMemberRepository
     {
         private readonly List<Member> _members;
-        private readonly IDomainEventsListener _domainEventsListener;
+        private readonly IDomainEventsAccessor _domainEventsListener;
 
-        public InMemoryMemberRepository(List<Member> members = null, IDomainEventsListener domainEventsListener = null)
+        public InMemoryMemberRepository(List<Member> members = null, IDomainEventsAccessor domainEventsListener = null)
         {
             _members = members ?? new List<Member>();
             _domainEventsListener = domainEventsListener;

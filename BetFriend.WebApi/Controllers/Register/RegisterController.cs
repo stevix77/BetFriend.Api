@@ -1,6 +1,5 @@
 ﻿namespace BetFriend.WebApi.Controllers.Register
 {
-    using BetFriend.Shared.Application.Abstractions;
     using BetFriend.UserAccess.Application.Abstractions;
     using BetFriend.UserAccess.Application.Usecases.Register;
     using Microsoft.AspNetCore.Mvc;
@@ -11,11 +10,11 @@
     [Route("api/users/register")]
     public class RegisterController : Controller
     {
-        private readonly IUserAccessProcessor _processor;
+        private readonly IUserAccessModule _module;
 
-        public RegisterController(IUserAccessProcessor processor)
+        public RegisterController(IUserAccessModule module)
         {
-            _processor = processor;
+            _module = module;
         }
 
         [HttpPost]
@@ -25,7 +24,7 @@
                                               registerInput.Username,
                                               registerInput.Password,
                                               registerInput.Email);
-            var result = await _processor.ExecuteCommandAsync(command);
+            var result = await _module.ExecuteCommandAsync(command);
             return Created(string.Empty, result);
         }
     }

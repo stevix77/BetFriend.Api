@@ -7,10 +7,10 @@
 
     public sealed class InMemoryBetRepository : IBetRepository
     {
-        private readonly IDomainEventsListener _domainEventsListener;
+        private readonly IDomainEventsAccessor _domainEventsListener;
         private BetState _bet;
 
-        public InMemoryBetRepository(IDomainEventsListener domainEventsListener = null, BetState betState = null)
+        public InMemoryBetRepository(IDomainEventsAccessor domainEventsListener = null, BetState betState = null)
         {
             _domainEventsListener = domainEventsListener;
             _bet = betState;

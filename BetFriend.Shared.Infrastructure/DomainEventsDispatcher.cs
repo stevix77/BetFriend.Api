@@ -7,18 +7,18 @@
 
     public class DomainEventsDispatcher : IDomainEventsDispatcher
     {
-        private readonly IDomainEventsListener _domainEventsListener;
+        private readonly IDomainEventsAccessor _domainEventsAccessor;
         private readonly IStorageDomainEventsRepository _storageDomainEventsRepository;
 
-        public DomainEventsDispatcher(IDomainEventsListener domainEventsListener, IStorageDomainEventsRepository storageDomainEventsRepository)
+        public DomainEventsDispatcher(IDomainEventsAccessor domainEventsAccessor, IStorageDomainEventsRepository storageDomainEventsRepository)
         {
-            _domainEventsListener = domainEventsListener ?? throw new ArgumentNullException(nameof(domainEventsListener));
+            _domainEventsAccessor = domainEventsAccessor ?? throw new ArgumentNullException(nameof(domainEventsAccessor));
             _storageDomainEventsRepository = storageDomainEventsRepository ?? throw new ArgumentNullException(nameof(storageDomainEventsRepository));
         }
 
         public async Task DispatchEventsAsync()
         {
-            foreach (var item in _domainEventsListener.GetDomainEvents())
+            foreach (var item in _domainEventsAccessor.GetDomainEvents())
             {
                 await _storageDomainEventsRepository.SaveAsync(item).ConfigureAwait(false);
             }
