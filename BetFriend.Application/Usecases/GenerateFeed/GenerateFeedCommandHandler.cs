@@ -1,12 +1,14 @@
 ﻿namespace BetFriend.Bet.Application.Usecases.GenerateFeed
 {
+    using BetFriend.Bet.Application.Abstractions.Repository;
     using BetFriend.Bet.Application.Exceptions;
+    using BetFriend.Bet.Application.Models;
     using BetFriend.Bet.Domain.Bets;
-    using BetFriend.Bet.Domain.Feeds;
     using BetFriend.Bet.Domain.Members;
     using BetFriend.Shared.Application.Abstractions.Command;
     using MediatR;
     using System;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -28,10 +30,8 @@
             var member = await _memberRepository.GetByIdAsync(new(Guid.Parse(request.MemberId)))
                         ?? throw new MemberNotFoundException();
             var bets = await _betRepository.GetBetsForFeedAsync();
-            var feed = Feed.Create(member.Id.Value);
-            foreach (var bet in bets)
-                feed.AddBet(bet.State);
-            await _feedRepository.SaveAsync(feed);
+            var feedDto = new FeedDto(member.Id.ToString(), bets.Select(x => new BetDto(x.State)));
+            await _feedRepository.SaveAsync(feedDto);
             return Unit.Value;
         }
     }

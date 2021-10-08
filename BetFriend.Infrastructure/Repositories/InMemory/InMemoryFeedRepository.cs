@@ -1,40 +1,40 @@
 ﻿namespace BetFriend.Bet.Infrastructure.Repositories.InMemory
 {
-    using BetFriend.Bet.Domain.Feeds;
+    using BetFriend.Bet.Application.Abstractions.Repository;
+    using BetFriend.Bet.Application.Models;
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
     public class InMemoryFeedRepository : IFeedRepository
     {
-        private readonly List<Feed> _feeds;
+        private readonly List<FeedDto> _feeds;
 
-        public InMemoryFeedRepository(IEnumerable<Feed> feeds = null)
+        public InMemoryFeedRepository(IEnumerable<FeedDto> feeds = null)
         {
-            _feeds = feeds != null ? feeds.ToList() : new List<Feed>();
+            _feeds = feeds != null ? feeds.ToList() : new List<FeedDto>();
         }
 
-        public Task<Feed> GetByIdAsync(Guid feedId)
+        public FeedDto GetById(Guid feedId)
         {
-            return Task.FromResult(_feeds.FirstOrDefault(x => x.Id == feedId));
+            return _feeds.FirstOrDefault(x => x.Id == feedId.ToString());
         }
 
-        public async Task<IReadOnlyCollection<Feed>> GetByIdsAsync(IEnumerable<Guid> feedIds)
+        public async Task<IReadOnlyCollection<FeedDto>> GetByIdsAsync(IEnumerable<Guid> feedIds)
         {
-            return await Task.FromResult(_feeds.Where(x => feedIds.Contains(x.Id)).ToList());
+            return await Task.FromResult(_feeds.Where(x => feedIds.Contains(Guid.Parse(x.Id))).ToList());
         }
 
-        public IEnumerable<Feed> GetFeeds() => _feeds;
+        public IEnumerable<FeedDto> GetFeeds() => _feeds;
 
-        public Task SaveAsync(Feed feed)
+        public Task SaveAsync(FeedDto feed)
         {
             _feeds.Add(feed);
             return Task.CompletedTask;
         }
 
-        public Task SaveAsync(IReadOnlyCollection<Feed> feeds)
+        public Task SaveAsync(IReadOnlyCollection<FeedDto> feeds)
         {
             _feeds.AddRange(feeds);
             return Task.CompletedTask;

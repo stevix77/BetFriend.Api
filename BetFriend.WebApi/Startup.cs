@@ -9,6 +9,7 @@ namespace BetFriend.WebApi
     using BetFriend.WebApi.Filters;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
@@ -42,6 +43,7 @@ namespace BetFriend.WebApi
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "BetFriend.WebApi", Version = "v1" });
             });
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IDateTimeProvider, DateTimeProvider>();
             services.AddUserAccessModule(Configuration);
             services.AddBetModule(Configuration);

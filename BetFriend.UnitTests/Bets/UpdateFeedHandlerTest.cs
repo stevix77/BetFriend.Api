@@ -1,10 +1,10 @@
 ﻿namespace BetFriend.Bet.UnitTests.Bets
 {
+    using BetFriend.Bet.Application.Models;
     using BetFriend.Bet.Application.Usecases.InsertBetQuerySide;
     using BetFriend.Bet.Application.Usecases.UpdateFeedMember;
     using BetFriend.Bet.Domain.Bets;
     using BetFriend.Bet.Domain.Exceptions;
-    using BetFriend.Bet.Domain.Feeds;
     using BetFriend.Bet.Domain.Members;
     using BetFriend.Bet.Domain.Subscriptions;
     using BetFriend.Bet.Infrastructure.Repositories.InMemory;
@@ -30,11 +30,11 @@
             var bet = Bet.Create(new BetId(betId),
                                 new DateTime(2022, 2, 3),
                                 "desc1", 10, new(new(memberId), "toto", 300), new DateTime(2021, 3, 2));
-            Feed feed = Feed.Create(subscriptionId);
-            Feed feed2 = Feed.Create(subscriptionId2);
+            var feed = new FeedDto(subscriptionId.ToString(), new List<BetDto>());
+            var feed2 = new FeedDto(subscriptionId2.ToString(), new List<BetDto>());
             var betRepository = new InMemoryBetRepository(null, bet.State);
             var memberRepository = new InMemoryMemberRepository(new() { member });
-            var feedRepository = new InMemoryFeedRepository(new List<Feed>() { feed, feed2 });
+            var feedRepository = new InMemoryFeedRepository(new List<FeedDto>() { feed, feed2 });
             var handler = new UpdateFeedMemberNotificationHandler(betRepository, memberRepository, feedRepository);
             var notification = new InsertBetQuerySideNotification(betId, memberId);
 
@@ -42,8 +42,8 @@
             await handler.Handle(notification, default);
 
             //assert
-            await AssertFeedSubscription(betId, subscriptionId, bet, feedRepository);
-            await AssertFeedSubscription(betId, subscriptionId2, bet, feedRepository);
+            AssertFeedSubscription(betId, subscriptionId, bet, feedRepository);
+            AssertFeedSubscription(betId, subscriptionId2, bet, feedRepository);
         }
 
         [Fact]
@@ -62,20 +62,19 @@
             Assert.IsType<BetUnknownException>(record);
         }
 
-        private static async Task AssertFeedSubscription(Guid betId, Guid subscriptionId, Bet bet, InMemoryFeedRepository feedRepository)
+        private static void AssertFeedSubscription(Guid betId, Guid subscriptionId, Bet bet, InMemoryFeedRepository feedRepository)
         {
-            Feed feedToAssert = await feedRepository.GetByIdAsync(subscriptionId);
+            var feedToAssert = feedRepository.GetById(subscriptionId);
             Assert.NotNull(feedToAssert);
-            Assert.Equal(subscriptionId, feedToAssert.Id);
+            Assert.Equal(subscriptionId.ToString(), feedToAssert.Id);
             Assert.Single(feedToAssert.Bets);
             Assert.Collection(feedToAssert.Bets, x =>
             {
-                Assert.Equal(betId, x.BetId);
+                Assert.Equal(betId, x.Id);
                 Assert.Equal(10, x.Coins);
                 Assert.Equal("desc1", x.Description);
                 Assert.Equal(bet.State.EndDate, x.EndDate);
-                Assert.Equal(bet.State.Creator.Id, x.Creator.Id);
-                Assert.Equal(bet.State.CreationDate, x.CreationDate);
+                Assert.Equal(bet.State.Creator.Id.Value, x.Creator.Id);
             });
         }
     }

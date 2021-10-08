@@ -1,9 +1,9 @@
 ﻿namespace BetFriend.Bet.Application.Usecases.UpdateFeedMember
 {
+    using BetFriend.Bet.Application.Abstractions.Repository;
     using BetFriend.Bet.Application.Usecases.InsertBetQuerySide;
     using BetFriend.Bet.Domain.Bets;
     using BetFriend.Bet.Domain.Exceptions;
-    using BetFriend.Bet.Domain.Feeds;
     using BetFriend.Bet.Domain.Members;
     using MediatR;
     using System.Linq;
@@ -31,7 +31,7 @@
             var member = await _memberRepository.GetByIdAsync(new(notification.MemberId));
             var feeds = await _feedRepository.GetByIdsAsync(member.Subscriptions.Select(x => x.MemberId.Value));
             foreach (var feed in feeds)
-                feed.AddBet(bet.State);
+                feed.Bets.Add(new Models.BetDto(bet.State));
             await _feedRepository.SaveAsync(feeds);
         }
     }
