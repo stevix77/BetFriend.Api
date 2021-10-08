@@ -2,13 +2,11 @@
 using BetFriend.Bet.Application.Abstractions.Repository;
 using BetFriend.Bet.Application.Usecases.LaunchBet;
 using BetFriend.Bet.Domain.Bets;
-using BetFriend.Bet.Domain.Feeds;
 using BetFriend.Bet.Domain.Members;
 using BetFriend.Bet.Infrastructure.AzureStorage;
 using BetFriend.Bet.Infrastructure.DataAccess;
 using BetFriend.Bet.Infrastructure.Gateways;
 using BetFriend.Bet.Infrastructure.Repositories;
-using BetFriend.Bet.Infrastructure.Repositories.InMemory;
 using BetFriend.Shared.Application;
 using BetFriend.Shared.Application.Abstractions;
 using BetFriend.Shared.Domain;
@@ -21,7 +19,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
 using System;
-using System.Collections.Generic;
 
 namespace BetFriend.Bet.Infrastructure
 {
@@ -42,16 +39,16 @@ namespace BetFriend.Bet.Infrastructure
             serviceCollection.AddSingleton(x => configuration.GetSection("AzureStorage").Get<AzureStorageConfiguration>());
             serviceCollection.AddDbContext<DbContext, BetFriendContext>(options => options.UseSqlServer(configuration.GetConnectionString("BetFriendDbContext")));
             serviceCollection.AddScoped<IMemberRepository, MemberRepository>();
-            serviceCollection.AddScoped<IMongoDatabase>(x =>
+            serviceCollection.AddScoped(x =>
             {
                 var mongoClient = new MongoClient(configuration.GetConnectionString("MongoServerUrl"));
                 return mongoClient.GetDatabase(configuration["MongoDatabaseName"]);
             });
             serviceCollection.AddLogging();
-            serviceCollection.AddScoped<IAuthenticationGateway>(x => new InMemoryAuthenticationGateway(_memberId));
+            serviceCollection.AddScoped<IAuthenticationGateway, AuthenticationGateway>();
             serviceCollection.AddScoped<IBetRepository, BetRepository>();
             serviceCollection.AddScoped<IBetQueryRepository, BetQueryRepository>();
-            serviceCollection.AddScoped<IFeedRepository>(x => new InMemoryFeedRepository());
+            serviceCollection.AddScoped<IFeedRepository, FeedRepository>();
             serviceCollection.AddScoped<IDomainEventsDispatcher, DomainEventsDispatcher>();
             serviceCollection.AddScoped<IDomainEventsAccessor, DomainEventsAccessor>();
             serviceCollection.AddScoped<IStorageDomainEventsRepository, AzureStorageDomainEventsRepository>();
