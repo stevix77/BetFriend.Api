@@ -2,7 +2,6 @@
 {
     using BetFriend.Bet.Application.Abstractions;
     using BetFriend.Bet.Application.Usecases.AnswerBet;
-    using BetFriend.Shared.Application.Abstractions;
     using BetFriend.Shared.Domain;
     using Microsoft.AspNetCore.Mvc;
     using System;
@@ -11,20 +10,20 @@
     [Route("api/bets/answer")]
     public class AnswerBetController : Controller
     {
-        private readonly IBetModule _processor;
+        private readonly IBetModule _module;
         private readonly IDateTimeProvider _dateTimeProvider;
 
         public AnswerBetController(IBetModule processor, IDateTimeProvider dateTimeProvider)
         {
-            _processor = processor ?? throw new ArgumentNullException(nameof(processor));
+            _module = processor ?? throw new ArgumentNullException(nameof(processor));
             _dateTimeProvider = dateTimeProvider;
         }
 
         [HttpPost]
         public async Task<IActionResult> AnswerBet([FromBody] AnswerBetInput input)
         {
-            var command = new AnswerBetCommand(Guid.Parse("01c1da98-b4b7-45dc-8352-c98ece06dab1"), input.BetId, input.Answer, _dateTimeProvider);
-            await _processor.ExecuteCommandAsync(command);
+            var command = new AnswerBetCommand(input.BetId, input.Answer);
+            await _module.ExecuteCommandAsync(command);
             return Ok();
         }
     }

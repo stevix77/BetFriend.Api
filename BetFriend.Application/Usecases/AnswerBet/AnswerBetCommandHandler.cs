@@ -15,27 +15,29 @@
         private readonly IMemberRepository _memberRepository;
         private readonly IBetRepository _betRepository;
         private readonly IAuthenticationGateway _authentificationGateway;
+        private readonly IDateTimeProvider _dateTimeProvider;
 
-        public AnswerBetCommandHandler(IMemberRepository memberRepository, IBetRepository betRepository, IAuthenticationGateway authentificationGateway)
+        public AnswerBetCommandHandler(IMemberRepository memberRepository, IBetRepository betRepository, IAuthenticationGateway authentificationGateway, IDateTimeProvider dateTimeProvider)
         {
             _memberRepository = memberRepository;
             _betRepository = betRepository;
             _authentificationGateway = authentificationGateway;
+            _dateTimeProvider = dateTimeProvider;
         }
 
         public async Task<Unit> Handle(AnswerBetCommand request, CancellationToken cancellationToken)
         {
             ValidateRequest(request);
 
-            if (!_authentificationGateway.IsAuthenticated(request.MemberId))
+            if (!_authentificationGateway.IsAuthenticated())
                 throw new NotAuthenticatedException();
 
-            var member = await _memberRepository.GetByIdAsync(new(request.MemberId)).ConfigureAwait(false) ??
+            var member = await _memberRepository.GetByIdAsync(new(_authentificationGateway.UserId)).ConfigureAwait(false) ??
                 throw new MemberUnknownException("Member unknown");
             var bet = await _betRepository.GetByIdAsync(new(request.BetId)).ConfigureAwait(false) ??
                 throw new BetUnknownException($"Bet {request.BetId} is unknown");
 
-            member.Answer(bet, request.IsAccepted, request.DateTimeProvider.Now);
+            member.Answer(bet, request.IsAccepted, _dateTimeProvider.Now);
             await _betRepository.SaveAsync(bet).ConfigureAwait(false);
 
             return Unit.Value;

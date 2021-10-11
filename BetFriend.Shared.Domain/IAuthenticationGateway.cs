@@ -4,6 +4,8 @@ namespace BetFriend.Shared.Domain
 {
     public interface IAuthenticationGateway
     {
-        bool IsAuthenticated(Guid memberId);
+        Guid UserId { get; }
+
+        bool IsAuthenticated();
     }
 }

@@ -1,27 +1,28 @@
-﻿using BetFriend.Bet.Application.Abstractions;
-using BetFriend.Bet.Application.Abstractions.Repository;
-using BetFriend.Bet.Application.Usecases.LaunchBet;
-using BetFriend.Bet.Domain.Bets;
-using BetFriend.Bet.Domain.Members;
-using BetFriend.Bet.Infrastructure.AzureStorage;
-using BetFriend.Bet.Infrastructure.DataAccess;
-using BetFriend.Bet.Infrastructure.Gateways;
-using BetFriend.Bet.Infrastructure.Repositories;
-using BetFriend.Shared.Application;
-using BetFriend.Shared.Application.Abstractions;
-using BetFriend.Shared.Domain;
-using BetFriend.Shared.Infrastructure;
-using BetFriend.Shared.Infrastructure.Configuration;
-using BetFriend.Shared.Infrastructure.Configuration.Behaviors;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using MongoDB.Driver;
-using System;
-
-namespace BetFriend.Bet.Infrastructure
+﻿namespace BetFriend.Bet.Infrastructure
 {
+    using BetFriend.Bet.Application.Abstractions;
+    using BetFriend.Bet.Application.Abstractions.Repository;
+    using BetFriend.Bet.Application.Usecases.LaunchBet;
+    using BetFriend.Bet.Domain.Bets;
+    using BetFriend.Bet.Domain.Members;
+    using BetFriend.Bet.Infrastructure.AzureStorage;
+    using BetFriend.Bet.Infrastructure.DataAccess;
+    using BetFriend.Bet.Infrastructure.Gateways;
+    using BetFriend.Bet.Infrastructure.Repositories;
+    using BetFriend.Shared.Application;
+    using BetFriend.Shared.Application.Abstractions;
+    using BetFriend.Shared.Domain;
+    using BetFriend.Shared.Infrastructure;
+    using BetFriend.Shared.Infrastructure.Configuration;
+    using BetFriend.Shared.Infrastructure.Configuration.Behaviors;
+    using MediatR;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using MongoDB.Driver;
+    using System;
+
+
     public static class BetStartup
     {
         private static readonly Guid _memberId = Guid.Parse("01c1da98-b4b7-45dc-8352-c98ece06dab1");

@@ -30,7 +30,7 @@
             var command = new CloseBetCommand(betId, memberId.Value, true);
             var dateTimeClosed = new DateTime(2021, 4, 1);
             var dateTimeProvider = new FakeDateTimeProvider(dateTimeClosed);
-            var handler = new CloseBetCommandHandler(repository, dateTimeProvider, new InMemoryAuthenticationGateway(memberId.Value));
+            var handler = new CloseBetCommandHandler(repository, dateTimeProvider, new InMemoryAuthenticationGateway(true, memberId.Value));
             var expectedStatus = new Status(true, dateTimeClosed);
 
             var result = await handler.Handle(command, default);
@@ -54,7 +54,7 @@
             var command = new CloseBetCommand(betId, memberId.Value, true);
             var handler = new CloseBetCommandHandler(new InMemoryBetRepository(default, betState),
                                                     new FakeDateTimeProvider(default),
-                                                    new InMemoryAuthenticationGateway(memberId.Value));
+                                                    new InMemoryAuthenticationGateway(true, memberId.Value));
 
             var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
 
@@ -70,7 +70,7 @@
             var command = new CloseBetCommand(betId, memberId, true);
             var handler = new CloseBetCommandHandler(new InMemoryBetRepository(default, default),
                                                     new FakeDateTimeProvider(default),
-                                                    new InMemoryAuthenticationGateway(memberId));
+                                                    new InMemoryAuthenticationGateway(true, memberId));
 
             var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
 
@@ -86,7 +86,7 @@
             var command = new CloseBetCommand(betId, memberId, true);
             var handler = new CloseBetCommandHandler(new InMemoryBetRepository(default, default),
                                                     new FakeDateTimeProvider(default),
-                                                    new InMemoryAuthenticationGateway(Guid.NewGuid()));
+                                                    new InMemoryAuthenticationGateway(false, Guid.NewGuid()));
 
             var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
 

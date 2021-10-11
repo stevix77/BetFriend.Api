@@ -25,9 +25,9 @@ namespace BetFriend.Bet.UnitTests.Bets
             var memberId = new MemberId(Guid.NewGuid());
             var member = new Member(memberId, "name", 200);
             var memberRepository = new InMemoryMemberRepository(new());
-            var command = new AnswerBetCommand(memberId.Value, Guid.Empty, true, new FakeDateTimeProvider(DateTime.Now));
-            var authentificationGateway = new InMemoryAuthenticationGateway(memberId.Value);
-            var handler = new AnswerBetCommandHandler(memberRepository, new InMemoryBetRepository(), authentificationGateway);
+            var command = new AnswerBetCommand(Guid.Empty, true);
+            var authentificationGateway = new InMemoryAuthenticationGateway(true, memberId.Value);
+            var handler = new AnswerBetCommandHandler(memberRepository, new InMemoryBetRepository(), authentificationGateway, new FakeDateTimeProvider(default));
 
             //act
             var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
@@ -53,9 +53,9 @@ namespace BetFriend.Bet.UnitTests.Bets
                                 DateTime.UtcNow.AddSeconds(-1000),
                                 new ReadOnlyCollection<AnswerState>(new List<AnswerState>()))
                     );
-            var command = new AnswerBetCommand(memberId.Value, betId.Value, true, new FakeDateTimeProvider(DateTime.Now));
-            var authentificationGateway = new InMemoryAuthenticationGateway(memberId.Value);
-            var handler = new AnswerBetCommandHandler(memberRepository, betRepository, authentificationGateway);
+            var command = new AnswerBetCommand(betId.Value, true);
+            var authentificationGateway = new InMemoryAuthenticationGateway(true, memberId.Value);
+            var handler = new AnswerBetCommandHandler(memberRepository, betRepository, authentificationGateway, new FakeDateTimeProvider(DateTime.Now));
 
             //act
             var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
@@ -71,7 +71,7 @@ namespace BetFriend.Bet.UnitTests.Bets
             //arrange
             var memberRepository = new InMemoryMemberRepository();
             var betRepository = new InMemoryBetRepository();
-            var handler = new AnswerBetCommandHandler(memberRepository, betRepository, new InMemoryAuthenticationGateway(default));
+            var handler = new AnswerBetCommandHandler(memberRepository, betRepository, new InMemoryAuthenticationGateway(default, default), new FakeDateTimeProvider(DateTime.Now));
 
             //act
             var record = await Record.ExceptionAsync(() => handler.Handle(null, default));
@@ -88,14 +88,15 @@ namespace BetFriend.Bet.UnitTests.Bets
             var memberId = new MemberId(Guid.NewGuid());
             var betId = new BetId(Guid.NewGuid());
             var dateTimeAnswerBet = new DateTime(2021, 3, 18, 20, 30, 2);
+            var dateTimeProvider = new FakeDateTimeProvider(dateTimeAnswerBet);
             var member = new Member(memberId, "name", 200);
             var memberRepository = new InMemoryMemberRepository(new() { member });
             var betState = new BetState(betId.Value, member, new DateTime(2022, 3, 3), "descr", 30, new DateTime(2021, 2, 3),
                                 new ReadOnlyCollection<AnswerState>(new List<AnswerState>()));
             var domainEventsListener = new DomainEventsAccessor();
             var betRepository = new InMemoryBetRepository(domainEventsListener, betState);
-            var command = new AnswerBetCommand(memberId.Value, betId.Value, true, new FakeDateTimeProvider(dateTimeAnswerBet));
-            var handler = new AnswerBetCommandHandler(memberRepository, betRepository, new InMemoryAuthenticationGateway(memberId.Value));
+            var command = new AnswerBetCommand(betId.Value, true);
+            var handler = new AnswerBetCommandHandler(memberRepository, betRepository, new InMemoryAuthenticationGateway(true, memberId.Value), dateTimeProvider);
 
             //act
             await handler.Handle(command, default);
@@ -106,7 +107,7 @@ namespace BetFriend.Bet.UnitTests.Bets
             var domainEvent = domainEventsListener.GetDomainEvents()
                                                            .SingleOrDefault(x => x.GetType() == typeof(BetAnswered));
             Assert.Equal(command.IsAccepted, answer.Accepted);
-            Assert.Equal(command.DateTimeProvider.Now, answer.DateAnswer);
+            Assert.Equal(dateTimeProvider.Now, answer.DateAnswer);
             Assert.NotNull(domainEvent);
             Assert.Equal(betId.Value, (domainEvent as BetAnswered).BetId);
             Assert.Equal(memberId.Value, (domainEvent as BetAnswered).MemberId);
@@ -125,8 +126,8 @@ namespace BetFriend.Bet.UnitTests.Bets
             var betState = new BetState(betId.Value, member, new DateTime(2021, 3, 3), "descr", 30, new DateTime(2021, 2, 3),
                                 new ReadOnlyCollection<AnswerState>(new List<AnswerState>()));
             var betRepository = new InMemoryBetRepository(null, betState);
-            var command = new AnswerBetCommand(memberId.Value, betId.Value, true, new FakeDateTimeProvider(dateTimeAnswerBet));
-            var handler = new AnswerBetCommandHandler(memberRepository, betRepository, new InMemoryAuthenticationGateway(memberId.Value));
+            var command = new AnswerBetCommand(betId.Value, true);
+            var handler = new AnswerBetCommandHandler(memberRepository, betRepository, new InMemoryAuthenticationGateway(true, memberId.Value), new FakeDateTimeProvider(dateTimeAnswerBet));
 
             //act
             var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
@@ -149,8 +150,8 @@ namespace BetFriend.Bet.UnitTests.Bets
             var betState = new BetState(betId.Value, member, new DateTime(2022, 3, 3), "descr", 300, new DateTime(2021, 2, 3),
                                 new ReadOnlyCollection<AnswerState>(new List<AnswerState>()));
             var betRepository = new InMemoryBetRepository(null, betState);
-            var command = new AnswerBetCommand(memberId.Value, betId.Value, true, new FakeDateTimeProvider(dateTimeAnswerBet));
-            var handler = new AnswerBetCommandHandler(memberRepository, betRepository, new InMemoryAuthenticationGateway(memberId.Value));
+            var command = new AnswerBetCommand(betId.Value, true);
+            var handler = new AnswerBetCommandHandler(memberRepository, betRepository, new InMemoryAuthenticationGateway(true, memberId.Value), new FakeDateTimeProvider(dateTimeAnswerBet));
 
             //act
             var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
@@ -164,8 +165,8 @@ namespace BetFriend.Bet.UnitTests.Bets
         [Fact]
         public async Task ShouldThrowNotAuthenticatedException()
         {
-            var command = new AnswerBetCommand(Guid.NewGuid(), default, true, null);
-            var handler = new AnswerBetCommandHandler(new InMemoryMemberRepository(), default, new InMemoryAuthenticationGateway(Guid.NewGuid()));
+            var command = new AnswerBetCommand(default, true);
+            var handler = new AnswerBetCommandHandler(new InMemoryMemberRepository(), default, new InMemoryAuthenticationGateway(false, default), default);
 
             var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
 

@@ -40,7 +40,7 @@ namespace BetFriend.Bet.UnitTests.Bets
             var betRepository = new InMemoryBetRepository(domainEventsListener);
             var member = new Member(new MemberId(_creatorId), "name", 25);
             var memberRepository = new InMemoryMemberRepository(new List<Member>() { member });
-            var handler = new LaunchBetCommandHandler(betRepository, memberRepository, new InMemoryAuthenticationGateway(command.CreatorId));
+            var handler = new LaunchBetCommandHandler(betRepository, memberRepository, new InMemoryAuthenticationGateway(true, command.CreatorId));
             BetState expectedBet = new(_betId, member, endDate, description, coins, dtNow.Now, new List<AnswerState>());
 
             //act
@@ -70,7 +70,7 @@ namespace BetFriend.Bet.UnitTests.Bets
         {
             var memberId = Guid.NewGuid();
             var command = new LaunchBetCommand(default, memberId, default, 30, "desc", null);
-            var handler = new LaunchBetCommandHandler(new InMemoryBetRepository(), new InMemoryMemberRepository(), new InMemoryAuthenticationGateway(Guid.NewGuid()));
+            var handler = new LaunchBetCommandHandler(new InMemoryBetRepository(), new InMemoryMemberRepository(), new InMemoryAuthenticationGateway(false, Guid.NewGuid()));
             var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
             Assert.IsType<NotAuthenticatedException>(record);
         }
@@ -85,7 +85,7 @@ namespace BetFriend.Bet.UnitTests.Bets
             var member = new Member(new MemberId(_creatorId), "name", 1);
             IBetRepository betRepository = new InMemoryBetRepository();
             IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Member>() { member });
-            var handler = new LaunchBetCommandHandler(betRepository, memberRepository, new InMemoryAuthenticationGateway(_creatorId));
+            var handler = new LaunchBetCommandHandler(betRepository, memberRepository, new InMemoryAuthenticationGateway(true, _creatorId));
 
             //act
             var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
@@ -104,7 +104,7 @@ namespace BetFriend.Bet.UnitTests.Bets
             var member = new Member(new MemberId(_creatorId), "name", 1000);
             IBetRepository betRepository = new InMemoryBetRepository();
             IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Member>() { member });
-            var handler = new LaunchBetCommandHandler(betRepository, memberRepository, new InMemoryAuthenticationGateway(_creatorId));
+            var handler = new LaunchBetCommandHandler(betRepository, memberRepository, new InMemoryAuthenticationGateway(true, _creatorId));
 
             //act
             var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
@@ -124,7 +124,7 @@ namespace BetFriend.Bet.UnitTests.Bets
             var member = new Member(new MemberId(_creatorId), "name", 1);
             IBetRepository betRepository = new InMemoryBetRepository();
             IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Member>() { member });
-            var handler = new LaunchBetCommandHandler(betRepository, memberRepository, new InMemoryAuthenticationGateway(_creatorId));
+            var handler = new LaunchBetCommandHandler(betRepository, memberRepository, new InMemoryAuthenticationGateway(true, _creatorId));
 
             //act
             var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
@@ -143,7 +143,7 @@ namespace BetFriend.Bet.UnitTests.Bets
             var command = new LaunchBetCommand(_betId, _creatorId, endDate, coins, description, dtNow);
             IBetRepository betRepository = new InMemoryBetRepository();
             IMemberRepository memberRepository = new InMemoryMemberRepository(new List<Member>() { });
-            var handler = new LaunchBetCommandHandler(betRepository, memberRepository, new InMemoryAuthenticationGateway(_creatorId));
+            var handler = new LaunchBetCommandHandler(betRepository, memberRepository, new InMemoryAuthenticationGateway(true, _creatorId));
 
             //act
             var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
