@@ -7,6 +7,7 @@ namespace BetFriend.WebApi
     using BetFriend.UserAccess.Infrastructure;
     using BetFriend.WebApi.Extensions;
     using BetFriend.WebApi.Filters;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -29,6 +30,7 @@ namespace BetFriend.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCorsExtension();
+
             services.AddControllers(options =>
             {
                 options.Filters.Add(typeof(HttpGlobalExceptionFilter));
@@ -37,7 +39,6 @@ namespace BetFriend.WebApi
                 o.JsonSerializerOptions.IgnoreNullValues = true;
                 o.JsonSerializerOptions.PropertyNameCaseInsensitive = false;
             });
-
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "BetFriend.WebApi", Version = "v1" });

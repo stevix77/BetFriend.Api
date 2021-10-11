@@ -24,7 +24,7 @@
 
         public async Task<Unit> Handle(SubscribeMemberCommand command, CancellationToken cancellationToken)
         {
-            if (!_authenticationGateway.IsAuthenticated(command.MemberId.Value))
+            if (!_authenticationGateway.IsAuthenticated())
                 throw new NotAuthenticatedException();
             var members = await _memberReposiory.GetByIdsAsync(new[] { command.MemberId, command.SubscriptionId }).ConfigureAwait(false);
             var member = members.SingleOrDefault(x => x.Id.Equals(command.MemberId))

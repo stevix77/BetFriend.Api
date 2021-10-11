@@ -26,7 +26,7 @@
 
         public async Task<Unit> Handle(CloseBetCommand request, CancellationToken cancellationToken)
         {
-            if (!_authenticationGateway.IsAuthenticated(request.MemberId))
+            if (!_authenticationGateway.IsAuthenticated())
                 throw new NotAuthenticatedException();
             Bet bet = await GetBet(request).ConfigureAwait(false);
             bet.Close(new MemberId(request.MemberId), request.Success, _dateTimeProvider);

@@ -26,7 +26,7 @@
         public async Task<Unit> Handle(LaunchBetCommand request, CancellationToken cancellationToken)
         {
             ValidateRequest(request);
-            if (!_authenticationGateway.IsAuthenticated(request.CreatorId))
+            if (!_authenticationGateway.IsAuthenticated())
                 throw new NotAuthenticatedException();
             var member = await _memberRepository.GetByIdAsync(new(request.CreatorId)).ConfigureAwait(false)
                             ?? throw new MemberUnknownException("Creator is unknown");

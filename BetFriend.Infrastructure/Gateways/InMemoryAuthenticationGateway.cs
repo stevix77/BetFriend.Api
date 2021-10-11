@@ -3,19 +3,22 @@
     using BetFriend.Shared.Domain;
     using System;
 
-
     public class InMemoryAuthenticationGateway : IAuthenticationGateway
     {
-        private Guid _memberId;
+        private readonly bool _isAuthenticated;
+        private readonly Guid _userId;
 
-        public InMemoryAuthenticationGateway(Guid memberId)
+        public InMemoryAuthenticationGateway(bool isAuthenticated, Guid userId)
         {
-            _memberId = memberId;
+            _isAuthenticated = isAuthenticated;
+            _userId = userId;
         }
 
-        public bool IsAuthenticated(Guid memberId)
+        public Guid UserId => _userId;
+
+        public bool IsAuthenticated()
         {
-            return memberId.Equals(_memberId);
+            return _isAuthenticated;
         }
     }
 }
