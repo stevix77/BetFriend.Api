@@ -1,7 +1,7 @@
 ﻿namespace BetFriend.WebApi.Controllers.CloseBet
 {
+    using BetFriend.Bet.Application.Abstractions;
     using BetFriend.Bet.Application.Usecases.CloseBet;
-    using BetFriend.Shared.Application.Abstractions;
     using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Threading.Tasks;
@@ -9,20 +9,19 @@
     [Route("api/bets/{betId}/close")]
     public class CloseBetController : Controller
     {
-        private readonly IProcessor _processor;
+        private readonly IBetModule _module;
 
-        public CloseBetController(IProcessor processor)
+        public CloseBetController(IBetModule module)
         {
-            _processor = processor;
+            _module = module;
         }
 
         [HttpPost]
         public async Task<IActionResult> CloseBet([FromRoute] Guid betId, [FromBody] bool isSuccess)
         {
             var command = new CloseBetCommand(betId,
-                                              Guid.Parse("01c1da98-b4b7-45dc-8352-c98ece06dab1"),
                                               isSuccess);
-            await _processor.ExecuteCommandAsync(command);
+            await _module.ExecuteCommandAsync(command);
             return Ok();
         }
     }

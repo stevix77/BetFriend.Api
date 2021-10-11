@@ -1,8 +1,8 @@
 ﻿namespace BetFriend.WebApi.Controllers.RetrieveBets
 {
+    using BetFriend.Bet.Application.Abstractions;
     using BetFriend.Bet.Application.Models;
     using BetFriend.Bet.Application.Usecases.RetrieveBets;
-    using BetFriend.Shared.Application.Abstractions;
     using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Collections.Generic;
@@ -11,11 +11,11 @@
     [Route("api/bets")]
     public class RetrieveBetsController : Controller
     {
-        private readonly IProcessor _processor;
+        private readonly IBetModule _module;
 
-        public RetrieveBetsController(IProcessor processor)
+        public RetrieveBetsController(IBetModule module)
         {
-            _processor = processor;
+            _module = module;
         }
 
         [ProducesResponseType(200, Type = typeof(List<BetDto>))]
@@ -23,7 +23,7 @@
         public async Task<IActionResult> Retrieve()
         {
             var query = new RetrieveBetsQuery(Guid.Parse("01c1da98-b4b7-45dc-8352-c98ece06dab1"));
-            var betsDto = await _processor.ExecuteQueryAsync(query);
+            var betsDto = await _module.ExecuteQueryAsync(query);
             return Ok(betsDto);
         }
     }

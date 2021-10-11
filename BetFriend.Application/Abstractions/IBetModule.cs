@@ -1,8 +1,13 @@
-﻿using BetFriend.Shared.Application.Abstractions;
-
-namespace BetFriend.Bet.Application.Abstractions
+﻿namespace BetFriend.Bet.Application.Abstractions
 {
-    public interface IBetModule : IProcessor
+    using BetFriend.Shared.Application.Abstractions.Command;
+    using BetFriend.Shared.Application.Abstractions.Query;
+    using System.Threading.Tasks;
+
+
+    public interface IBetModule
     {
+        Task ExecuteCommandAsync<TRequest>(ICommand<TRequest> command);
+        Task<TResult> ExecuteQueryAsync<TResult>(IQuery<TResult> query);
     }
 }

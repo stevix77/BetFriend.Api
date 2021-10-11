@@ -25,8 +25,6 @@
 
     public static class BetStartup
     {
-        private static readonly Guid _memberId = Guid.Parse("01c1da98-b4b7-45dc-8352-c98ece06dab1");
-
         public static IServiceCollection AddBetModule(this IServiceCollection services,
                                                              IConfiguration configuration)
         {

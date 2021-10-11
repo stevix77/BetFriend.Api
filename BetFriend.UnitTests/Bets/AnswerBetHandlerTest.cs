@@ -23,7 +23,6 @@ namespace BetFriend.Bet.UnitTests.Bets
         {
             //arrange
             var memberId = new MemberId(Guid.NewGuid());
-            var member = new Member(memberId, "name", 200);
             var memberRepository = new InMemoryMemberRepository(new());
             var command = new AnswerBetCommand(Guid.Empty, true);
             var authentificationGateway = new InMemoryAuthenticationGateway(true, memberId.Value);

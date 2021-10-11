@@ -15,12 +15,17 @@
         private readonly IBetRepository _betRepository;
         private readonly IMemberRepository _memberRepository;
         private readonly IAuthenticationGateway _authenticationGateway;
+        private readonly IDateTimeProvider _dateTimeProvider;
 
-        public LaunchBetCommandHandler(IBetRepository betRepository, IMemberRepository memberRepository, IAuthenticationGateway authenticationGateway)
+        public LaunchBetCommandHandler(IBetRepository betRepository,
+                                       IMemberRepository memberRepository,
+                                       IAuthenticationGateway authenticationGateway,
+                                       IDateTimeProvider dateTimeProvider)
         {
             _betRepository = betRepository ?? throw new ArgumentNullException(nameof(betRepository), $"{nameof(betRepository)} cannot be null");
             _memberRepository = memberRepository ?? throw new ArgumentNullException(nameof(memberRepository), $"{nameof(memberRepository)} cannot be null");
             _authenticationGateway = authenticationGateway;
+            _dateTimeProvider = dateTimeProvider;
         }
 
         public async Task<Unit> Handle(LaunchBetCommand request, CancellationToken cancellationToken)
@@ -28,14 +33,14 @@
             ValidateRequest(request);
             if (!_authenticationGateway.IsAuthenticated())
                 throw new NotAuthenticatedException();
-            var member = await _memberRepository.GetByIdAsync(new(request.CreatorId)).ConfigureAwait(false)
+            var member = await _memberRepository.GetByIdAsync(new(_authenticationGateway.UserId)).ConfigureAwait(false)
                             ?? throw new MemberUnknownException("Creator is unknown");
 
             var bet = member.CreateBet(new BetId(request.BetId),
                                         request.EndDate,
                                         request.Description,
                                         request.Coins,
-                                        request.CreationDate.Now);
+                                        _dateTimeProvider.Now);
 
             await _betRepository.SaveAsync(bet);
 

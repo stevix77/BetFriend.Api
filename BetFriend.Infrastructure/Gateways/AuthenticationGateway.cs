@@ -23,10 +23,15 @@
         {
             get
             {
-                if (Guid.TryParse(_userId, out Guid userId))
-                    return userId;
-                throw new Exception($"UserId is not available");
+                return GetCurrentUserId();
             }
+        }
+
+        private Guid GetCurrentUserId()
+        {
+            if (Guid.TryParse(_userId, out Guid userId))
+                return userId;
+            throw new ArgumentException($"UserId is not available");
         }
 
         public bool IsAuthenticated()
