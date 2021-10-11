@@ -27,7 +27,7 @@
             BetState betState = GenerateBet(betId, creator);
             var domainEventsListener = new DomainEventsAccessor();
             var repository = new InMemoryBetRepository(domainEventsListener, betState);
-            var command = new CloseBetCommand(betId, memberId.Value, true);
+            var command = new CloseBetCommand(betId, true);
             var dateTimeClosed = new DateTime(2021, 4, 1);
             var dateTimeProvider = new FakeDateTimeProvider(dateTimeClosed);
             var handler = new CloseBetCommandHandler(repository, dateTimeProvider, new InMemoryAuthenticationGateway(true, memberId.Value));
@@ -51,7 +51,7 @@
             var betId = Guid.NewGuid();
             var memberId = new MemberId(Guid.NewGuid());
             var betState = GenerateBet(betId, new Member(new MemberId(Guid.NewGuid()), "name", 200));
-            var command = new CloseBetCommand(betId, memberId.Value, true);
+            var command = new CloseBetCommand(betId, true);
             var handler = new CloseBetCommandHandler(new InMemoryBetRepository(default, betState),
                                                     new FakeDateTimeProvider(default),
                                                     new InMemoryAuthenticationGateway(true, memberId.Value));
@@ -67,7 +67,7 @@
         {
             var betId = Guid.NewGuid();
             var memberId = Guid.NewGuid();
-            var command = new CloseBetCommand(betId, memberId, true);
+            var command = new CloseBetCommand(betId, true);
             var handler = new CloseBetCommandHandler(new InMemoryBetRepository(default, default),
                                                     new FakeDateTimeProvider(default),
                                                     new InMemoryAuthenticationGateway(true, memberId));
@@ -82,8 +82,7 @@
         public async Task ShouldThrowNotAuthenticatedException()
         {
             var betId = Guid.NewGuid();
-            var memberId = Guid.NewGuid();
-            var command = new CloseBetCommand(betId, memberId, true);
+            var command = new CloseBetCommand(betId, true);
             var handler = new CloseBetCommandHandler(new InMemoryBetRepository(default, default),
                                                     new FakeDateTimeProvider(default),
                                                     new InMemoryAuthenticationGateway(false, Guid.NewGuid()));

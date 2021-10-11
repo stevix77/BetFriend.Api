@@ -1,7 +1,7 @@
 ﻿namespace BetFriend.WebApi.Controllers.Subscribe
 {
+    using BetFriend.Bet.Application.Abstractions;
     using BetFriend.Bet.Application.Usecases.SubscribeMember;
-    using BetFriend.Shared.Application.Abstractions;
     using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Threading.Tasks;
@@ -9,18 +9,18 @@
     [Route("api/subscriptions/{subscriptionId}")]
     public class SubscriptionController : Controller
     {
-        private readonly IProcessor _processor;
+        private readonly IBetModule _module;
 
-        public SubscriptionController(IProcessor processor)
+        public SubscriptionController(IBetModule module)
         {
-            _processor = processor;
+            _module = module;
         }
 
         [HttpPost]
         public async Task<IActionResult> Subscribe([FromRoute] Guid subscriptionId)
         {
-            var command = new SubscribeMemberCommand(Guid.Parse("01c1da98-b4b7-45dc-8352-c98ece06dab1"), subscriptionId);
-            await _processor.ExecuteCommandAsync(command).ConfigureAwait(false);
+            var command = new SubscribeMemberCommand(subscriptionId);
+            await _module.ExecuteCommandAsync(command).ConfigureAwait(false);
             return Ok();
         }
     }

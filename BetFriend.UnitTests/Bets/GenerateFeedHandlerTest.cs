@@ -1,7 +1,6 @@
 ﻿namespace BetFriend.Bet.UnitTests.Bets
 {
     using BetFriend.Bet.Application.Exceptions;
-    using BetFriend.Bet.Application.Models;
     using BetFriend.Bet.Application.Usecases.GenerateFeed;
     using BetFriend.Bet.Domain.Bets;
     using BetFriend.Bet.Domain.Members;

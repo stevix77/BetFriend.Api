@@ -1,30 +1,26 @@
 ﻿namespace BetFriend.WebApi.Controllers.LaunchBet
 {
+    using BetFriend.Bet.Application.Abstractions;
     using BetFriend.Bet.Application.Usecases.LaunchBet;
-    using BetFriend.Shared.Application.Abstractions;
-    using BetFriend.Shared.Domain;
     using Microsoft.AspNetCore.Mvc;
-    using System;
     using System.Threading.Tasks;
 
 
     [Route("api/bets/launch")]
     public class LaunchBetController : Controller
     {
-        private readonly IProcessor _processor;
-        private readonly IDateTimeProvider _dateTimeProvider;
+        private readonly IBetModule _module;
 
-        public LaunchBetController(IProcessor processor, IDateTimeProvider dateTimeProvider)
+        public LaunchBetController(IBetModule module)
         {
-            _processor = processor;
-            _dateTimeProvider = dateTimeProvider;
+            _module = module;
         }
 
         [HttpPost]
         public async Task<IActionResult> LaunchBet([FromBody] LaunchBetInput input)
         {
-            var command = new LaunchBetCommand(input.BetId, Guid.Parse("01c1da98-b4b7-45dc-8352-c98ece06dab1"), input.EndDate, input.Coins, input.Description, _dateTimeProvider);
-            await _processor.ExecuteCommandAsync(command);
+            var command = new LaunchBetCommand(input.BetId, input.EndDate, input.Coins, input.Description);
+            await _module.ExecuteCommandAsync(command);
             return Ok();
         }
     }

@@ -24,7 +24,7 @@
             var domainListener = new DomainEventsAccessor();
             var memberReposiory = new InMemoryMemberRepository(new() { member, memberToSubscribe }, domainListener);
             var handler = new SubscribeMemberCommanderHandler(memberReposiory, new InMemoryAuthenticationGateway(true, memberId));
-            var command = new SubscribeMemberCommand(memberId, subscriptionId);
+            var command = new SubscribeMemberCommand(subscriptionId);
 
             await handler.Handle(command, default);
 
@@ -48,7 +48,7 @@
             var member = new Member(new(memberId), "member1", 300);
             var memberReposiory = new InMemoryMemberRepository(new() { member });
             var handler = new SubscribeMemberCommanderHandler(memberReposiory, new InMemoryAuthenticationGateway(true, memberId));
-            var command = new SubscribeMemberCommand(memberId, memberIdToSubscribe);
+            var command = new SubscribeMemberCommand(memberIdToSubscribe);
 
             var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
 
@@ -65,7 +65,7 @@
             var member = new Member(new(memberIdToSubscribe), "member2", 300);
             var memberReposiory = new InMemoryMemberRepository(new() { member });
             var handler = new SubscribeMemberCommanderHandler(memberReposiory, new InMemoryAuthenticationGateway(true, memberId));
-            var command = new SubscribeMemberCommand(memberId, memberIdToSubscribe);
+            var command = new SubscribeMemberCommand(memberIdToSubscribe);
 
             var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
 
@@ -83,7 +83,7 @@
             var memberToSubscribe = new Member(new(memberIdToSubscribe), "member2", 300);
             var memberReposiory = new InMemoryMemberRepository(new() { member, memberToSubscribe });
             var handler = new SubscribeMemberCommanderHandler(memberReposiory, new InMemoryAuthenticationGateway(true, memberId));
-            var command = new SubscribeMemberCommand(memberId, memberIdToSubscribe);
+            var command = new SubscribeMemberCommand(memberIdToSubscribe);
 
             await handler.Handle(command, default);
 
@@ -93,7 +93,7 @@
         [Fact]
         public async Task ShouldThrowNotAuthenticatedException()
         {
-            var command = new SubscribeMemberCommand(Guid.NewGuid(), Guid.NewGuid());
+            var command = new SubscribeMemberCommand(Guid.NewGuid());
             var handler = new SubscribeMemberCommanderHandler(default, new InMemoryAuthenticationGateway(false, Guid.NewGuid()));
             var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
             Assert.IsType<NotAuthenticatedException>(record);

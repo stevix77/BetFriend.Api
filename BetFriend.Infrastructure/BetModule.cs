@@ -1,12 +1,13 @@
-﻿using BetFriend.Bet.Application.Abstractions;
-using BetFriend.Shared.Application.Abstractions.Command;
-using BetFriend.Shared.Application.Abstractions.Query;
-using MediatR;
-using System;
-using System.Threading.Tasks;
-
-namespace BetFriend.Bet.Infrastructure
+﻿namespace BetFriend.Bet.Infrastructure
 {
+    using BetFriend.Bet.Application.Abstractions;
+    using BetFriend.Shared.Application.Abstractions.Command;
+    using BetFriend.Shared.Application.Abstractions.Query;
+    using MediatR;
+    using System;
+    using System.Threading.Tasks;
+
+
     public class BetModule : IBetModule
     {
         private readonly BetCompositionRoot _betCompositionRoot;

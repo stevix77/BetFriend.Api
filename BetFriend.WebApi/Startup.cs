@@ -1,13 +1,11 @@
 namespace BetFriend.WebApi
 {
-    using BetFriend.Bet.Application.Abstractions;
     using BetFriend.Bet.Infrastructure;
     using BetFriend.Shared.Domain;
     using BetFriend.Shared.Infrastructure.DateTimeProvider;
     using BetFriend.UserAccess.Infrastructure;
     using BetFriend.WebApi.Extensions;
     using BetFriend.WebApi.Filters;
-    using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -45,7 +43,6 @@ namespace BetFriend.WebApi
             });
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddTransient<IDateTimeProvider, DateTimeProvider>();
             services.AddUserAccessModule(Configuration);
             services.AddBetModule(Configuration);
         }

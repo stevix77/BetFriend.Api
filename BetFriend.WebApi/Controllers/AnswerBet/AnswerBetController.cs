@@ -2,7 +2,6 @@
 {
     using BetFriend.Bet.Application.Abstractions;
     using BetFriend.Bet.Application.Usecases.AnswerBet;
-    using BetFriend.Shared.Domain;
     using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Threading.Tasks;
@@ -11,12 +10,10 @@
     public class AnswerBetController : Controller
     {
         private readonly IBetModule _module;
-        private readonly IDateTimeProvider _dateTimeProvider;
 
-        public AnswerBetController(IBetModule processor, IDateTimeProvider dateTimeProvider)
+        public AnswerBetController(IBetModule processor)
         {
             _module = processor ?? throw new ArgumentNullException(nameof(processor));
-            _dateTimeProvider = dateTimeProvider;
         }
 
         [HttpPost]
