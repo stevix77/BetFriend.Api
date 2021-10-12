@@ -72,6 +72,12 @@ steps:
     configuration: '$(BuildConfiguration)'
     projects: 'BetFriend.WebApi/BetFriend.Database.csproj'
 
+- task: DotNetCoreCLI@2
+  displayName: 'publish db'
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    projects: '**/BetFriend.Database.csproj'
 
 # - task: UseDotNet@2
   # inputs:
@@ -93,10 +99,10 @@ steps:
     publishTestResults: true
     nobuild: true
     
-- task: VSBuild@1
-  inputs:
-    solution: '**\*.sln'
-    vsVersion: '16.0'
+# - task: VSBuild@1
+#   inputs:
+#     solution: '**\*.sln'
+#     vsVersion: '16.0'
 
 - script: 'dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.5.8'  
   displayName: 'Install ReportGenerator tool'
