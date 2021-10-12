@@ -36,13 +36,13 @@ steps:
     # useLegacyPattern: false
     # enableTelemetry: true
 
-# - task: DotNetCoreCLI@2
-#   displayName: 'restore api'
-#   inputs:
-#     command: restore
-#     projects: '$(projectApi)'
-#     feedsToUse: 'select'
-#     vstsFeed: '6632784c-d3d3-4bab-bba0-1fa9ea12b374/e1e6622c-8333-4ec2-9b46-16bd34ad7de7'
+- task: DotNetCoreCLI@2
+  displayName: 'restore api'
+  inputs:
+    command: restore
+    # projects: '$(projectApi)'
+    feedsToUse: 'select'
+    vstsFeed: '6632784c-d3d3-4bab-bba0-1fa9ea12b374/e1e6622c-8333-4ec2-9b46-16bd34ad7de7'
 
 
 # - task: DotNetCoreCLI@2
