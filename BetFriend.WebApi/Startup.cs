@@ -1,8 +1,6 @@
 namespace BetFriend.WebApi
 {
     using BetFriend.Bet.Infrastructure;
-    using BetFriend.Shared.Domain;
-    using BetFriend.Shared.Infrastructure.DateTimeProvider;
     using BetFriend.UserAccess.Infrastructure;
     using BetFriend.WebApi.Extensions;
     using BetFriend.WebApi.Filters;
@@ -42,6 +40,7 @@ namespace BetFriend.WebApi
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "BetFriend.WebApi", Version = "v1" });
             });
 
+            services.AddApplicationInsightsTelemetry(Configuration["ApplicationInsightKey"]);
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddUserAccessModule(Configuration);
             services.AddBetModule(Configuration);
