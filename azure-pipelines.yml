@@ -128,7 +128,7 @@ steps:
   displayName: 'db binaries'
   inputs:
     command: publish
-    projects: '**/BetFriend.Database.csproj'
+    projects: '**/BetFriend.Database.sqlproj'
     zipAfterPublish: false
     publishWebProjects: false
     arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/db'
