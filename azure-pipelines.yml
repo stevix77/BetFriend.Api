@@ -70,13 +70,6 @@ steps:
     solution: '**\*.sln'
     vsVersion: '16.0'
 
-- task: DotNetCoreCLI@2
-  displayName: 'publish db'
-  inputs:
-    command: 'publish'
-    publishWebProjects: false
-    projects: '**/BetFriend.Database.csproj'
-
 # - task: UseDotNet@2
   # inputs:
     # packageType: 'sdk'
@@ -127,6 +120,22 @@ steps:
   displayName: 'Publish Artifact Api'
   inputs:
     PathtoPublish: '$(build.artifactstagingdirectory)/api'
+    ArtifactName: '$(Parameters.ArtifactName)'
+  condition: succeededOrFailed()
+
+- task: DotNetCoreCLI@2
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  displayName: 'db binaries'
+  inputs:
+    command: publish
+    projects: '**/BetFriend.Database.csproj'
+    zipAfterPublish: false
+    publishWebProjects: false
+    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/db'
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact db'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)/db'
     ArtifactName: '$(Parameters.ArtifactName)'
   condition: succeededOrFailed()
 
