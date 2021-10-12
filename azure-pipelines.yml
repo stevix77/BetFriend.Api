@@ -36,13 +36,13 @@ steps:
     # useLegacyPattern: false
     # enableTelemetry: true
 
-- task: DotNetCoreCLI@2
-  displayName: 'restore api'
-  inputs:
-    command: restore
-    projects: '$(projectApi)'
-    feedsToUse: 'select'
-    vstsFeed: '6632784c-d3d3-4bab-bba0-1fa9ea12b374/e1e6622c-8333-4ec2-9b46-16bd34ad7de7'
+# - task: DotNetCoreCLI@2
+#   displayName: 'restore api'
+#   inputs:
+#     command: restore
+#     projects: '$(projectApi)'
+#     feedsToUse: 'select'
+#     vstsFeed: '6632784c-d3d3-4bab-bba0-1fa9ea12b374/e1e6622c-8333-4ec2-9b46-16bd34ad7de7'
 
 
 # - task: DotNetCoreCLI@2
@@ -58,19 +58,17 @@ steps:
     packageType: 'sdk'
     version: '5.0.x'
 
-- task: DotNetCoreCLI@2
-  displayName: 'build api'
-  inputs:
-    command: build
-    configuration: '$(BuildConfiguration)'
-    projects: '$(projectApi)'
+# - task: DotNetCoreCLI@2
+#   displayName: 'build api'
+#   inputs:
+#     command: build
+#     configuration: '$(BuildConfiguration)'
+#     projects: '$(projectApi)'
 
-- task: DotNetCoreCLI@2
-  displayName: 'build db'
+- task: VSBuild@1
   inputs:
-    command: build
-    configuration: '$(BuildConfiguration)'
-    projects: 'BetFriend.WebApi/BetFriend.Database.csproj'
+    solution: '**\*.sln'
+    vsVersion: '16.0'
 
 - task: DotNetCoreCLI@2
   displayName: 'publish db'
@@ -99,10 +97,7 @@ steps:
     publishTestResults: true
     nobuild: true
     
-# - task: VSBuild@1
-#   inputs:
-#     solution: '**\*.sln'
-#     vsVersion: '16.0'
+
 
 - script: 'dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.5.8'  
   displayName: 'Install ReportGenerator tool'
