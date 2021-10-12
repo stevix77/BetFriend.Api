@@ -40,7 +40,7 @@ steps:
   displayName: 'restore api'
   inputs:
     command: restore
-    projects: '**/BetFriend.WebApi.csproj'
+    projects: '$(projectApi)'
     feedsToUse: 'select'
     vstsFeed: '6632784c-d3d3-4bab-bba0-1fa9ea12b374/e1e6622c-8333-4ec2-9b46-16bd34ad7de7'
 
@@ -65,6 +65,13 @@ steps:
     configuration: '$(BuildConfiguration)'
     projects: '$(projectApi)'
 
+- task: DotNetCoreCLI@2
+  displayName: 'build db'
+  inputs:
+    command: build
+    configuration: '$(BuildConfiguration)'
+    projects: 'BetFriend.WebApi/BetFriend.Database.csproj'
+
 
 # - task: UseDotNet@2
   # inputs:
@@ -85,6 +92,11 @@ steps:
     arguments: --configuration $(buildConfiguration) --collect "XPlat Code coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)\TestResults\Coverage\
     publishTestResults: true
     nobuild: true
+    
+- task: VSBuild@1
+  inputs:
+    solution: '**\*.sln'
+    vsVersion: '16.0'
 
 - script: 'dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.5.8'  
   displayName: 'Install ReportGenerator tool'
