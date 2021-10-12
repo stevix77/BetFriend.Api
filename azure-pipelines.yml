@@ -22,19 +22,19 @@ trigger:
     include: [ 'develop', feature/*, bugfix/*, main ]
 
 steps:
+- task: replacetokens@3
+  displayName: 'replace token settings'
+  inputs:
+    targetFiles: '**/*.appsettings.json'
+    encoding: 'auto'
+    writeBOM: true
+    actionOnMissing: 'warn'
+    keepToken: false
+    tokenPrefix: '#{'
+    tokenSuffix: '}#'
+    useLegacyPattern: false
+    enableTelemetry: true
 
-# - task: replacetokens@3
-  # displayName: 'replace token settings'
-  # inputs:
-    # targetFiles: '**/*.appsettings.json'
-    # encoding: 'auto'
-    # writeBOM: true
-    # actionOnMissing: 'warn'
-    # keepToken: false
-    # tokenPrefix: '#{'
-    # tokenSuffix: '}#'
-    # useLegacyPattern: false
-    # enableTelemetry: true
 
 - task: DotNetCoreCLI@2
   displayName: 'restore api'
