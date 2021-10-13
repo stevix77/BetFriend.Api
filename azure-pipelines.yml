@@ -40,7 +40,7 @@ steps:
   displayName: 'restore api'
   inputs:
     command: restore
-    # projects: '$(projectApi)'
+    projects: '$(projectApi)'
     feedsToUse: 'select'
     vstsFeed: '6632784c-d3d3-4bab-bba0-1fa9ea12b374/e1e6622c-8333-4ec2-9b46-16bd34ad7de7'
 
@@ -69,6 +69,7 @@ steps:
   inputs:
     solution: '**\*.sln'
     vsVersion: '16.0'
+    
 
 # - task: UseDotNet@2
   # inputs:
@@ -89,8 +90,6 @@ steps:
     arguments: --configuration $(buildConfiguration) --collect "XPlat Code coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)\TestResults\Coverage\
     publishTestResults: true
     nobuild: true
-    
-
 
 - script: 'dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.5.8'  
   displayName: 'Install ReportGenerator tool'
@@ -123,21 +122,7 @@ steps:
     ArtifactName: '$(Parameters.ArtifactName)'
   condition: succeededOrFailed()
 
-- task: DotNetCoreCLI@2
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-  displayName: 'db binaries'
-  inputs:
-    command: publish
-    projects: '**/BetFriend.Database.sqlproj'
-    zipAfterPublish: false
-    publishWebProjects: false
-    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/db'
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact db'
-  inputs:
-    PathtoPublish: '$(build.artifactstagingdirectory)/db'
-    ArtifactName: '$(Parameters.ArtifactName)'
-  condition: succeededOrFailed()
+
 
 # - task: DotNetCoreCLI@2
   # condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
@@ -155,3 +140,14 @@ steps:
     # PathtoPublish: '$(build.artifactstagingdirectory)/az'
     # ArtifactName: '$(Parameters.ArtifactName)'
   # condition: succeededOrFailed()
+
+- task: CopyFiles@1
+  inputs:
+    SourceFolder: '$(System.DefaultWorkingDirectory)'
+    Contents: '**/BetFriend.Database.dacpac'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/db'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/db'
+    ArtifactName: '$(Parameters.ArtifactName)'
