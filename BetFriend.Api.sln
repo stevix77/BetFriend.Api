@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{61856E5F-0FD
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BetFriend.Bet.Application", "BetFriend.Application\BetFriend.Bet.Application.csproj", "{70BD29DD-E04B-4B27-83DF-4C7262FBCF69}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infra", "Infra", "{DAEB3913-B58A-42C5-80DF-F5B22C66DCE1}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{DAEB3913-B58A-42C5-80DF-F5B22C66DCE1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BetFriend.Bet.Infrastructure", "BetFriend.Infrastructure\BetFriend.Bet.Infrastructure.csproj", "{F35AB52F-0C2F-4704-BA4B-2F5FE76B847A}"
 EndProject
@@ -37,11 +37,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BetFriend.UserAccess.Infras
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{828F2103-9E2F-48F5-B2E2-EC7028BA783C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetFriend.Shared.Domain", "BetFriend.Shared.Domain\BetFriend.Shared.Domain.csproj", "{602708D9-6607-436D-9C88-1C18D8F15C7D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BetFriend.Shared.Domain", "BetFriend.Shared.Domain\BetFriend.Shared.Domain.csproj", "{602708D9-6607-436D-9C88-1C18D8F15C7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetFriend.Shared.Application", "BetFriend.Shared.Application\BetFriend.Shared.Application.csproj", "{A8374DB8-89D4-448A-924D-76AE9BDDD3DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BetFriend.Shared.Application", "BetFriend.Shared.Application\BetFriend.Shared.Application.csproj", "{A8374DB8-89D4-448A-924D-76AE9BDDD3DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetFriend.Shared.Infrastructure", "BetFriend.Shared.Infrastructure\BetFriend.Shared.Infrastructure.csproj", "{01765A4B-E03A-469E-9AC8-C4E4DFC45895}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BetFriend.Shared.Infrastructure", "BetFriend.Shared.Infrastructure\BetFriend.Shared.Infrastructure.csproj", "{01765A4B-E03A-469E-9AC8-C4E4DFC45895}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
