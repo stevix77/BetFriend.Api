@@ -35,6 +35,12 @@ steps:
     # tokenSuffix: '}#'
     # useLegacyPattern: false
     # enableTelemetry: true
+- task: NuGetToolInstaller@1
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '**\*.sln'
+
 - task: VSBuild@1
   inputs:
     solution: '**\*.sln'
