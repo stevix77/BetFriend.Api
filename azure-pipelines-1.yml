@@ -38,3 +38,9 @@ steps:
     SourceFolder: '$(System.DefaultWorkingDirectory)'
     Contents: '**/BetFriend.Database.dacpac'
     TargetFolder: '$(Build.ArtifactStagingDirectory)/db'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/db'
+    ArtifactName: 'db'
+    publishLocation: 'Container'
