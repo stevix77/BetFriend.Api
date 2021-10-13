@@ -65,13 +65,18 @@ steps:
 #     configuration: '$(BuildConfiguration)'
 #     projects: '$(projectApi)'
 
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '3.1.x'
+
 - task: VSBuild@1
   inputs:
     solution: '**\*.sln'
     msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
-    
+
 # - task: UseDotNet@2
   # inputs:
     # packageType: 'sdk'
