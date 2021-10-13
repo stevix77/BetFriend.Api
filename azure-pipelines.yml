@@ -35,6 +35,12 @@ steps:
     # tokenSuffix: '}#'
     # useLegacyPattern: false
     # enableTelemetry: true
+- task: VSBuild@1
+  inputs:
+    solution: '**\*.sln'
+    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
   displayName: 'restore api'
@@ -58,24 +64,12 @@ steps:
     packageType: 'sdk'
     version: '5.0.x'
 
-# - task: DotNetCoreCLI@2
-#   displayName: 'build api'
-#   inputs:
-#     command: build
-#     configuration: '$(BuildConfiguration)'
-#     projects: '$(projectApi)'
-
-- task: UseDotNet@2
+- task: DotNetCoreCLI@2
+  displayName: 'build api'
   inputs:
-    packageType: 'sdk'
-    version: '3.1.x'
-
-- task: VSBuild@1
-  inputs:
-    solution: '**\*.sln'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    command: build
+    configuration: '$(BuildConfiguration)'
+    projects: '$(projectApi)'
 
 # - task: UseDotNet@2
   # inputs:
