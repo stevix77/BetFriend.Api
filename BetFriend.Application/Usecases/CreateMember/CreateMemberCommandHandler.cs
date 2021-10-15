@@ -20,9 +20,9 @@
 
         public async Task<Unit> Handle(CreateMemberCommand request, CancellationToken cancellationToken)
         {
-            if (await _memberRepository.GetByIdAsync(new(request.MemberId)) != null)
+            if (await _memberRepository.GetByIdAsync(new MemberId(request.MemberId)) != null)
                 throw new MemberAlreadyExistsException();
-            var member = new Member(new(request.MemberId), request.MemberName, INIT_WALLET);
+            var member = new Member(new MemberId(request.MemberId), request.MemberName, INIT_WALLET);
             await _memberRepository.SaveAsync(member);
             return Unit.Value;
         }

@@ -4,7 +4,7 @@ namespace BetFriend.Shared.Domain
 {
     public abstract class Entity
     {
-        private List<IDomainEvent> _domainEvents = new();
+        private readonly List<IDomainEvent> _domainEvents = new List<IDomainEvent>();
         public IReadOnlyCollection<IDomainEvent> DomainEvents { get => _domainEvents.AsReadOnly(); }
 
         protected void AddDomainEvent(IDomainEvent domainEvent)

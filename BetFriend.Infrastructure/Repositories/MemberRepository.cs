@@ -19,9 +19,9 @@
 
         public async Task<Member> GetByIdAsync(MemberId memberId)
         {
-            var entity = await _dbContext.FindAsync<MemberEntity>(memberId.Value).ConfigureAwait(false);
+            var entity = await _dbContext.FindAsync<MemberEntity>(memberId.Value.ToString()).ConfigureAwait(false);
             return entity == null ? null :
-                                    new Member(new MemberId(entity.MemberId), entity.MemberName, entity.Wallet);
+                                    new Member(new MemberId(Guid.Parse(entity.MemberId)), entity.MemberName, entity.Wallet);
         }
 
         public Task<List<Member>> GetByIdsAsync(IEnumerable<MemberId> participantsId)

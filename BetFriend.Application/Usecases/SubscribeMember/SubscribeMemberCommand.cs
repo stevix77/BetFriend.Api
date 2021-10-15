@@ -14,6 +14,6 @@
             _subscriptionId = subscriptionId;
         }
 
-        public MemberId SubscriptionId { get => new(_subscriptionId); }
+        public MemberId SubscriptionId { get => new MemberId(_subscriptionId); }
     }
 }

@@ -32,9 +32,9 @@
             if (!_authentificationGateway.IsAuthenticated())
                 throw new NotAuthenticatedException();
 
-            var member = await _memberRepository.GetByIdAsync(new(_authentificationGateway.UserId)).ConfigureAwait(false) ??
+            var member = await _memberRepository.GetByIdAsync(new MemberId(_authentificationGateway.UserId)).ConfigureAwait(false) ??
                 throw new MemberUnknownException("Member unknown");
-            var bet = await _betRepository.GetByIdAsync(new(request.BetId)).ConfigureAwait(false) ??
+            var bet = await _betRepository.GetByIdAsync(new BetId(request.BetId)).ConfigureAwait(false) ??
                 throw new BetUnknownException($"Bet {request.BetId} is unknown");
 
             member.Answer(bet, request.IsAccepted, _dateTimeProvider.Now);

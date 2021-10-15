@@ -14,24 +14,19 @@
     {
         private readonly IBetRepository _betRepository;
         private readonly IBetQueryRepository _queryBetRepository;
-        private readonly IMemberRepository _memberRepository;
 
         public InsertBetQuerySideNotificationHandler(IBetRepository betRepository,
-                                                IBetQueryRepository queryBetRepository,
-                                                IMemberRepository memberRepository)
+                                                IBetQueryRepository queryBetRepository)
         {
             _betRepository = betRepository;
             _queryBetRepository = queryBetRepository;
-            _memberRepository = memberRepository;
         }
 
         public async Task Handle(InsertBetQuerySideNotification request, CancellationToken cancellationToken)
         {
             ValidateRequest(request);
 
-            var member = await _memberRepository.GetByIdAsync(new(request.MemberId)).ConfigureAwait(false)
-                        ?? throw new MemberUnknownException($"MemberId: {request.MemberId} is unknown");
-            var bet = await _betRepository.GetByIdAsync(new(request.BetId)).ConfigureAwait(false)
+            var bet = await _betRepository.GetByIdAsync(new BetId(request.BetId)).ConfigureAwait(false)
                     ?? throw new BetUnknownException($"BetId: {request.BetId} is unknwon");
             var betDto = new BetDto(bet.State);
             await _queryBetRepository.SaveAsync(betDto);

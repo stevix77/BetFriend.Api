@@ -26,9 +26,9 @@
 
         public async Task Handle(InsertBetQuerySideNotification notification, CancellationToken cancellationToken)
         {
-            var bet = await _betRepository.GetByIdAsync(new(notification.BetId))
+            var bet = await _betRepository.GetByIdAsync(new BetId(notification.BetId))
                         ?? throw new BetUnknownException($"Bet with Id {notification.BetId} does not exists");
-            var member = await _memberRepository.GetByIdAsync(new(notification.MemberId));
+            var member = await _memberRepository.GetByIdAsync(new MemberId(notification.MemberId));
             var feeds = await _feedRepository.GetByIdsAsync(member.Subscriptions.Select(x => x.MemberId.Value));
             foreach (var feed in feeds)
                 feed.Bets.Add(new Models.BetDto(bet.State));
