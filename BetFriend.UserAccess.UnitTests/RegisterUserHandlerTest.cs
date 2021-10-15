@@ -94,7 +94,7 @@
             var user = new User("abc", "username", "email@email.com", "password", new DateTime(2021, 9, 22));
             Assert.Equal(user, userRepository.GetUsers().Single());
             var domainEvent = domainEventsListener.GetDomainEvents().SingleOrDefault();
-            Assert.Equal(new UserRegistered("abc", "email@email.com"), domainEvent);
+            Assert.Equal(new UserRegistered("abc", "email@email.com", "username"), domainEvent);
             Assert.Equal(token, actualToken);
         }
 

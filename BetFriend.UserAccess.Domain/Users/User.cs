@@ -26,7 +26,7 @@
             _email = IsAddressEmailValid(email) ? new(email) : throw new EmailNotValidException();
             _password = password;
             _registerDate = dateTime;
-            AddDomainEvent(new UserRegistered(id, email));
+            AddDomainEvent(new UserRegistered(id, email, username));
         }
 
         private User(UserId userId, string username, Email email, string password)

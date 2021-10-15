@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AzureFunctionsVersion>v3</AzureFunctionsVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.18.0" />
+    <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
+    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Storage" Version="4.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.13" />
+    <PackageReference Include="Serilog" Version="2.10.0" />
+    <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="3.1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BetFriend.Application\BetFriend.Bet.Application.csproj" />
+    <ProjectReference Include="..\BetFriend.Infrastructure\BetFriend.Bet.Infrastructure.csproj" />
+    <ProjectReference Include="..\BetFriend.Shared.Infrastructure\BetFriend.Shared.Infrastructure.csproj" />
+    <ProjectReference Include="..\BetFriend.UserAccess.Application\BetFriend.UserAccess.Application.csproj" />
+    <ProjectReference Include="..\BetFriend.UserAccess.Infrastructure\BetFriend.UserAccess.Infrastructure.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="host.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="local.settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+</Project>

@@ -1,9 +1,9 @@
 {
-  "IsEncrypted": false,
+    "IsEncrypted": false,
   "Values": {
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
     "FUNCTIONS_WORKER_RUNTIME": "dotnet",
-    "Settings:MongoDbConfiguration:ServerUrl": "mongodb://localhost:27017",
-    "Settings:UseFake": true
+    "azurestorageconnectionstring": "DefaultEndpointsProtocol=https;AccountName=betfriendstockage;AccountKey=hVXPQpnEAMgyuLdDn//GlIShJrkY56a/idiUPHe/PwYOsNWme7IcqfAMI4p8rIPH66CNvyJI1e4zYb3kugePDA==;EndpointSuffix=core.windows.net",
+    "ApplicationInsightKey": "2256c2cf-c4db-4980-a0ab-c930f7942e02"
   }
 }
