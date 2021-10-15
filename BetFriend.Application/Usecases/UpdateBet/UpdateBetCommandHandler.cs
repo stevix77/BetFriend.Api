@@ -12,8 +12,8 @@
 
     public class UpdateBetCommandHandler : ICommandHandler<UpdateBetCommand>
     {
-        private IBetRepository _betRepository;
-        private IBetQueryRepository _betQueryRepository;
+        private readonly IBetRepository _betRepository;
+        private readonly IBetQueryRepository _betQueryRepository;
 
         public UpdateBetCommandHandler(IBetRepository betRepository, IBetQueryRepository betQueryRepository)
         {
@@ -23,7 +23,7 @@
 
         public async Task<Unit> Handle(UpdateBetCommand request, CancellationToken cancellationToken)
         {
-            var bet = await _betRepository.GetByIdAsync(new(request.BetId))
+            var bet = await _betRepository.GetByIdAsync(new BetId(request.BetId))
                         ?? throw new BetUnknownException($"This bet with Id {request.BetId} does not exist");
 
             var dto = new BetDto(bet.State);

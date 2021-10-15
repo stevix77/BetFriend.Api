@@ -72,3 +72,13 @@
 /BetFriend.AzureFunctions/bin/Debug/net5.0
 /BetFriend.AzureFunctions/obj
 /BetFriend.AzureFunctions/Properties
+/BetFriend.Application/bin/Debug/netcoreapp3.1
+/BetFriend.Domain/bin/Debug/netcoreapp3.1
+/BetFriend.Infrastructure/bin/Debug/netcoreapp3.1
+/BetFriend.Shared.Application/bin/Debug/netcoreapp3.1
+/BetFriend.Shared.Domain/bin/Debug/netcoreapp3.1
+/BetFriend.Shared.Infrastructure/bin/Debug/netcoreapp3.1
+/BetFriend.Shared.Infrastructure/obj/Debug
+/BetFriend.UserAccess.Application/bin/Debug/netcoreapp3.1
+/BetFriend.UserAccess.Domain/bin/Debug/netcoreapp3.1
+/BetFriend.UserAccess.Infrastructure/bin/Debug/netcoreapp3.1

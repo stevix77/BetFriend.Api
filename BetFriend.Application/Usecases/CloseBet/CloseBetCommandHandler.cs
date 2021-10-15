@@ -36,7 +36,7 @@
 
             async Task<Bet> GetBet(CloseBetCommand request)
             {
-                return await _betRepository.GetByIdAsync(new(request.BetId)).ConfigureAwait(false)
+                return await _betRepository.GetByIdAsync(new BetId(request.BetId)).ConfigureAwait(false)
                             ?? throw new BetUnknownException($"This bet with id {request.BetId} is unknown");
             }
         }

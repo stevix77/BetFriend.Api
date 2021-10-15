@@ -22,7 +22,7 @@
 
         public async Task<Unit> Handle(UpdateWalletMembersCommand request, CancellationToken cancellationToken)
         {
-            var bet = await _betRepository.GetByIdAsync(new(request.BetId))
+            var bet = await _betRepository.GetByIdAsync(new BetId(request.BetId))
                     ?? throw new BetUnknownException($"This bet with id {request.BetId} is unknown");
             bet.UpdateWallets();
             var members = bet.GetAllMembers();

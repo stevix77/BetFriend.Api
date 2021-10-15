@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Serilog;
 using System;
 
 namespace BetFriend.AzureFunctions
@@ -10,15 +11,15 @@ namespace BetFriend.AzureFunctions
     {
         public static IFunctionsHostBuilder UseAppSettings(this IFunctionsHostBuilder hostBuilder)
         {
-            hostBuilder.UseAppSettings(x => x.AddEnvironmentVariables());
+            hostBuilder.UseAppSettings(x => x.AddEnvironmentVariables().AddUserSecrets(typeof(Startup).Assembly));
             return hostBuilder;
         }
 
         public static IFunctionsHostBuilder AddDependencies(this IFunctionsHostBuilder builder)
         {
             builder.Services
-                   //.AddLogging()
-                   .AddApplicationInsightsTelemetry(builder.GetContext().Configuration["ApplicationInsightKey"]);
+                   .AddLogging();
+                   //.AddApplicationInsightsTelemetry(builder.GetContext().Configuration["ApplicationInsightKey"]);
             return builder;
         }
 

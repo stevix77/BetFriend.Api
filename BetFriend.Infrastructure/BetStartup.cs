@@ -20,6 +20,7 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using MongoDB.Driver;
+    using Serilog;
     using System;
 
 
@@ -44,6 +45,7 @@
                 return mongoClient.GetDatabase(configuration["MongoDatabaseName"]);
             });
             serviceCollection.AddLogging();
+            //serviceCollection.AddApplicationInsightsTelemetry(configuration["ApplicationInsightKey"]);
             serviceCollection.AddScoped<IAuthenticationGateway, AuthenticationGateway>();
             serviceCollection.AddScoped<IBetRepository, BetRepository>();
             serviceCollection.AddScoped<IBetQueryRepository, BetQueryRepository>();
@@ -52,7 +54,7 @@
             serviceCollection.AddScoped<IDomainEventsAccessor, DomainEventsAccessor>();
             serviceCollection.AddScoped<IStorageDomainEventsRepository, AzureStorageDomainEventsRepository>();
             serviceCollection.AddScoped<IUnitOfWork, UnitOfWork>();
-            serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
+            //serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
             serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnitOfWorkBehavior<,>));
             serviceCollection.AddMediatR(typeof(LaunchBetCommand).Assembly);
             return serviceCollection.BuildServiceProvider();

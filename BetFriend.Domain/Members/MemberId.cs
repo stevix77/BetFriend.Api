@@ -10,6 +10,11 @@
             _value = value;
         }
 
+        public MemberId(string value)
+        {
+            _value = Guid.Parse(value);
+        }
+
         public Guid Value { get => _value; }
 
         public override string ToString()

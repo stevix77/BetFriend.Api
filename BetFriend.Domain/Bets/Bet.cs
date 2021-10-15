@@ -92,7 +92,7 @@
 
         public BetState State
         {
-            get => new(_betId.Value,
+            get => new BetState(_betId.Value,
                         _creator,
                         _endDate.Value,
                         _description,

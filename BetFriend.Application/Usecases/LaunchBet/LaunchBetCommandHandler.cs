@@ -33,7 +33,7 @@
             ValidateRequest(request);
             if (!_authenticationGateway.IsAuthenticated())
                 throw new NotAuthenticatedException();
-            var member = await _memberRepository.GetByIdAsync(new(_authenticationGateway.UserId)).ConfigureAwait(false)
+            var member = await _memberRepository.GetByIdAsync(new MemberId(_authenticationGateway.UserId)).ConfigureAwait(false)
                             ?? throw new MemberUnknownException("Creator is unknown");
 
             var bet = member.CreateBet(new BetId(request.BetId),

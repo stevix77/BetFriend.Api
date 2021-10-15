@@ -21,9 +21,9 @@
                     string password,
                     DateTime dateTime)
         {
-            _id = new(id);
+            _id = new UserId(id);
             _username = username;
-            _email = IsAddressEmailValid(email) ? new(email) : throw new EmailNotValidException();
+            _email = IsAddressEmailValid(email) ? new Email(email) : throw new EmailNotValidException();
             _password = password;
             _registerDate = dateTime;
             AddDomainEvent(new UserRegistered(id, email, username));

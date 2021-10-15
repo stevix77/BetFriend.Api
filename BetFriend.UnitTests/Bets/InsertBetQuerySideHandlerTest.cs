@@ -25,9 +25,8 @@ namespace BetFriend.Bet.UnitTests.Bets
                                 "desc1", 10, member, new DateTime(2021, 3, 2));
             var betRepository = new InMemoryBetRepository(null, bet.State);
             var queryBetRepository = new InMemoryBetQueryRepository(new List<BetDto>());
-            var memberRepository = new InMemoryMemberRepository(new() { member });
             var command = new InsertBetQuerySideNotification(betId, memberId);
-            var handler = new InsertBetQuerySideNotificationHandler(betRepository, queryBetRepository, memberRepository);
+            var handler = new InsertBetQuerySideNotificationHandler(betRepository, queryBetRepository);
 
             //act
             await handler.Handle(command, default);
@@ -54,9 +53,8 @@ namespace BetFriend.Bet.UnitTests.Bets
                                 "desc1", 10, member, new DateTime(2021, 3, 2));
             var betRepository = new InMemoryBetRepository(null, bet.State);
             var queryBetRepository = new InMemoryBetQueryRepository(new List<BetDto>());
-            var memberRepository = new InMemoryMemberRepository(new() { member });
             var command = new InsertBetQuerySideNotification(betId, memberId);
-            var handler = new InsertBetQuerySideNotificationHandler(betRepository, queryBetRepository, memberRepository);
+            var handler = new InsertBetQuerySideNotificationHandler(betRepository, queryBetRepository);
 
             //act
             var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
@@ -64,29 +62,11 @@ namespace BetFriend.Bet.UnitTests.Bets
             //assert
             Assert.IsType<BetUnknownException>(record);
         }
-
-        [Fact]
-        public async Task ShouldThrowMemberUnknownExceptionIfMemberIdUnknown()
-        {
-            //arrange
-            var betRepository = new InMemoryBetRepository(null, null);
-            var queryBetRepository = new InMemoryBetQueryRepository(new List<BetDto>());
-            var memberRepository = new InMemoryMemberRepository();
-            var command = new InsertBetQuerySideNotification(Guid.NewGuid(), Guid.NewGuid());
-            var handler = new InsertBetQuerySideNotificationHandler(betRepository, queryBetRepository, memberRepository);
-
-            //act
-            var record = await Record.ExceptionAsync(() => handler.Handle(command, default));
-
-            //assert
-            Assert.IsType<MemberUnknownException>(record);
-        }
-
         [Fact]
         public async Task ShouldThrowArgumentNullExceptionIfRequestNull()
         {
             //arrange
-            var handler = new InsertBetQuerySideNotificationHandler(new InMemoryBetRepository(), new InMemoryBetQueryRepository(), new InMemoryMemberRepository());
+            var handler = new InsertBetQuerySideNotificationHandler(new InMemoryBetRepository(), new InMemoryBetQueryRepository());
 
             //act
             var record = await Record.ExceptionAsync(() => handler.Handle(default, default));

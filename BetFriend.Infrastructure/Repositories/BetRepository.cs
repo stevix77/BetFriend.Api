@@ -37,7 +37,7 @@
             return entity == null ? null :
                                     Bet.FromState(
                                         new BetState(betId.Value,
-                                                    new Member(new(entity.Creator.MemberId),
+                                                    new Member(new MemberId(entity.Creator.MemberId),
                                                                 entity.Creator.MemberName,
                                                                 entity.Creator.Wallet),
                                                     entity.EndDate,
@@ -45,7 +45,7 @@
                                                     entity.Coins,
                                                     entity.CreationDate,
                                                     entity.Answers?.Select(x =>
-                                                        new AnswerState(new(new(x.Member.MemberId), x.Member.MemberName, x.Member.Wallet),
+                                                        new AnswerState(new Member(new MemberId(x.Member.MemberId), x.Member.MemberName, x.Member.Wallet),
                                                                         x.IsAccepted,
                                                                         x.DateAnswer))
                                                                    .ToList()));
