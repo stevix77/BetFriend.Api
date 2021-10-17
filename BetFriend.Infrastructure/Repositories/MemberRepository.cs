@@ -2,6 +2,7 @@
 {
     using BetFriend.Bet.Domain.Members;
     using BetFriend.Bet.Infrastructure.DataAccess.Entities;
+    using BetFriend.Shared.Application.Abstractions;
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
@@ -11,10 +12,12 @@
     public class MemberRepository : IMemberRepository
     {
         private readonly DbContext _dbContext;
+        private readonly IDomainEventsAccessor _domainEventsAccessor;
 
-        public MemberRepository(DbContext dbContext)
+        public MemberRepository(DbContext dbContext, IDomainEventsAccessor domainEventsAccessor)
         {
             _dbContext = dbContext;
+            _domainEventsAccessor = domainEventsAccessor;
         }
 
         public async Task<Member> GetByIdAsync(MemberId memberId)
@@ -34,15 +37,15 @@
             throw new NotImplementedException();
         }
 
-        public Task SaveAsync(Member member)
+        public async Task SaveAsync(Member member)
         {
-            _dbContext.AddAsync(new MemberEntity
+            await _dbContext.AddAsync(new MemberEntity
             {
                 MemberId = member.Id.Value,
                 MemberName = member.Name,
                 Wallet = member.Wallet
             });
-            return Task.CompletedTask;
+            _domainEventsAccessor.AddDomainEvents(member.DomainEvents);
         }
     }
 }

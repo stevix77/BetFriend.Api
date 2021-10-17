@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 
-namespace BetFriend.AzureFunctions
+namespace BetFriend.AzureFunctions.Functions
 {
     public class CreateMember
     {

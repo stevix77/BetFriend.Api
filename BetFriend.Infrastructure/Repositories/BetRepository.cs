@@ -1,8 +1,8 @@
 ﻿namespace BetFriend.Bet.Infrastructure.Repositories
 {
     using BetFriend.Bet.Domain.Bets;
-    using BetFriend.Bet.Domain.Members;
     using BetFriend.Bet.Infrastructure.DataAccess.Entities;
+    using BetFriend.Bet.Infrastructure.Extensions;
     using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.Linq;
@@ -33,27 +33,19 @@
 
         public async Task<Bet> GetByIdAsync(BetId betId)
         {
-            var entity = await _dbContext.Set<BetEntity>().FirstOrDefaultAsync(x => x.BetId == betId.Value);
-            return entity == null ? null :
-                                    Bet.FromState(
-                                        new BetState(betId.Value,
-                                                    new Member(new MemberId(entity.Creator.MemberId),
-                                                                entity.Creator.MemberName,
-                                                                entity.Creator.Wallet),
-                                                    entity.EndDate,
-                                                    entity.Description,
-                                                    entity.Coins,
-                                                    entity.CreationDate,
-                                                    entity.Answers?.Select(x =>
-                                                        new AnswerState(new Member(new MemberId(x.Member.MemberId), x.Member.MemberName, x.Member.Wallet),
-                                                                        x.IsAccepted,
-                                                                        x.DateAnswer))
-                                                                   .ToList()));
+            var entity = await _dbContext.Set<BetEntity>()
+                                         .FirstOrDefaultAsync(x => x.BetId == betId.Value);
+            return entity?.ToBet();
         }
 
-        public Task<IReadOnlyCollection<Bet>> GetBetsForFeedAsync()
+        public async Task<IReadOnlyCollection<Bet>> GetBetsForFeedAsync()
         {
-            throw new System.NotImplementedException();
+            var bets = await _dbContext.Set<BetEntity>()
+                                       .AsNoTracking()
+                                       .Where(x => !x.IsClosed)
+                                       .OrderBy(x => x.EndDate)
+                                       .ToListAsync();
+            return bets.Select(x => x.ToBet()).ToList();
         }
     }
 }

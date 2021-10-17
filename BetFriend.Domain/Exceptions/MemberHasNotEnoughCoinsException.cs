@@ -10,7 +10,7 @@ namespace BetFriend.Bet.Domain.Exceptions
         {
         }
 
-        public MemberHasNotEnoughCoinsException(int wallet, int coins)
+        public MemberHasNotEnoughCoinsException(decimal wallet, int coins)
         {
             throw new MemberHasNotEnoughCoinsException($"Member has not enough coins to bet. Wallet: {wallet}, Required: {coins}");
         }

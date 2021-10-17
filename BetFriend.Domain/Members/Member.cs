@@ -15,16 +15,17 @@
     {
         private readonly List<Subscription> _subscriptions;
 
-        public Member(MemberId creatorId, string memberName, int wallet)
+        public Member(MemberId creatorId, string memberName, decimal wallet)
         {
             Id = creatorId;
             Name = memberName;
             Wallet = wallet;
             _subscriptions = new List<Subscription>();
+            AddDomainEvent(new MemberCreated(creatorId.Value));
         }
 
         public MemberId Id { get; }
-        public int Wallet { get; private set; }
+        public decimal Wallet { get; private set; }
         public string Name { get; }
         public IReadOnlyCollection<Subscription> Subscriptions { get => _subscriptions; }
 
@@ -69,9 +70,9 @@
         {
             var coins = bet.State.Coins;
             if (bet.IsSuccess())
-                Wallet -= coins / bet.State.Answers.Count;
+                Wallet -= (decimal)coins / bet.State.Answers.Count;
             else
-                Wallet += coins / bet.State.Answers.Count;
+                Wallet += (decimal)coins / bet.State.Answers.Count;
         }
 
         private void CheckAnswer(Bet bet, DateTime dateAnswer)
