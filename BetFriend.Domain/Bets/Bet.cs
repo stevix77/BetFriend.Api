@@ -8,7 +8,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public class Bet : Entity, IAggregateRoot
+    public partial class Bet : Entity, IAggregateRoot
     {
         private readonly BetId _betId;
         private readonly EndDate _endDate;

@@ -8,5 +8,6 @@
 	[member_id] UNIQUEIDENTIFIER NOT NULL,
 	[creation_date] DATETIME2 NOT NULL 
     PRIMARY KEY ([bet_id]), 
+    [is_closed] BIT NOT NULL DEFAULT 0, 
     CONSTRAINT [FK_Bet_Member] FOREIGN KEY ([member_id]) REFERENCES [Member]([Member_id]) 
 )

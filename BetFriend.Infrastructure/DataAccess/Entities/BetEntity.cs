@@ -42,5 +42,7 @@ namespace BetFriend.Bet.Infrastructure.DataAccess.Entities
         public DateTime CreationDate { get; set; }
 
         public virtual ICollection<AnswerEntity> Answers { get; set; }
+        [Column("is_closed")]
+        public bool IsClosed { get; set; }
     }
 }
