@@ -16,8 +16,8 @@
 
         public async Task Commit()
         {
-            await _domainEventsDispatcher.DispatchEventsAsync();
             await _dbContext.SaveChangesAsync().ConfigureAwait(false);
+            await _domainEventsDispatcher.DispatchEventsAsync();
         }
 
         public async Task Rollback()

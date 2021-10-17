@@ -19,9 +19,9 @@
 
         public async Task<Member> GetByIdAsync(MemberId memberId)
         {
-            var entity = await _dbContext.FindAsync<MemberEntity>(memberId.Value.ToString()).ConfigureAwait(false);
+            var entity = await _dbContext.FindAsync<MemberEntity>(memberId.Value).ConfigureAwait(false);
             return entity == null ? null :
-                                    new Member(new MemberId(Guid.Parse(entity.MemberId)), entity.MemberName, entity.Wallet);
+                                    new Member(new MemberId(entity.MemberId), entity.MemberName, entity.Wallet);
         }
 
         public Task<List<Member>> GetByIdsAsync(IEnumerable<MemberId> participantsId)
@@ -36,7 +36,13 @@
 
         public Task SaveAsync(Member member)
         {
-            throw new NotImplementedException();
+            _dbContext.AddAsync(new MemberEntity
+            {
+                MemberId = member.Id.Value,
+                MemberName = member.Name,
+                Wallet = member.Wallet
+            });
+            return Task.CompletedTask;
         }
     }
 }

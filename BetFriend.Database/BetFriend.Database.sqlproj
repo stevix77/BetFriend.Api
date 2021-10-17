@@ -22,6 +22,7 @@
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseSet>True</TargetDatabaseSet>
     <IncludeSchemaNameInFileName>True</IncludeSchemaNameInFileName>
+    <DbScopedConfigLegacyCardinalityEstimationSecondary>Primary</DbScopedConfigLegacyCardinalityEstimationSecondary>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -60,8 +61,15 @@
     <Build Include="Bet.sql" />
     <Build Include="Answer.sql" />
     <Build Include="dbo.User.sql" />
+    <Build Include="dbo.Member.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="BetFriend.Database.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <SqlCmdVariable Include="IsSqlCmdEnabled">
+      <DefaultValue>True</DefaultValue>
+      <Value>$(SqlCmdVar__1)</Value>
+    </SqlCmdVariable>
   </ItemGroup>
 </Project>
