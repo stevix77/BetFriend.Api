@@ -4,20 +4,20 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BetFriend.Bet.Infrastructure.DataAccess.Entities
 {
-    [Table("user")]
+    [Table("Member")]
     public class MemberEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("Id")]
         public int Id { get; set; }
 
-        [Key, Required, Column("user_id")]
-        public string MemberId { get; set; }
+        [Key, Required, Column("Member_id")]
+        public Guid MemberId { get; set; }
         [Required]
-        [Column("wallet")]
+        [Column("Wallet")]
         public int Wallet { get; set; }
 
-        [Required, Column("username")]
+        [Required, Column("Member_name")]
         public string MemberName { get; set; }
     }
 }
