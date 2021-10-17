@@ -66,10 +66,4 @@
   <ItemGroup>
     <RefactorLog Include="BetFriend.Database.refactorlog" />
   </ItemGroup>
-  <ItemGroup>
-    <SqlCmdVariable Include="IsSqlCmdEnabled">
-      <DefaultValue>True</DefaultValue>
-      <Value>$(SqlCmdVar__1)</Value>
-    </SqlCmdVariable>
-  </ItemGroup>
 </Project>
