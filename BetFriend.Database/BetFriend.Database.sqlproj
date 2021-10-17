@@ -58,8 +58,8 @@
     <Folder Include="Properties" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Bet.sql" />
-    <Build Include="Answer.sql" />
+    <Build Include="dbo.Bet.sql" />
+    <Build Include="dbo.Answer.sql" />
     <Build Include="dbo.User.sql" />
     <Build Include="dbo.Member.sql" />
   </ItemGroup>
