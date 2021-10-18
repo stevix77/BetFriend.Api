@@ -21,7 +21,6 @@
             Name = memberName;
             Wallet = wallet;
             _subscriptions = new List<Subscription>();
-            AddDomainEvent(new MemberCreated(creatorId.Value));
         }
 
         public static Member Create(MemberId creatorId, string memberName, decimal wallet)
