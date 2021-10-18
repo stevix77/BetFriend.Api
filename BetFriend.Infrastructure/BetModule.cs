@@ -2,6 +2,7 @@
 {
     using BetFriend.Bet.Application.Abstractions;
     using BetFriend.Shared.Application.Abstractions.Command;
+    using BetFriend.Shared.Application.Abstractions.Notification;
     using BetFriend.Shared.Application.Abstractions.Query;
     using MediatR;
     using System;
@@ -18,9 +19,18 @@
 
         public async Task ExecuteCommandAsync<TRequest>(ICommand<TRequest> command)
         {
+            using (var scope = _betCompositionRoot.BeginScope())
+            {
+                var mediator = scope.ServiceProvider.GetService(typeof(IMediator)) as IMediator;
+                await mediator.Send(command);
+            }
+        }
+
+        public async Task ExecuteNotificationAsync(INotificationCommand notification)
+        {
             using var scope = _betCompositionRoot.BeginScope();
             var mediator = scope.ServiceProvider.GetService(typeof(IMediator)) as IMediator;
-            await mediator.Send(command);
+            await mediator.Publish(notification);
         }
 
         public async Task<TResult> ExecuteQueryAsync<TResult>(IQuery<TResult> query)

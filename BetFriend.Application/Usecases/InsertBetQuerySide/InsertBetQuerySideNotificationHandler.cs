@@ -4,13 +4,12 @@
     using BetFriend.Bet.Application.Models;
     using BetFriend.Bet.Domain.Bets;
     using BetFriend.Bet.Domain.Exceptions;
-    using BetFriend.Bet.Domain.Members;
-    using MediatR;
+    using BetFriend.Shared.Application.Abstractions.Notification;
     using System;
     using System.Threading;
     using System.Threading.Tasks;
 
-    public class InsertBetQuerySideNotificationHandler : INotificationHandler<InsertBetQuerySideNotification>
+    public class InsertBetQuerySideNotificationHandler : INotificationCommandHandler<InsertBetQuerySideNotification>
     {
         private readonly IBetRepository _betRepository;
         private readonly IBetQueryRepository _queryBetRepository;

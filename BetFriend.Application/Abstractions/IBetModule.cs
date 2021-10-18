@@ -1,6 +1,7 @@
 ﻿namespace BetFriend.Bet.Application.Abstractions
 {
     using BetFriend.Shared.Application.Abstractions.Command;
+    using BetFriend.Shared.Application.Abstractions.Notification;
     using BetFriend.Shared.Application.Abstractions.Query;
     using System.Threading.Tasks;
 
@@ -9,5 +10,6 @@
     {
         Task ExecuteCommandAsync<TRequest>(ICommand<TRequest> command);
         Task<TResult> ExecuteQueryAsync<TResult>(IQuery<TResult> query);
+        Task ExecuteNotificationAsync(INotificationCommand notification);
     }
 }

@@ -17,9 +17,11 @@
         }
         public async Task<TResult> ExecuteCommandAsync<TResult>(ICommand<TResult> command)
         {
-            using var scope = _userAccessCompositionRoot.BeginScope();
-            var mediator = scope.ServiceProvider.GetService(typeof(IMediator)) as IMediator;
-            return await mediator.Send(command);
+            using (var scope = _userAccessCompositionRoot.BeginScope())
+            {
+                var mediator = scope.ServiceProvider.GetService(typeof(IMediator)) as IMediator;
+                return await mediator.Send(command);
+            }
         }
 
         public async Task<TResult> ExecuteQueryAsync<TResult>(IQuery<TResult> query)

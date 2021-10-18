@@ -38,7 +38,7 @@
         {
             var token = GetTokenFromHeaders();
             var jwtToken = new JwtSecurityTokenHandler().ReadJwtToken(token);
-            _userId = jwtToken.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            _userId = jwtToken.Claims.FirstOrDefault(x => x.Type == "nameid")?.Value;
             var isValid = _dateTimeProvider.Now.CompareTo(jwtToken.ValidTo) == -1;
             return isValid;
         }

@@ -5,13 +5,13 @@
     using BetFriend.Bet.Domain.Bets;
     using BetFriend.Bet.Domain.Exceptions;
     using BetFriend.Bet.Domain.Members;
-    using MediatR;
+    using BetFriend.Shared.Application.Abstractions.Notification;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
 
-    public class UpdateFeedMemberNotificationHandler : INotificationHandler<InsertBetQuerySideNotification>
+    public class UpdateFeedMemberNotificationHandler : INotificationCommandHandler<InsertBetQuerySideNotification>
     {
         private readonly IBetRepository _betRepository;
         private readonly IMemberRepository _memberRepository;
