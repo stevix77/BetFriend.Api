@@ -24,7 +24,8 @@
             return user == null ? null : User.Restore(user.UserId,
                                                       user.Username,
                                                       user.Email,
-                                                      user.Password);
+                                                      user.Password,
+                                                      user.RegisterDate);
         }
 
         public async Task<bool> IsEmailExistsAsync(string email)

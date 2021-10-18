@@ -21,7 +21,13 @@
             Name = memberName;
             Wallet = wallet;
             _subscriptions = new List<Subscription>();
-            AddDomainEvent(new MemberCreated(creatorId.Value));
+        }
+
+        public static Member Create(MemberId creatorId, string memberName, decimal wallet)
+        {
+            var member = new Member(creatorId, memberName, wallet);
+            member.AddDomainEvent(new MemberCreated(creatorId.Value));
+            return member;
         }
 
         public MemberId Id { get; }

@@ -3,6 +3,7 @@
     using BetFriend.Bet.Application.Usecases.CreateMember;
     using BetFriend.Bet.Domain.Exceptions;
     using BetFriend.Bet.Domain.Members;
+    using BetFriend.Bet.Domain.Members.Events;
     using BetFriend.Bet.Infrastructure.Repositories.InMemory;
     using System;
     using System.Threading.Tasks;
@@ -24,6 +25,10 @@
             Assert.Equal(memberId, member.Id.Value);
             Assert.Equal("toto", member.Name);
             Assert.Equal(1000, member.Wallet);
+            Assert.Collection(member.DomainEvents, x =>
+            {
+                Assert.Equal(memberId, (x as MemberCreated).MemberId);
+            });
         }
 
         [Fact]

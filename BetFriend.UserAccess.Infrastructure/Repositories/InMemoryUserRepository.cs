@@ -26,7 +26,11 @@
 
         public IReadOnlyCollection<User> GetUsers()
         {
-            return _users.ToList();
+            return _users.Select(x => User.Restore(x.UserId,
+                                                   x.Username,
+                                                   x.Email,
+                                                   x.Password,
+                                                   x.RegisterDate)).ToList();
         }
 
         public Task<bool> IsEmailExistsAsync(string email)

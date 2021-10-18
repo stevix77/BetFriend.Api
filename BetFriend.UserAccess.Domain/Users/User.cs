@@ -29,21 +29,23 @@
             AddDomainEvent(new UserRegistered(id, email, username));
         }
 
-        private User(UserId userId, string username, Email email, string password)
+        private User(UserId userId, string username, Email email, string password, DateTime registerDate)
         {
             _id = userId;
             _username = username;
             _email = email;
             _password = password;
+            _registerDate = registerDate;
         }
 
-        public static User Restore(string userId, string username, string email, string password)
+        public static User Restore(string userId, string username, string email, string password, DateTime registerDate)
         {
             return new User(
                 new UserId(userId),
                 username,
                 new Email(email),
-                password);
+                password,
+                registerDate);
         }
 
         private static bool IsAddressEmailValid(string email)
