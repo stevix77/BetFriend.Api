@@ -24,6 +24,13 @@
             AddDomainEvent(new MemberCreated(creatorId.Value));
         }
 
+        public static Member Create(MemberId creatorId, string memberName, decimal wallet)
+        {
+            var member = new Member(creatorId, memberName, wallet);
+            member.AddDomainEvent(new MemberCreated(creatorId.Value));
+            return member;
+        }
+
         public MemberId Id { get; }
         public decimal Wallet { get; private set; }
         public string Name { get; }

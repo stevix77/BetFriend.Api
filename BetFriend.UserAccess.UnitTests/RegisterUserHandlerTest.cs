@@ -19,13 +19,13 @@
         private const string JWT_TOKEN = "jwtToken";
         private readonly InMemoryUserRepository userRepository;
         private readonly FakeDateTimeProvider fakeDateTimeProvider;
-        private readonly DomainEventsAccessor domainEventsListener;
+        private readonly DomainEventsAccessor domainEventsAccessor;
         private readonly InMemoryTokenGenerator inMemoryTokenGenerator;
 
         public RegisterUserHandlerTest()
         {
-            domainEventsListener = new DomainEventsAccessor();
-            userRepository = new InMemoryUserRepository(domainEventsAccessor: domainEventsListener);
+            domainEventsAccessor = new DomainEventsAccessor();
+            userRepository = new InMemoryUserRepository(domainEventsAccessor: domainEventsAccessor);
             fakeDateTimeProvider = new FakeDateTimeProvider(new DateTime(2021, 9, 22));
             inMemoryTokenGenerator = new InMemoryTokenGenerator(JWT_TOKEN);
         }
@@ -92,10 +92,18 @@
         private void AssertThatUserIsRegistered(string token, string actualToken)
         {
             var user = new User("abc", "username", "email@email.com", "password", new DateTime(2021, 9, 22));
-            Assert.Equal(user, userRepository.GetUsers().Single());
-            var domainEvent = domainEventsListener.GetDomainEvents().SingleOrDefault();
+            var currentUser = userRepository.GetUsers().Single();
+            Assert.Equal(user, currentUser);
+            Assert.Equal(user.RegisterDate, currentUser.RegisterDate);
+            var domainEvent = domainEventsAccessor.GetDomainEvents().SingleOrDefault();
             Assert.Equal(new UserRegistered("abc", "email@email.com", "username"), domainEvent);
             Assert.Equal(token, actualToken);
+            Assert.Collection(domainEventsAccessor.GetDomainEvents(), x =>
+            {
+                Assert.Equal("abc", (x as UserRegistered).Id);
+                Assert.Equal("username", (x as UserRegistered).Username);
+                Assert.Equal("email@email.com", (x as UserRegistered).Email);
+            });
         }
 
         private async Task<string> RegisterUser(RegisterCommand command,
