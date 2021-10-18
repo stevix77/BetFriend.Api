@@ -43,7 +43,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BetFriend.Shared.Applicatio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BetFriend.Shared.Infrastructure", "BetFriend.Shared.Infrastructure\BetFriend.Shared.Infrastructure.csproj", "{01765A4B-E03A-469E-9AC8-C4E4DFC45895}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetFriend.AzureFunctions", "BetFriend.AzureFunctions\BetFriend.AzureFunctions.csproj", "{44194E58-4CB2-4111-8180-EF59694F7D13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BetFriend.AzureFunctions", "BetFriend.AzureFunctions\BetFriend.AzureFunctions.csproj", "{44194E58-4CB2-4111-8180-EF59694F7D13}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
