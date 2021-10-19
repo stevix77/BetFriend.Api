@@ -22,7 +22,7 @@
         [HttpGet]
         public async Task<IActionResult> Retrieve()
         {
-            var query = new RetrieveBetsQuery(Guid.Parse("01c1da98-b4b7-45dc-8352-c98ece06dab1"));
+            var query = new RetrieveBetsQuery();
             var betsDto = await _module.ExecuteQueryAsync(query);
             return Ok(betsDto);
         }

@@ -13,14 +13,12 @@
 
         public InMemoryBetQueryRepository(List<BetDto> bets = null)
         {
-            _bets = bets ?? (_bets = new List<BetDto>());
+            _bets = bets ?? new List<BetDto>();
         }
 
-        public async Task<IReadOnlyCollection<BetDto>> GetBetsForMemberAsync(Guid memberId)
+        public async Task<IReadOnlyCollection<BetDto>> GetBetsForMemberAsync()
         {
-            return await Task.FromResult(_bets.Where(x => x.Creator.Id.Equals(memberId)
-                                                          || x.Participants.Any(x => x.Id.Equals(memberId)))
-                                              .ToList());
+            return await Task.FromResult(_bets.ToList());
         }
 
         public Task SaveAsync(BetDto betDto)

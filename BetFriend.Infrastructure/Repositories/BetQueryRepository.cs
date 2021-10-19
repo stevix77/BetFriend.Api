@@ -2,25 +2,27 @@
 {
     using BetFriend.Bet.Application.Abstractions.Repository;
     using BetFriend.Bet.Application.Models;
+    using BetFriend.Shared.Domain;
     using MongoDB.Driver;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
 
     public class BetQueryRepository : IBetQueryRepository
     {
         private readonly IMongoCollection<BetDto> _collection;
-        public BetQueryRepository(IMongoDatabase mongoDatabase)
+        private readonly IDateTimeProvider _dateTimeProvider;
+
+        public BetQueryRepository(IMongoDatabase mongoDatabase, IDateTimeProvider dateTimeProvider)
         {
             _collection = mongoDatabase.GetCollection<BetDto>(nameof(BetDto));
+            _dateTimeProvider = dateTimeProvider;
         }
 
-        public async Task<IReadOnlyCollection<BetDto>> GetBetsForMemberAsync(Guid memberId)
+        public async Task<IReadOnlyCollection<BetDto>> GetBetsForMemberAsync()
         {
-            var bets = (await _collection.FindAsync(x => x.Creator.Id == memberId
-                                            || x.Participants.Any(y => y.Id == memberId))
+            var bets = (await _collection.FindAsync(x => x.EndDate.CompareTo(_dateTimeProvider.Now) > 0)
                                         .ConfigureAwait(false))
                                         .ToListAsync();
 
