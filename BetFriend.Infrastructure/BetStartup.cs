@@ -1,6 +1,5 @@
 ﻿namespace BetFriend.Bet.Infrastructure
 {
-    using BetFriend.Bet.Application.Abstractions;
     using BetFriend.Bet.Application.Abstractions.Repository;
     using BetFriend.Bet.Application.Usecases.LaunchBet;
     using BetFriend.Bet.Domain.Bets;
@@ -15,37 +14,37 @@
     using BetFriend.Shared.Infrastructure;
     using BetFriend.Shared.Infrastructure.Configuration;
     using BetFriend.Shared.Infrastructure.Configuration.Behaviors;
+    using BetFriend.Shared.Infrastructure.DateTimeProvider;
     using MediatR;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using MongoDB.Driver;
     using Serilog;
-    using System;
 
 
     public static class BetStartup
     {
-        public static IServiceCollection AddBetModule(this IServiceCollection services,
-                                                             IConfiguration configuration)
+        public static void AddBetModule(IConfiguration configuration, IHttpContextAccessor httpContextAccessor, ILogger logger)
         {
-            var provider = Initialize(services, configuration);
-            services.AddScoped<IBetModule>(x => new BetModule(provider));
-            return services;
+            Initialize(configuration, httpContextAccessor, logger);
         }
 
-        private static IServiceProvider Initialize(IServiceCollection serviceCollection, IConfiguration configuration)
+        private static void Initialize(IConfiguration configuration, IHttpContextAccessor httpContextAccessor, ILogger logger)
         {
+            var serviceCollection = new ServiceCollection();
             serviceCollection.AddSingleton(x => configuration.GetSection("AzureStorage").Get<AzureStorageConfiguration>());
             serviceCollection.AddDbContext<DbContext, BetFriendContext>(options => options.UseSqlServer(configuration.GetConnectionString("BetFriendDbContext")));
+            serviceCollection.AddScoped(x => httpContextAccessor);
             serviceCollection.AddScoped<IMemberRepository, MemberRepository>();
+            serviceCollection.AddTransient<IDateTimeProvider, DateTimeProvider>();
             serviceCollection.AddScoped(x =>
             {
                 var mongoClient = new MongoClient(configuration.GetConnectionString("MongoServerUrl"));
                 return mongoClient.GetDatabase(configuration["MongoDatabaseName"]);
             });
-            serviceCollection.AddLogging();
-            //serviceCollection.AddApplicationInsightsTelemetry(configuration["ApplicationInsightKey"]);
+            serviceCollection.AddLogging(x => x.AddSerilog(logger));
             serviceCollection.AddScoped<IAuthenticationGateway, AuthenticationGateway>();
             serviceCollection.AddScoped<IBetRepository, BetRepository>();
             serviceCollection.AddScoped<IBetQueryRepository, BetQueryRepository>();
@@ -54,10 +53,10 @@
             serviceCollection.AddScoped<IDomainEventsAccessor, DomainEventsAccessor>();
             serviceCollection.AddScoped<IStorageDomainEventsRepository, AzureStorageDomainEventsRepository>();
             serviceCollection.AddScoped<IUnitOfWork, UnitOfWork>();
-            //serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
+            serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
             serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnitOfWorkBehavior<,>));
             serviceCollection.AddMediatR(typeof(LaunchBetCommand).Assembly);
-            return serviceCollection.BuildServiceProvider();
+            BetCompositionRoot.SetProvider(serviceCollection.BuildServiceProvider());
         }
     }
 }

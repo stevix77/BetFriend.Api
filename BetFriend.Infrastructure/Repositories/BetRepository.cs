@@ -3,6 +3,7 @@
     using BetFriend.Bet.Domain.Bets;
     using BetFriend.Bet.Infrastructure.DataAccess.Entities;
     using BetFriend.Bet.Infrastructure.Extensions;
+    using BetFriend.Shared.Application.Abstractions;
     using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.Linq;
@@ -11,10 +12,12 @@
     public class BetRepository : IBetRepository
     {
         private readonly DbContext _dbContext;
+        private readonly IDomainEventsAccessor _domainEventsAccessor;
 
-        public BetRepository(DbContext dbContext)
+        public BetRepository(DbContext dbContext, IDomainEventsAccessor domainEventsAccessor)
         {
             _dbContext = dbContext;
+            _domainEventsAccessor = domainEventsAccessor;
         }
 
         public async Task SaveAsync(Bet bet)
@@ -29,11 +32,13 @@
                 CreatorId = bet.State.Creator.Id.Value
             };
             await _dbContext.Set<BetEntity>().AddAsync(entity);
+            _domainEventsAccessor.AddDomainEvents(bet.DomainEvents);
         }
 
         public async Task<Bet> GetByIdAsync(BetId betId)
         {
             var entity = await _dbContext.Set<BetEntity>()
+                                         .Include(x => x.Creator)
                                          .FirstOrDefaultAsync(x => x.BetId == betId.Value);
             return entity?.ToBet();
         }
@@ -41,6 +46,7 @@
         public async Task<IReadOnlyCollection<Bet>> GetBetsForFeedAsync()
         {
             var bets = await _dbContext.Set<BetEntity>()
+                                       .Include(x => x.Creator)
                                        .AsNoTracking()
                                        .Where(x => !x.IsClosed)
                                        .OrderBy(x => x.EndDate)

@@ -1,6 +1,8 @@
 namespace BetFriend.WebApi
 {
+    using BetFriend.Bet.Application.Abstractions;
     using BetFriend.Bet.Infrastructure;
+    using BetFriend.UserAccess.Application.Abstractions;
     using BetFriend.UserAccess.Infrastructure;
     using BetFriend.WebApi.Extensions;
     using BetFriend.WebApi.Filters;
@@ -10,8 +12,11 @@ namespace BetFriend.WebApi
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.Logging;
     using Microsoft.OpenApi.Models;
-
+    using Serilog;
+    using Serilog.Formatting.Compact;
+    using System;
 
     public class Startup
     {
@@ -40,19 +45,33 @@ namespace BetFriend.WebApi
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "BetFriend.WebApi", Version = "v1" });
             });
 
+            services.AddLogging();
             services.AddApplicationInsightsTelemetry(Configuration["ApplicationInsightKey"]);
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddUserAccessModule(Configuration);
-            services.AddBetModule(Configuration);
+            services.AddScoped<IUserAccessModule, UserAccessModule>();
+            services.AddScoped<IBetModule, BetModule>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            var httpContextAccessor = serviceProvider.GetService<IHttpContextAccessor>();
+            var logger = new LoggerConfiguration()
+                .Enrich.FromLogContext()
+                .WriteTo.Console(
+                    outputTemplate:
+                    "[{Timestamp:HH:mm:ss} {Level:u3}] [{Module}] [{Context}] {Message:lj}{NewLine}{Exception}")
+                .WriteTo.ApplicationInsights(Configuration["ApplicationInsightKey"],
+                                            TelemetryConverter.Traces)
+                .CreateLogger();
+
+            UserAccessStartup.AddUserAccessModule(Configuration, logger);
+            BetStartup.AddBetModule(Configuration, httpContextAccessor, logger);
 
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BetFriend.WebApi v1"));

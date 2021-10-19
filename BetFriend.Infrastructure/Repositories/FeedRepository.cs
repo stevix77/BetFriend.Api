@@ -20,7 +20,7 @@
 
         public async Task<IReadOnlyCollection<FeedDto>> GetByIdsAsync(IEnumerable<Guid> feedIds)
         {
-            return await _collection.Find(x => feedIds.Contains(Guid.Parse(x.Id)))
+            return await _collection.Find(Builders<FeedDto>.Filter.In(x => x.Id, feedIds.Select(x => x.ToString())))
                                     .ToListAsync()
                                     .ConfigureAwait(false);
         }

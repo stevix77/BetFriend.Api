@@ -21,22 +21,19 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using System;
+    using Serilog;
 
     public static class UserAccessStartup
     {
-        public static IServiceCollection AddUserAccessModule(this IServiceCollection services,
-                                                             IConfiguration configuration)
+        public static void AddUserAccessModule(IConfiguration configuration, ILogger logger)
         {
-            var provider = Initialize(services, configuration);
-            services.AddScoped<IUserAccessModule>(x => new UserAccessModule(provider));
-            return services;
+            Initialize(configuration, logger);
         }
 
-        private static IServiceProvider Initialize(IServiceCollection serviceCollection,
-                                      IConfiguration configuration)
+        private static void Initialize(IConfiguration configuration, ILogger logger)
         {
-            serviceCollection.AddLogging();
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging(x => x.AddSerilog(logger));
             serviceCollection.AddSingleton(x => configuration.GetSection("AzureStorage").Get<AzureStorageConfiguration>());
             serviceCollection.AddSingleton(x => configuration.GetSection("Authentification").Get<AuthenticationConfiguration>());
             serviceCollection.AddTransient<IDateTimeProvider, DateTimeProvider>();
@@ -48,11 +45,10 @@
             serviceCollection.AddScoped<IHashPassword, Sha256HashPassword>();
             serviceCollection.AddScoped<ITokenGenerator, JwtTokenGenerator>();
             serviceCollection.AddScoped<IUnitOfWork, UnitOfWork>();
-
             serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
             serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnitOfWorkBehavior<,>));
             serviceCollection.AddMediatR(typeof(RegisterCommand).Assembly);
-            return serviceCollection.BuildServiceProvider();
+            UserAccessCompositionRoot.SetProvider(serviceCollection.BuildServiceProvider());
         }
     }
 }

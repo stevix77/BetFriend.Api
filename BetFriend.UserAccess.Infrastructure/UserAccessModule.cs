@@ -10,23 +10,16 @@
 
     public class UserAccessModule : IUserAccessModule
     {
-        private readonly UserAccessCompositionRoot _userAccessCompositionRoot;
-        public UserAccessModule(IServiceProvider provider)
-        {
-            _userAccessCompositionRoot = new UserAccessCompositionRoot(provider);
-        }
         public async Task<TResult> ExecuteCommandAsync<TResult>(ICommand<TResult> command)
         {
-            using (var scope = _userAccessCompositionRoot.BeginScope())
-            {
-                var mediator = scope.ServiceProvider.GetService(typeof(IMediator)) as IMediator;
-                return await mediator.Send(command);
-            }
+            using var scope = UserAccessCompositionRoot.BeginScope();
+            var mediator = scope.ServiceProvider.GetService(typeof(IMediator)) as IMediator;
+            return await mediator.Send(command);
         }
 
         public async Task<TResult> ExecuteQueryAsync<TResult>(IQuery<TResult> query)
         {
-            using var scope = _userAccessCompositionRoot.BeginScope();
+            using var scope = UserAccessCompositionRoot.BeginScope();
             var mediator = scope.ServiceProvider.GetService(typeof(IMediator)) as IMediator;
             return await mediator.Send(query);
         }
