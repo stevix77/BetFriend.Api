@@ -12,7 +12,7 @@
     public sealed class RetrieveBetsQueryHandler
         : IQueryHandler<RetrieveBetsQuery, IReadOnlyCollection<BetDto>>
     {
-        private IBetQueryRepository _betRepository;
+        private readonly IBetQueryRepository _betRepository;
 
         public RetrieveBetsQueryHandler(IBetQueryRepository betRepository)
         {
@@ -23,7 +23,7 @@
         {
             ValidateRequest(request);
 
-            return await _betRepository.GetBetsForMemberAsync(request.MemberId);
+            return await _betRepository.GetBetsForMemberAsync();
         }
 
         private static void ValidateRequest(RetrieveBetsQuery request)

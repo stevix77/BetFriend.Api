@@ -8,11 +8,8 @@
 
     public sealed class RetrieveBetsQuery : IQuery<IReadOnlyCollection<BetDto>>
     {
-        public RetrieveBetsQuery(Guid memberId)
+        public RetrieveBetsQuery()
         {
-            MemberId = memberId;
         }
-
-        public Guid MemberId { get; }
     }
 }

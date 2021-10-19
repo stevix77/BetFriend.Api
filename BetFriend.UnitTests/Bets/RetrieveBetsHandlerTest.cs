@@ -16,8 +16,7 @@
         public async Task HandleShouldReturn0BetsIfMemberHasNeverParticipateToBet()
         {
             //arrange
-            var memberId = Guid.NewGuid();
-            var query = new RetrieveBetsQuery(memberId);
+            var query = new RetrieveBetsQuery();
             var handler = new RetrieveBetsQueryHandler(new InMemoryBetQueryRepository(new List<BetDto>()));
 
             //act
@@ -32,7 +31,7 @@
         {
             //arrange
             var memberId = Guid.NewGuid();
-            var query = new RetrieveBetsQuery(memberId);
+            var query = new RetrieveBetsQuery();
             var bets = new List<BetDto>
             {
                 new BetDto(new BetState(Guid.NewGuid(),
@@ -61,7 +60,7 @@
         {
             //arrange
             var memberId = Guid.NewGuid();
-            var query = new RetrieveBetsQuery(memberId);
+            var query = new RetrieveBetsQuery();
             var bets = new List<BetDto>
             {
                 new BetDto(new BetState(Guid.NewGuid(),
