@@ -6,15 +6,16 @@
 
     internal class UserAccessCompositionRoot
     {
-        private readonly IServiceProvider _serviceProvider;
-        internal UserAccessCompositionRoot(IServiceProvider provider)
-        {
-            _serviceProvider = provider;
-        }
+        private static IServiceProvider _serviceProvider;
 
-        internal IServiceScope BeginScope()
+        internal static IServiceScope BeginScope()
         {
             return _serviceProvider.CreateScope();
+        }
+
+        internal static void SetProvider(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
         }
     }
 }

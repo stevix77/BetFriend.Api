@@ -20,6 +20,8 @@ namespace BetFriend.Bet.Infrastructure.DataAccess
                     x.MemberId,
                     x.IsAccepted
                 });
+
+
         }
 
         public DbSet<BetEntity> Bets { get; set; }

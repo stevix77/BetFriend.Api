@@ -3,17 +3,18 @@
     using Microsoft.Extensions.DependencyInjection;
     using System;
 
-    internal class BetCompositionRoot
+    internal static class BetCompositionRoot
     {
-        private readonly IServiceProvider _serviceProvider;
-        internal BetCompositionRoot(IServiceProvider serviceProvider)
-        {
-            _serviceProvider = serviceProvider;
-        }
+        private static IServiceProvider _serviceProvider;
 
-        internal IServiceScope BeginScope()
+        internal static IServiceScope BeginScope()
         {
             return _serviceProvider.CreateScope();
+        }
+
+        internal static void SetProvider(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
         }
     }
 }

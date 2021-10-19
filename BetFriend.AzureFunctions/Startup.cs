@@ -32,28 +32,30 @@ namespace BetFriend.AzureFunctions
 
         public override void Configure(IFunctionsHostBuilder builder)
         {
+            var configuration = builder.GetContext().Configuration;
             builder.UseAppSettings();
-            builder.Services.AddSingleton(x => builder.GetContext().Configuration.GetSection("AzureStorage").Get<AzureStorageConfiguration>());
-            builder.Services.AddDbContext<DbContext, BetFriendContext>(options => options.UseSqlServer(builder.GetContext().Configuration.GetConnectionString("BetFriendDbContext")));
-            builder.Services.AddScoped<IMemberRepository, MemberRepository>();
-            builder.Services.AddScoped(x =>
-            {
-                var mongoClient = new MongoClient(builder.GetContext().Configuration.GetConnectionString("MongoServerUrl"));
-                return mongoClient.GetDatabase(builder.GetContext().Configuration["MongoDatabaseName"]);
-            });
-            builder.Services.AddLogging();
-            builder.Services.AddScoped<IAuthenticationGateway, AuthenticationGateway>();
-            builder.Services.AddScoped<IBetRepository, BetRepository>();
-            builder.Services.AddScoped<IBetQueryRepository, BetQueryRepository>();
-            builder.Services.AddScoped<IFeedRepository, FeedRepository>();
-            builder.Services.AddScoped<IDomainEventsDispatcher, DomainEventsDispatcher>();
-            builder.Services.AddScoped<IDomainEventsAccessor, DomainEventsAccessor>();
-            builder.Services.AddScoped<IStorageDomainEventsRepository, AzureStorageDomainEventsRepository>();
-            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-            builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
-            builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnitOfWorkBehavior<,>));
-            builder.Services.AddMediatR(typeof(LaunchBetCommand).Assembly);
+            //builder.Services.AddSingleton(x => configuration.GetSection("AzureStorage").Get<AzureStorageConfiguration>());
+            //builder.Services.AddDbContext<DbContext, BetFriendContext>(options => options.UseSqlServer(builder.GetContext().Configuration.GetConnectionString("BetFriendDbContext")));
+            //builder.Services.AddScoped<IMemberRepository, MemberRepository>();
+            //builder.Services.AddScoped(x =>
+            //{
+            //    var mongoClient = new MongoClient(builder.GetContext().Configuration.GetConnectionString("MongoServerUrl"));
+            //    return mongoClient.GetDatabase(builder.GetContext().Configuration["MongoDatabaseName"]);
+            //});
+            //builder.Services.AddLogging();
+            //builder.Services.AddScoped<IAuthenticationGateway, AuthenticationGateway>();
+            //builder.Services.AddScoped<IBetRepository, BetRepository>();
+            //builder.Services.AddScoped<IBetQueryRepository, BetQueryRepository>();
+            //builder.Services.AddScoped<IFeedRepository, FeedRepository>();
+            //builder.Services.AddScoped<IDomainEventsDispatcher, DomainEventsDispatcher>();
+            //builder.Services.AddScoped<IDomainEventsAccessor, DomainEventsAccessor>();
+            //builder.Services.AddScoped<IStorageDomainEventsRepository, AzureStorageDomainEventsRepository>();
+            //builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            //builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
+            //builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnitOfWorkBehavior<,>));
+            //builder.Services.AddMediatR(typeof(LaunchBetCommand).Assembly);
             builder.Services.AddScoped<IBetModule, BetModule>();
+            BetStartup.AddBetModule(configuration, default, default);
         }
     }
 }

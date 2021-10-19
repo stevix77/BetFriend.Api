@@ -13,6 +13,6 @@
         }
 
         public string Id { get; set; }
-        public ICollection<BetDto> Bets { get; }
+        public ICollection<BetDto> Bets { get; set; }
     }
 }

@@ -18,7 +18,7 @@
             Participants = state.Answers?.Select(x => new MemberDto() { Id = x.Member.Id.Value, Username = x.Member.Name }).ToList();
         }
 
-        public Guid Id { get; private set; }
+        public Guid Id { get; set; }
         public string Description { get; set; }
         public MemberDto Creator { get; set; }
         public IReadOnlyCollection<MemberDto> Participants { get; set; }

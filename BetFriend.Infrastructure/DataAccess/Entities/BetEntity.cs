@@ -32,8 +32,6 @@ namespace BetFriend.Bet.Infrastructure.DataAccess.Entities
         [Required]
         [Column("member_id"), ForeignKey(nameof(CreatorId))]
         public Guid CreatorId { get; set; }
-
-        [Column("member_id"), ForeignKey(nameof(CreatorId))]
         public MemberEntity Creator { get; set; }
 
 
