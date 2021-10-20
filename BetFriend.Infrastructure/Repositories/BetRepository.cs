@@ -22,6 +22,17 @@
 
         public async Task SaveAsync(Bet bet)
         {
+            var entity = await _dbContext.Set<BetEntity>().FindAsync(bet.State.BetId).ConfigureAwait(false);
+            if (entity != null)
+            {
+                UpdateEntity(bet, entity);
+                return;
+            }
+            await CreateEntity(bet);
+        }
+
+        private async Task CreateEntity(Bet bet)
+        {
             var entity = new BetEntity
             {
                 BetId = bet.State.BetId,
@@ -35,10 +46,24 @@
             _domainEventsAccessor.AddDomainEvents(bet.DomainEvents);
         }
 
+        private void UpdateEntity(Bet bet, BetEntity entity)
+        {
+            entity.Answers = bet.State.Answers.Select(x => new AnswerEntity
+            {
+                BetId = entity.BetId,
+                DateAnswer = x.DateAnswer,
+                MemberId = x.Member.Id.Value,
+                IsAccepted = x.IsAccepted
+            }).ToList();
+            _dbContext.Set<BetEntity>().Update(entity);
+            _domainEventsAccessor.AddDomainEvents(bet.DomainEvents);
+        }
+
         public async Task<Bet> GetByIdAsync(BetId betId)
         {
             var entity = await _dbContext.Set<BetEntity>()
                                          .Include(x => x.Creator)
+                                         .Include(x => x.Answers)
                                          .FirstOrDefaultAsync(x => x.BetId == betId.Value);
             return entity?.ToBet();
         }
