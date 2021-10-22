@@ -28,7 +28,7 @@
         {
             if (!_authenticationGateway.IsAuthenticated())
                 throw new NotAuthenticatedException();
-            Bet bet = await GetBet(request).ConfigureAwait(false);
+            var bet = await GetBet(request).ConfigureAwait(false);
             bet.Close(new MemberId(_authenticationGateway.UserId), request.Success, _dateTimeProvider);
             await _betRepository.SaveAsync(bet);
 

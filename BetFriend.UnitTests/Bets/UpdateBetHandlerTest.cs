@@ -42,7 +42,7 @@
                                         new List<AnswerState>()
                                         {
                                             new AnswerState(new(new(memberId), "name", 300), true, new DateTime(2021, 4, 2))
-                                        });
+                                        }, null, null);
             IBetRepository betRepository = new InMemoryBetRepository(default, betState);
             var betsDto = new List<BetDto>()
             {
@@ -57,7 +57,7 @@
                                 new AnswerState(new(new(memberId), "name", 300),
                                                 true,
                                                 new DateTime(2021, 3, 3))
-                            }))
+                            }, null, null))
             };
             IBetQueryRepository betQueryRepository = new InMemoryBetQueryRepository(betsDto);
             var handler = new UpdateBetCommandHandler(betRepository, betQueryRepository);

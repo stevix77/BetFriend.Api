@@ -23,7 +23,7 @@
                                         "description",
                                         30,
                                         new DateTime(2021, 9, 24),
-                                        new List<AnswerState>());
+                                        new List<AnswerState>(), null, null);
             var betRepo = new InMemoryBetRepository(null, bet);
             var memberRepo = new InMemoryMemberRepository(new List<Member>() { new Member(new(Guid.Parse("ddc5776b-3596-4dfb-ad0c-691812bfebbf")),
                                                                                           "toto",

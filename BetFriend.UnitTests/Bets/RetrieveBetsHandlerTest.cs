@@ -38,12 +38,12 @@
                                         new(new(memberId), "toto", 300),
                                         new DateTime(2021, 4, 3), "desc1",
                                         30, new DateTime(2021, 2, 2),
-                                        new List<AnswerState>())),
+                                        new List<AnswerState>(), null, null)),
                 new BetDto(new BetState(Guid.NewGuid(),
                                         new(new(memberId), "toto", 300),
                                         new DateTime(2021, 6, 3), "desc2",
                                         30, new DateTime(2021, 3, 2),
-                                        new List<AnswerState>()))
+                                        new List<AnswerState>(), null, null))
             };
             IBetQueryRepository betRepository = new InMemoryBetQueryRepository(new(bets));
             var handler = new RetrieveBetsQueryHandler(betRepository);
@@ -70,7 +70,7 @@
                                         new List<AnswerState>()
                                         {
                                             new AnswerState(new(new(memberId), "name", 300), true, new DateTime(2021, 3, 5))
-                                        }))
+                                        }, null, null))
             };
             var betRepository = new InMemoryBetQueryRepository(new(bets));
             var handler = new RetrieveBetsQueryHandler(betRepository);

@@ -41,7 +41,7 @@ namespace BetFriend.Bet.UnitTests.Bets
             var member = new Member(new MemberId(_creatorId), "name", 25);
             var memberRepository = new InMemoryMemberRepository(new List<Member>() { member });
             var handler = new LaunchBetCommandHandler(betRepository, memberRepository, new InMemoryAuthenticationGateway(true, _creatorId), dtNow);
-            BetState expectedBet = new(_betId, member, endDate, description, coins, dtNow.Now, new List<AnswerState>());
+            BetState expectedBet = new(_betId, member, endDate, description, coins, dtNow.Now, new List<AnswerState>(), null, null);
 
             //act
             await handler.Handle(command, default);

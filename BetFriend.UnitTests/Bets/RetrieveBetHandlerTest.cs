@@ -32,8 +32,7 @@ namespace BetFriend.Bet.UnitTests.Bets
                                                             new DateTime(2021, 10, 10),
                                                             "description",
                                                             20,
-                                                            new DateTime(2021, 3, 3),
-                                                            null))
+                                                            new DateTime(2021, 3, 3), null, null, null))
                                            };
             var betQueryRepository = new InMemoryBetQueryRepository(bets);
             var handler = new RetrieveBetQueryHandler(betQueryRepository);
