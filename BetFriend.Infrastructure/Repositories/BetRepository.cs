@@ -55,6 +55,8 @@
                 MemberId = x.Member.Id.Value,
                 IsAccepted = x.IsAccepted
             }).ToList();
+            entity.CloseDate = bet.State.CloseDate;
+            entity.IsSuccess = bet.State.IsSuccess;
             _dbContext.Set<BetEntity>().Update(entity);
             _domainEventsAccessor.AddDomainEvents(bet.DomainEvents);
         }
@@ -73,7 +75,7 @@
             var bets = await _dbContext.Set<BetEntity>()
                                        .Include(x => x.Creator)
                                        .AsNoTracking()
-                                       .Where(x => !x.IsClosed)
+                                       .Where(x => !x.CloseDate.HasValue)
                                        .OrderBy(x => x.EndDate)
                                        .ToListAsync();
             return bets.Select(x => x.ToBet()).ToList();

@@ -12,8 +12,9 @@ namespace BetFriend.Bet.Domain.Bets
                         string description,
                         int tokens,
                         DateTime creationDate,
-                        IReadOnlyCollection<AnswerState> answers, 
-                        Status status = null)
+                        IReadOnlyCollection<AnswerState> answers,
+                        DateTime? closeDate,
+                        bool? isSuccess)
         {
             BetId = betId;
             Creator = creator;
@@ -22,7 +23,8 @@ namespace BetFriend.Bet.Domain.Bets
             Coins = tokens;
             CreationDate = creationDate;
             Answers = answers;
-            Status = status;
+            CloseDate = closeDate;
+            IsSuccess = isSuccess;
         }
 
         public Guid BetId { get; }
@@ -30,8 +32,19 @@ namespace BetFriend.Bet.Domain.Bets
         public DateTime EndDate { get; }
         public string Description { get; }
         public int Coins { get; }
-        public Status Status { get; }
+        public Status Status
+        {
+            get
+            {
+                if (!CloseDate.HasValue)
+                    return new BetOpenStatus();
+                else
+                    return new BetOverStatus();
+            }
+        }
         public DateTime CreationDate { get; }
         public IReadOnlyCollection<AnswerState> Answers { get; }
+        public DateTime? CloseDate { get; }
+        public bool? IsSuccess { get; }
     }
 }

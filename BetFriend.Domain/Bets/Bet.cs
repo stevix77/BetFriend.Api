@@ -18,6 +18,8 @@
         private readonly string _description;
         private readonly Dictionary<Member, Answer> _answers;
         private Status _status;
+        private bool? _isSuccess;
+        private DateTime? _closeDate;
 
         private Bet(BetId betId, DateTime endDate, int coins, Member creator, string description, DateTime creationDate)
         {
@@ -28,7 +30,7 @@
             _creator = creator;
             _description = description;
             _answers = new Dictionary<Member, Answer>();
-
+            _status = new BetOpenStatus();
             AddDomainEvent(new BetCreated(betId, _creator.Id));
 
         }
@@ -48,6 +50,8 @@
                                 new Answer(x.IsAccepted, x.DateAnswer)
                             )
                         ));
+            _isSuccess = state.IsSuccess;
+            _closeDate = state.CloseDate;
             _status = state.Status;
         }
 
@@ -60,22 +64,25 @@
 
         public void Close(MemberId memberId, bool success, IDateTimeProvider dateTimeProvider)
         {
-            if(_creator.Id.Value != memberId.Value)
+            if (_creator.Id.Value != memberId.Value)
                 throw new MemberAuthorizationException($"Member {memberId.Value} is not creator of this bet");
-            _status = new Status(success, dateTimeProvider.Now);
-            AddDomainEvent(new BetClosed(_betId.Value));
+            _isSuccess = success;
+            _closeDate = dateTimeProvider.Now;
+            _status.ChangeStatus(this);
+            AddDomainEvent(new BetClosed(_betId.Value, success));
+            AddDomainEvent(new BetUpdated(_betId.Value));
         }
 
         public void UpdateWallets()
         {
             _creator.UpdateCreatorWallet(this);
-            foreach(var answer in _answers)
+            foreach (var answer in _answers)
             {
                 answer.Key.UpdateParticipantWallet(this);
             }
         }
 
-        internal bool IsSuccess() => _status.IsSuccess();
+        internal bool IsSuccess() => _isSuccess.GetValueOrDefault();
 
         internal int GetCoins() => _coins;
 
@@ -101,7 +108,8 @@
                         _answers.Select(x => new AnswerState(x.Key, x.Value.Accepted, x.Value.DateAnswer))
                                 .ToList()
                                 .AsReadOnly(),
-                        _status);
+                        _closeDate,
+                        _isSuccess);
         }
 
         public static Bet Create(BetId betId, DateTime endDate, string description, int coins, Member creator, DateTime creationDate)
@@ -117,6 +125,26 @@
         public Answer GetAnswerForMember(MemberId memberId)
         {
             return _answers.FirstOrDefault(x => x.Key.Id.Value == memberId.Value).Value;
+        }
+
+        internal void ChangeStatus(Status status)
+        {
+            _status = status;
+        }
+    }
+
+    public class BetOpenStatus : Status
+    {
+        internal override void ChangeStatus(Bet bet)
+        {
+            bet.ChangeStatus(new BetOverStatus());
+        }
+    }
+
+    public class BetOverStatus : Status
+    {
+        public BetOverStatus()
+        {
         }
     }
 }

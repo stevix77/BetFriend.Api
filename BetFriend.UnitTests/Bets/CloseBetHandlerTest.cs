@@ -31,18 +31,22 @@
             var dateTimeClosed = new DateTime(2021, 4, 1);
             var dateTimeProvider = new FakeDateTimeProvider(dateTimeClosed);
             var handler = new CloseBetCommandHandler(repository, dateTimeProvider, new InMemoryAuthenticationGateway(true, memberId.Value));
-            var expectedStatus = new Status(true, dateTimeClosed);
+            var expectedStatus = new BetOverStatus();
 
             var result = await handler.Handle(command, default);
 
             var bet = await repository.GetByIdAsync(new(betId));
-            Assert.Equal(Unit.Value, result);
-            Assert.Equal(expectedStatus, bet.State.Status);
-            Assert.Equal(expectedStatus, bet.State.Status);
-            var domainEvent = domainEventsListener.GetDomainEvents()
+            Assert.True(bet.State.IsSuccess);
+            Assert.Equal(dateTimeClosed, bet.State.CloseDate);
+            var betClosedEvent = domainEventsListener.GetDomainEvents()
                                                   .SingleOrDefault(x => x.GetType() == typeof(BetClosed)) as BetClosed;
-            Assert.NotNull(domainEvent);
-            Assert.Equal(betId, domainEvent.BetId);
+            var betUpdatedEvent = domainEventsListener.GetDomainEvents()
+                                                  .SingleOrDefault(x => x.GetType() == typeof(BetUpdated)) as BetUpdated;
+            Assert.NotNull(betClosedEvent);
+            Assert.NotNull(betUpdatedEvent);
+            Assert.Equal(betId, betClosedEvent.BetId);
+            Assert.True(betClosedEvent.IsSuccess);
+            Assert.Equal(betId, betUpdatedEvent.BetId);
         }
 
         [Fact]
@@ -103,7 +107,7 @@
                                         new List<AnswerState>()
                                         {
                                             new AnswerState(new(new(Guid.NewGuid()), "name", 300), true, new DateTime(2021, 3, 3))
-                                        });
+                                        }, null, null);
         }
     }
 }

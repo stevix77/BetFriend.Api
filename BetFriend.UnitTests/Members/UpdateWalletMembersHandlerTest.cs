@@ -30,8 +30,7 @@ namespace BetFriend.Bet.UnitTests.Members
                                         {
                                             new AnswerState(participant, true, new DateTime(2021, 3,4)),
                                             new AnswerState(participant2, true, new DateTime(2021, 3,4))
-                                        },
-                                        new Status(true, new DateTime(2021, 5, 5)));
+                                        }, new DateTime(2021, 11, 3), true);
             var domainEventListener = new DomainEventsAccessor();
             IBetRepository betRepository = new InMemoryBetRepository(domainEventListener, betState);
             IMemberRepository memberRepository = new InMemoryMemberRepository(new() { creator, participant, participant2 });
@@ -80,8 +79,7 @@ namespace BetFriend.Bet.UnitTests.Members
                                         {
                                             new AnswerState(participant, true, new DateTime(2021, 3,4)),
                                             new AnswerState(participant2, true, new DateTime(2021, 3,4))
-                                        },
-                                        new Status(false, new DateTime(2021, 5, 5)));
+                                        }, null, null);
             var domainEventListener = new DomainEventsAccessor();
             IBetRepository betRepository = new InMemoryBetRepository(domainEventListener, betState);
             IMemberRepository memberRepository = new InMemoryMemberRepository(new() { creator, participant, participant2 });
