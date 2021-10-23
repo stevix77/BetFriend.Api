@@ -100,7 +100,6 @@ steps:
     reportDirectory: '$(Build.SourcesDirectory)/coverlet/reports'
 
 - task: DotNetCoreCLI@2
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
   displayName: 'api binaries'
   inputs:
     command: publish
@@ -117,7 +116,6 @@ steps:
   condition: succeededOrFailed()
 
 - task: DotNetCoreCLI@2
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
   displayName: 'binaries azureFunctions'
   inputs:
     command: 'publish'
