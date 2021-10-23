@@ -31,9 +31,8 @@
             var dateTimeClosed = new DateTime(2021, 4, 1);
             var dateTimeProvider = new FakeDateTimeProvider(dateTimeClosed);
             var handler = new CloseBetCommandHandler(repository, dateTimeProvider, new InMemoryAuthenticationGateway(true, memberId.Value));
-            var expectedStatus = new BetOverStatus();
 
-            var result = await handler.Handle(command, default);
+            await handler.Handle(command, default);
 
             var bet = await repository.GetByIdAsync(new(betId));
             Assert.True(bet.State.IsSuccess);
@@ -47,6 +46,35 @@
             Assert.Equal(betId, betClosedEvent.BetId);
             Assert.True(betClosedEvent.IsSuccess);
             Assert.Equal(betId, betUpdatedEvent.BetId);
+        }
+
+        [Fact]
+        public async Task ShouldNotChangeStatusIfBetClosed()
+        {
+            var betId = Guid.NewGuid();
+            var memberId = new MemberId(Guid.Parse("1311e8c9-d993-4346-94c1-1907e3ce65d3"));
+            var creator = new Member(memberId, "name", 300);
+            var dateTimeClosed = new DateTime(2021, 4, 1);
+            var betState = new BetState(betId,
+                                        creator,
+                                        new DateTime(2021, 4, 3),
+                                        "description",
+                                        45,
+                                        new DateTime(2021, 2, 4),
+                                        new List<AnswerState>()
+                                        {
+                                            new AnswerState(new(new(Guid.NewGuid()), "name", 300), true, new DateTime(2021, 3, 3))
+                                        }, dateTimeClosed, true);
+            var domainEventsListener = new DomainEventsAccessor();
+            var repository = new InMemoryBetRepository(domainEventsListener, betState);
+            var command = new CloseBetCommand(betId, true);
+            var dateTimeProvider = new FakeDateTimeProvider(dateTimeClosed);
+            var handler = new CloseBetCommandHandler(repository, dateTimeProvider, new InMemoryAuthenticationGateway(true, memberId.Value));
+
+            await handler.Handle(command, default);
+
+            var bet = await repository.GetByIdAsync(new(betId));
+            Assert.True(bet.IsClosed());
         }
 
         [Fact]

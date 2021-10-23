@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BetFriend.Bet.Domain.Members;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,10 +11,6 @@ namespace BetFriend.Bet.Infrastructure.DataAccess.Entities
     {
         public MemberEntity() { }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column("Id")]
-        public int Id { get; set; }
-
         [Key, Required, Column("Member_id")]
         public Guid MemberId { get; set; }
         [Required]
@@ -22,5 +19,10 @@ namespace BetFriend.Bet.Infrastructure.DataAccess.Entities
 
         [Required, Column("Member_name")]
         public string MemberName { get; set; }
+
+        internal void Update(Member member)
+        {
+            Wallet = member.Wallet;
+        }
     }
 }

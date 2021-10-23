@@ -104,14 +104,18 @@ namespace BetFriend.Bet.UnitTests.Bets
             //assert
             var actualBet = await betRepository.GetByIdAsync(betId);
             var answer = actualBet.GetAnswerForMember(memberId);
-            var domainEvent = domainEventsListener.GetDomainEvents()
+            var betUpdatedDomainEvent = domainEventsListener.GetDomainEvents()
+                                                           .SingleOrDefault(x => x.GetType() == typeof(BetUpdated));
+            var betAnsweredEvent = domainEventsListener.GetDomainEvents()
                                                            .SingleOrDefault(x => x.GetType() == typeof(BetAnswered));
             Assert.Equal(command.IsAccepted, answer.Accepted);
             Assert.Equal(dateTimeProvider.Now, answer.DateAnswer);
-            Assert.NotNull(domainEvent);
-            Assert.Equal(betId.Value, (domainEvent as BetAnswered).BetId);
-            Assert.Equal(memberId.Value, (domainEvent as BetAnswered).MemberId);
-            Assert.Equal(command.IsAccepted, (domainEvent as BetAnswered).IsAccepted);
+            Assert.NotNull(betUpdatedDomainEvent);
+            Assert.NotNull(betAnsweredEvent);
+            Assert.Equal(betId.Value, (betUpdatedDomainEvent as BetUpdated).BetId);
+            Assert.Equal(betId.Value, (betAnsweredEvent as BetAnswered).BetId);
+            Assert.Equal(memberId.Value, (betAnsweredEvent as BetAnswered).MemberId);
+            Assert.Equal(command.IsAccepted, (betAnsweredEvent as BetAnswered).IsAccepted);
         }
 
         [Fact]

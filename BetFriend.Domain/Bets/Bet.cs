@@ -75,6 +75,8 @@
 
         public void UpdateWallets()
         {
+            if (!_answers.Any())
+                return;
             _creator.UpdateCreatorWallet(this);
             foreach (var answer in _answers)
             {
@@ -90,6 +92,7 @@
         {
             _answers.Add(member, new Answer(isAccepted, dateAnswer));
             AddDomainEvent(new BetAnswered(_betId.Value, member.Id.Value, isAccepted));
+            AddDomainEvent(new BetUpdated(_betId.Value));
         }
 
         public static Bet FromState(BetState state)
@@ -112,6 +115,8 @@
                         _isSuccess);
         }
 
+        public bool IsClosed() => _status.IsClosed();
+
         public static Bet Create(BetId betId, DateTime endDate, string description, int coins, Member creator, DateTime creationDate)
         {
             return new Bet(betId, endDate, coins, creator, description, creationDate);
@@ -130,21 +135,6 @@
         internal void ChangeStatus(Status status)
         {
             _status = status;
-        }
-    }
-
-    public class BetOpenStatus : Status
-    {
-        internal override void ChangeStatus(Bet bet)
-        {
-            bet.ChangeStatus(new BetOverStatus());
-        }
-    }
-
-    public class BetOverStatus : Status
-    {
-        public BetOverStatus()
-        {
         }
     }
 }

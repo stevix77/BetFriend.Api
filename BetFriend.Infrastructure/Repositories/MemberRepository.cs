@@ -6,6 +6,7 @@
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
 
@@ -34,7 +35,14 @@
 
         public Task SaveAsync(IReadOnlyCollection<Member> members)
         {
-            throw new NotImplementedException();
+            var ids = members.Select(x => x.Id.Value).ToList();
+            var entities = _dbContext.Set<MemberEntity>().Where(x => ids.Contains(x.MemberId));
+            foreach(var entity in entities)
+            {
+                entity.Update(members.First(x => x.Name == entity.MemberName));
+            }
+            _dbContext.UpdateRange(entities);
+            return Task.CompletedTask;
         }
 
         public async Task SaveAsync(Member member)
