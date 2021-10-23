@@ -57,7 +57,8 @@ namespace BetFriend.Bet.UnitTests.Bets
             Assert.Equal(expectedBet.Creator.Name, actualBet.State.Creator.Name);
             Assert.Equal(expectedBet.Creator.Wallet, actualBet.State.Creator.Wallet);
             Assert.Equal(expectedBet.Coins, actualBet.State.Coins);
-            Assert.True(actualBet.State.CreationDate != DateTime.MinValue);
+            Assert.Equal(expectedBet.CreationDate, actualBet.State.CreationDate);
+            Assert.False(actualBet.IsClosed());
             Assert.True(expectedBet.EndDate > actualBet.State.CreationDate);
             Assert.True(actualBet.GetEndDateToAnswer().CompareTo(new DateTime(2021, 5, 6, 6, 0, 0)) == 0);
             Assert.NotNull(domainEvent);

@@ -51,9 +51,10 @@
         public void Subscribe(Subscription subscription)
         {
             if (!_subscriptions.Any(x => x.MemberId.Equals(subscription.MemberId)))
+            {
                 _subscriptions.Add(subscription);
-
-            AddDomainEvent(new MemberSubscribed(Id, subscription.MemberId));
+                AddDomainEvent(new MemberSubscribed(Id, subscription.MemberId));
+            }
         }
 
         public void Answer(Bet bet, bool isAccepted, DateTime dateAnswer)

@@ -66,6 +66,7 @@
             var entity = await _dbContext.Set<BetEntity>()
                                          .Include(x => x.Creator)
                                          .Include(x => x.Answers)
+                                         .Include($"{nameof(BetEntity.Answers)}.{nameof(AnswerEntity.Member)}")
                                          .FirstOrDefaultAsync(x => x.BetId == betId.Value);
             return entity?.ToBet();
         }

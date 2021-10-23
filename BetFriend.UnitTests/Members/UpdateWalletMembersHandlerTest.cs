@@ -79,7 +79,7 @@ namespace BetFriend.Bet.UnitTests.Members
                                         {
                                             new AnswerState(participant, true, new DateTime(2021, 3,4)),
                                             new AnswerState(participant2, true, new DateTime(2021, 3,4))
-                                        }, null, null);
+                                        }, new DateTime(2021, 3, 3), false);
             var domainEventListener = new DomainEventsAccessor();
             IBetRepository betRepository = new InMemoryBetRepository(domainEventListener, betState);
             IMemberRepository memberRepository = new InMemoryMemberRepository(new() { creator, participant, participant2 });
@@ -94,6 +94,30 @@ namespace BetFriend.Bet.UnitTests.Members
             Assert.Equal(150, creatorUpdated.Wallet);
             Assert.Equal(125, participantUpdated.Wallet);
             Assert.Equal(525, participantUpdated2.Wallet);
+        }
+
+        [Fact]
+        public async Task ShouldNotModifyWalletCreatorWhenThereAreNoParticipants()
+        {
+            var betId = Guid.NewGuid();
+            var creator = new Member(new(Guid.NewGuid()), "creator", 200);
+            var betState = new BetState(betId,
+                                        creator,
+                                        new DateTime(2021, 12, 3),
+                                        "description",
+                                        50,
+                                        new DateTime(2020, 3, 3),
+                                        new List<AnswerState>(), 
+                                        new DateTime(2021, 3, 3), true);
+            var domainEventListener = new DomainEventsAccessor();
+            var betRepository = new InMemoryBetRepository(domainEventListener, betState);
+            var memberRepository = new InMemoryMemberRepository(new() { creator });
+            var command = new UpdateWalletMembersCommand(betId);
+            var handler = new UpdateWalletMembersCommandHandler(betRepository, memberRepository);
+
+            await handler.Handle(command, default);
+
+            Assert.Equal(200, creator.Wallet);
         }
     }
 }
