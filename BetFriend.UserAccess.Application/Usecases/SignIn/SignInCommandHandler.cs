@@ -27,7 +27,7 @@
         {
             var password = _hashPassword.Hash(request.Password);
             var user = await _userRepository.GetByLoginPasswordAsync(request.Login, password)
-                        ?? throw new AuthenticationNotValidException();
+                        ?? throw new AuthenticationNotValidException("The login with password does not match");
             return await _tokenGenerator.GenerateAsync(user);
         }
     }

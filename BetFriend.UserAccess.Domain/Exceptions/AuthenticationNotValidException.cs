@@ -4,7 +4,7 @@
 
     public class AuthenticationNotValidException : Exception
     {
-        public AuthenticationNotValidException()
+        public AuthenticationNotValidException(string message) : base(message)
         {
         }
     }

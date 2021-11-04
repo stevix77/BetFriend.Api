@@ -28,7 +28,7 @@
         public async Task<Unit> Handle(GenerateFeedCommand request, CancellationToken cancellationToken)
         {
             var member = await _memberRepository.GetByIdAsync(new MemberId(Guid.Parse(request.MemberId)))
-                        ?? throw new MemberNotFoundException();
+                        ?? throw new MemberNotFoundException($"Member with id: {request.MemberId} is not found");
             var bets = await _betRepository.GetBetsForFeedAsync();
             var feedDto = new FeedDto(member.Id.ToString(), bets.Select(x => new BetDto(x.State)));
             await _feedRepository.SaveAsync(feedDto);
