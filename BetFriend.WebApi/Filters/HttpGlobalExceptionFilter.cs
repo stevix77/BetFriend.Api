@@ -1,5 +1,6 @@
 ﻿namespace BetFriend.WebApi.Filters
 {
+    using BetFriend.Bet.Domain.Exceptions;
     using BetFriend.UserAccess.Domain.Exceptions;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
@@ -29,10 +30,25 @@
         {
             context.Result = context.Exception switch
             {
-                EmailNotValidException => new ObjectResult(context.Exception.Message) { StatusCode = StatusCodes.Status400BadRequest },
+                EmailNotValidException => BuildObjectResult(context.Exception, StatusCodes.Status400BadRequest),
+                AnswerTooLateException => BuildObjectResult(context.Exception, StatusCodes.Status400BadRequest),
+                BetUnknownException => BuildObjectResult(context.Exception, StatusCodes.Status400BadRequest),
+
                 _ => new ObjectResult("An Error has occured") { StatusCode = StatusCodes.Status400BadRequest },
             };
             context.ExceptionHandled = true;
+        }
+
+        private static ObjectResult BuildObjectResult(Exception exception, int httpStatus)
+        {
+            return new ObjectResult(new ProblemDetails
+            {
+                Detail = exception.Message,
+                Title = exception.GetType().Name
+            })
+            {
+                StatusCode = httpStatus
+            };
         }
     }
 }
