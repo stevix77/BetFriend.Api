@@ -30,10 +30,10 @@
         public async Task<string> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
             if (await _userRepository.IsUsernameExistsAsync(request.Username))
-                throw new UsernameAlreadyExistsException();
+                throw new UsernameAlreadyExistsException($"Username {request.Username} already exists");
 
             if (await _userRepository.IsEmailExistsAsync(request.Email))
-                throw new EmailAlreadyExistsException();
+                throw new EmailAlreadyExistsException($"the email {request.Email} already exists");
 
             var user = new User(request.UserId,
                                 request.Username,

@@ -6,5 +6,8 @@
     [Serializable]
     public class MemberAlreadyExistsException : Exception
     {
+        public MemberAlreadyExistsException(string message) : base(message)
+        {
+        }
     }
 }

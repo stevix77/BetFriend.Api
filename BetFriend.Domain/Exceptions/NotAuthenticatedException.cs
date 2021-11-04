@@ -4,7 +4,7 @@
 
     public class NotAuthenticatedException : Exception
     {
-        public NotAuthenticatedException()
+        public NotAuthenticatedException() : base("The user is not logged")
         {
         }
     }

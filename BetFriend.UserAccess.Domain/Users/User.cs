@@ -23,7 +23,7 @@
         {
             _id = new UserId(id);
             _username = username;
-            _email = IsAddressEmailValid(email) ? new Email(email) : throw new EmailNotValidException();
+            _email = IsAddressEmailValid(email) ? new Email(email) : throw new EmailNotValidException($"The address {email} is not a valid address email");
             _password = password;
             _registerDate = dateTime;
             AddDomainEvent(new UserRegistered(id, email, username));

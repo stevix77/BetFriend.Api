@@ -5,7 +5,7 @@
     [Serializable]
     public class UserIdNotValidException : Exception
     {
-        public UserIdNotValidException()
+        public UserIdNotValidException() : base("Userid is empty or not valid")
         {
         }
     }
