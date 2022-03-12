@@ -17,8 +17,7 @@ namespace BetFriend.Bet.Application.Usecases.RetrieveMember
 
         public async Task<MemberDto> Handle(RetrieveMemberQuery query, CancellationToken cancellationToken)
         {
-            var memberDto = await _memberRepository.GetByIdAsync(query.MemberId);
-            return memberDto;
+            return await _memberRepository.GetByIdAsync(query.MemberId).ConfigureAwait(false);
         }
     }
 }
