@@ -2,7 +2,6 @@
 using BetFriend.Bet.Application.Models;
 using BetFriend.Bet.Application.Usecases.RetrieveMember;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Threading.Tasks;
 
@@ -20,7 +19,6 @@ namespace BetFriend.WebApi.Controllers.RetrieveMember
 
         [HttpGet("{memberId}")]
         [ProducesResponseType(200, Type = typeof(MemberDto))]
-        [SwaggerOperation(Tags = new [] {"Members"})]
         public async Task<IActionResult> Retrieve(Guid memberId)
         {
             var member = await _betModule.ExecuteQueryAsync(new RetrieveMemberQuery(memberId));

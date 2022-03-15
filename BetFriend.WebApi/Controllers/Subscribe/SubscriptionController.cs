@@ -3,7 +3,6 @@
     using BetFriend.Bet.Application.Abstractions;
     using BetFriend.Bet.Application.Usecases.SubscribeMember;
     using Microsoft.AspNetCore.Mvc;
-    using Swashbuckle.AspNetCore.Annotations;
     using System;
     using System.Threading.Tasks;
 
@@ -18,7 +17,6 @@
         }
 
         [HttpPost]
-        [SwaggerOperation(Tags = new[] { "Members" })]
         public async Task<IActionResult> Subscribe([FromRoute] Guid subscriptionId)
         {
             var command = new SubscribeMemberCommand(subscriptionId);
