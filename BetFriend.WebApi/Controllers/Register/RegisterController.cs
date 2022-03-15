@@ -3,7 +3,6 @@
     using BetFriend.UserAccess.Application.Abstractions;
     using BetFriend.UserAccess.Application.Usecases.Register;
     using Microsoft.AspNetCore.Mvc;
-    using Swashbuckle.AspNetCore.Annotations;
     using System;
     using System.Threading.Tasks;
 
@@ -19,7 +18,6 @@
         }
 
         [HttpPost]
-        [SwaggerOperation(Tags = new[] { "Users" })]
         public async Task<IActionResult> Register([FromBody] RegisterInput registerInput)
         {
             var command = new RegisterCommand(Guid.NewGuid().ToString(),

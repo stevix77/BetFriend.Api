@@ -3,7 +3,6 @@
     using BetFriend.Bet.Application.Abstractions;
     using BetFriend.Bet.Application.Usecases.LaunchBet;
     using Microsoft.AspNetCore.Mvc;
-    using Swashbuckle.AspNetCore.Annotations;
     using System.Threading.Tasks;
 
 
@@ -18,7 +17,6 @@
         }
 
         [HttpPost]
-        [SwaggerOperation(Tags = new[] { "Bets" })]
         public async Task<IActionResult> LaunchBet([FromBody] LaunchBetInput input)
         {
             var command = new LaunchBetCommand(input.BetId, input.EndDate, input.Coins, input.Description);

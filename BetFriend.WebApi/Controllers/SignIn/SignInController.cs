@@ -3,7 +3,6 @@
     using BetFriend.UserAccess.Application.Abstractions;
     using BetFriend.UserAccess.Application.Usecases.SignIn;
     using Microsoft.AspNetCore.Mvc;
-    using Swashbuckle.AspNetCore.Annotations;
     using System.Threading.Tasks;
 
 
@@ -18,7 +17,6 @@
         }
 
         [HttpPost]
-        [SwaggerOperation(Tags = new[] { "Users" })]
         public async Task<IActionResult> SignIn([FromBody] SignInInput signInInput)
         {
             var command = new SignInCommand(signInInput.Login,
