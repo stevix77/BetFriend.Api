@@ -39,7 +39,7 @@
             serviceCollection.AddDbContext<DbContext, BetFriendContext>(options => options.UseSqlServer(configuration.GetConnectionString("BetFriendDbContext")));
             serviceCollection.AddScoped(x => httpContextAccessor);
             serviceCollection.AddScoped<IMemberRepository, MemberRepository>();
-            serviceCollection.AddScoped<IQueryMemberRepository, InMemoryQueryMemberRepository>();
+            serviceCollection.AddScoped<IQueryMemberRepository, MemberQueryRepository>();
             serviceCollection.AddTransient<IDateTimeProvider, DateTimeProvider>();
             serviceCollection.AddScoped(x =>
             {
