@@ -3,6 +3,7 @@
     using BetFriend.Bet.Application.Abstractions;
     using BetFriend.Bet.Application.Usecases.CloseBet;
     using Microsoft.AspNetCore.Mvc;
+    using Swashbuckle.AspNetCore.Annotations;
     using System;
     using System.Threading.Tasks;
 
@@ -17,6 +18,7 @@
         }
 
         [HttpPost]
+        [SwaggerOperation(Tags = new[] { "Bets" })]
         public async Task<IActionResult> CloseBet([FromRoute] Guid betId, [FromBody] bool isSuccess)
         {
             var command = new CloseBetCommand(betId,

@@ -4,6 +4,7 @@
     using BetFriend.Bet.Application.Models;
     using BetFriend.Bet.Application.Usecases.RetrieveBet;
     using Microsoft.AspNetCore.Mvc;
+    using Swashbuckle.AspNetCore.Annotations;
     using System;
     using System.Threading.Tasks;
 
@@ -19,6 +20,7 @@
 
         [ProducesResponseType(200, Type = typeof(BetDto))]
         [HttpGet]
+        [SwaggerOperation(Tags = new[] { "Bets" })]
         public async Task<IActionResult> Retrieve([FromRoute] Guid betId)
         {
             var query = new RetrieveBetQuery(betId);
