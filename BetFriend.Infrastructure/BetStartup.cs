@@ -8,7 +8,6 @@
     using BetFriend.Bet.Infrastructure.DataAccess;
     using BetFriend.Bet.Infrastructure.Gateways;
     using BetFriend.Bet.Infrastructure.Repositories;
-    using BetFriend.Bet.Infrastructure.Repositories.InMemory;
     using BetFriend.Shared.Application;
     using BetFriend.Shared.Application.Abstractions;
     using BetFriend.Shared.Domain;
@@ -39,7 +38,6 @@
             serviceCollection.AddDbContext<DbContext, BetFriendContext>(options => options.UseSqlServer(configuration.GetConnectionString("BetFriendDbContext")));
             serviceCollection.AddScoped(x => httpContextAccessor);
             serviceCollection.AddScoped<IMemberRepository, MemberRepository>();
-            serviceCollection.AddScoped<IQueryMemberRepository, InMemoryQueryMemberRepository>();
             serviceCollection.AddTransient<IDateTimeProvider, DateTimeProvider>();
             serviceCollection.AddScoped(x =>
             {
