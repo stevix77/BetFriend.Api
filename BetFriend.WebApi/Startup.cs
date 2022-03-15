@@ -42,6 +42,7 @@ namespace BetFriend.WebApi
             });
             services.AddSwaggerGen(c =>
             {
+                c.EnableAnnotations();
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "BetFriend.WebApi", Version = "v1" });
             });
 

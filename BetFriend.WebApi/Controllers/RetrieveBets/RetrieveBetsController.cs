@@ -4,6 +4,7 @@
     using BetFriend.Bet.Application.Models;
     using BetFriend.Bet.Application.Usecases.RetrieveBets;
     using Microsoft.AspNetCore.Mvc;
+    using Swashbuckle.AspNetCore.Annotations;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -20,6 +21,7 @@
 
         [ProducesResponseType(200, Type = typeof(List<BetDto>))]
         [HttpGet]
+        [SwaggerOperation(Tags = new[] { "Bets" })]
         public async Task<IActionResult> Retrieve()
         {
             var query = new RetrieveBetsQuery();
